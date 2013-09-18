@@ -2,12 +2,20 @@ public class Game {
 
 	protected java.util.Scanner scanner;
 	protected PlayerInterpreter interpreter;
-	protected Map map;
+	protected Room currentRoom;
 	
 	public Game() {
 
+		this(null);
+	}
+	public Game(java.io.File save) {
+	
+		// Parse room from file
+		Room startingRoom = null;
+		
 		this.scanner = new java.util.Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
+		this.currentRoom = startingRoom ? startingRoom : new Room(); // should be beginning of game
 	}
 
 	public void start() {
@@ -33,6 +41,7 @@ public class Game {
 					break; 
 				case ActionLook:
 
+					System.out.println(this.currentRoom);
 					break;
 				default:
 					System.out.println("I don't understand that");
