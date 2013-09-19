@@ -69,6 +69,11 @@ public class Game {
 
 					System.out.println(this.currentRoom.description());
 					break;
+				case ActionViewItems: 
+					
+					// view Inventory
+					System.out.println("Viewing items...");
+					break;	
 				default:
 					System.out.println("I don't understand that");
 					break; 

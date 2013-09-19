@@ -76,6 +76,9 @@ public class PlayerInterpreter {
 		if(s.compareTo("look") == 0 || s.compareTo("l") ==0 ) {
 			return Action.ActionLook;
 		}
+		else if(s.compareTo("inventory") == 0 || s.compareTo("items") == 0) {
+			return Action.ActionViewItems;
+		}	
 		return Action.ActionUnknown;
 	}
 	public boolean isActionCommand(String string) {
