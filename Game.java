@@ -15,7 +15,13 @@ public class Game {
 		
 		this.scanner = new java.util.Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
-		this.currentRoom = startingRoom ? startingRoom : new Room(); // should be beginning of game
+		
+		if(startingRoom != null) {
+			this.currentRoom = startingRoom;
+		}
+		else { 
+			this.currentRoom = Map.level1();
+		}
 	}
 
 	public void start() {
@@ -28,20 +34,24 @@ public class Game {
 			Action a = this.interpreter.interpretString(input);
 			switch(a) {
 				case ActionGoEast:
-					
+								
+					move(Action.ActionGoEast);
 					break; 
 				case ActionGoWest:
 
+					move(Action.ActionGoWest);
 					break; 
 				case ActionGoNorth:
 
+					move(Action.ActionGoNorth);
 					break; 
 				case ActionGoSouth:
 
+					move(Action.ActionGoSouth);
 					break; 
 				case ActionLook:
 
-					System.out.println(this.currentRoom);
+					System.out.println(this.currentRoom.description());
 					break;
 				default:
 					System.out.println("I don't understand that");
@@ -50,5 +60,15 @@ public class Game {
 		}
 
 		System.out.println("Quitting game...");
+	}
+	public void move(Action a) {
+	
+		if(this.currentRoom.canMoveToRoomInDirection(a)) {
+			this.currentRoom = this.currentRoom.getRoomForDirection(a);
+			System.out.println(this.currentRoom);
+		}
+		else {
+			System.out.println("You can't move that way");
+		}
 	}
 }

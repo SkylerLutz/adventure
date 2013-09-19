@@ -23,11 +23,16 @@ public enum Action {
 
 
 	
-	/*
-	static Action getOpposite(Action a) {
+	static Action getOppositeDirection(Action a) {
 
-		return new Action(-1 * a.getCode());
+		Action result = null;
+		for(Action oa : Action.values()) {
+			if(oa.getCode() == -(a.getCode())) {
+				result = oa;
+				break;
+			}
+		}
+		return result;
 	}
-	*/
 	protected int code;
 };

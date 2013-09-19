@@ -1,17 +1,17 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Map {
 
 	public static Room level1() {
 
-		Room mid1 = new Room("There is a fork", "Fork", null);
-		Room mid2 = new Room("Ferocious bear", "bear", null);
-		Room end = new Room("There is a building", "Building front", null);
+		Room mid1 = new Room("There is a fork", "Fork");
+		Room mid2 = new Room("Ferocious bear", "bear");
+		Room end = new Room("There is a building", "Building front");
 		
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		rooms.add(mid1);
-		rooms.add(mid2);
-		rooms.add(end);
+		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
+		rooms.put(Action.ActionGoNorth, mid1);
+		rooms.put(Action.ActionGoEast, mid2);
+		rooms.put(Action.ActionGoWest, end);
 		
 		Room start = new Room("There is a tree", "Tree", rooms);
 		return start;
