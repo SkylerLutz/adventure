@@ -30,25 +30,41 @@ public class Game {
 		while(input.compareTo("quit") != 0) {
 	
 			System.out.print(">>>");
-			input = this.scanner.next();
+			input = this.scanner.nextLine();
 			Action a = this.interpreter.interpretString(input);
 			switch(a) {
 				case ActionGoEast:
 								
-					move(Action.ActionGoEast);
+					move(a);
 					break; 
 				case ActionGoWest:
 
-					move(Action.ActionGoWest);
+					move(a);
 					break; 
 				case ActionGoNorth:
 
-					move(Action.ActionGoNorth);
+					move(a);
 					break; 
 				case ActionGoSouth:
 
-					move(Action.ActionGoSouth);
+					move(a);
 					break; 
+				case ActionGoSoutheast: 
+
+					move(a);
+					break;
+				case ActionGoSouthwest: 
+
+					move(a);
+					break;
+				case ActionGoNortheast: 
+
+					move(a);
+					break;
+				case ActionGoNorthwest: 
+
+					move(a);
+					break;
 				case ActionLook:
 
 					System.out.println(this.currentRoom.description());

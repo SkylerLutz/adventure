@@ -1,5 +1,6 @@
 public enum Action {
 
+	ActionLook(0),	
 	ActionGoEast(1),
 	ActionGoWest(-1),
 	ActionGoSouth(-2),
@@ -10,7 +11,14 @@ public enum Action {
 	ActionGoSoutheast(4),
 	ActionGoSouthwest(-4),
 
-	ActionLook(0),	
+
+	ActionPickUp(5),
+	ActionDig(6),
+	ActionBreak(7),
+	ActionInspect(8),
+	ActionThrow(9),
+	ActionJump(10),
+	ActionShake(11),
 
 	ActionUnknown(666);
 
