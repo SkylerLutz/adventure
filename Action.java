@@ -17,10 +17,10 @@ public enum Action {
 
 // Diretct Object. Has one direct object e.g. Break shovel, throw lamp
 	ActionPickUp(new String[]{"pickup", "pick up", "get"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionBreak(new String[]{"break", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionBreak(new String[]{"break", "smash", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDrop(new String[]{"throw", "chuck", "drop"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionShake(new String[]{"shake"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionShake(new String[]{"shake", "chickendance"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer

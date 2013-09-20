@@ -8,20 +8,25 @@ public class Room {
 	protected HashMap<Action, Room> adjacentRooms;
 	protected boolean roomWasVisited;
 	protected LinkedList<Item> items;
+	protected Item requiredKey;
 
 	public Room() {
 		this("You are in a room", "Room");
 	}
 	public Room(String description, String shortDescription) {
-		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>());
+		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>(), null);
 	}
-	public Room(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items){
+	public Room(String description, String shortDescription, Item key) {
+		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>(), key);
+	}
+	public Room(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items, Item key){
 		
 		this.roomWasVisited = false;
 		this.description = description;
 		this.shortDescription = shortDescription;
 		this.adjacentRooms = adjacentRooms;
 		this.items = items;
+		this.requiredKey = key;
 		
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
@@ -43,6 +48,12 @@ public class Room {
 	}
 	public boolean canMoveToRoomInDirection(Action a) {
 		return this.adjacentRooms.containsKey(a);
+	}
+	public Item requiredKey() {
+		return this.requiredKey;
+	}
+	public boolean requiresKey() {
+		return this.requiredKey != null;
 	}
 
 	public void putItem(Item item) {

@@ -4,6 +4,7 @@ public enum Item {
 	ItemBrick("brick"),
 	ItemFood("food"),
 	ItemLadder("ladder"),
+	ItemKey("key"),
 	ItemUnknown;
 
 	Item(String description) {

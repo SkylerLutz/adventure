@@ -32,6 +32,9 @@ public class Player {
 	public Room currentRoom() {
 		return this.currentRoom;
 	}	
+	public boolean hasKeyForRoom(Room room) {
+		return this.items.contains(room.requiredKey());
+	}
 	protected LinkedList<Item> items;
 	protected Room currentRoom;
 }	
