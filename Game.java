@@ -78,7 +78,7 @@ public class Game {
 					
 					// view Inventory
 					for(Item item : this.player.getItems()) {
-						System.out.println("You have a " + item);
+						System.out.println("You have a " + item.detailDescription());
 					}
 					break;	
 				case ActionPickUp:
@@ -114,6 +114,22 @@ public class Game {
 				case ActionShake:
 					break;
 				case ActionError:
+					break;
+				case ActionPut:
+					Item itemToPut = a.directObject();
+					Item itemToBePutInto = a.indirectObject();
+					if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
+						System.out.println("That object doesn't exist in this room.");
+						break;
+					}
+					else if(!this.player.hasItem(itemToPut)) {
+						System.out.println("You don't have that object in your inventory.");
+						break;
+					}
+					else {
+						Item dropped = this.player.drop(itemToPut);
+						this.player.currentRoom.installItemIntoItem(dropped, itemToBePutInto);
+					}
 					break;
 				default:
 					System.out.println("I don't understand that");

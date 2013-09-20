@@ -60,13 +60,20 @@ public class Room {
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);
 	}
+	public void installItemIntoItem(Item installingItem, Item installEnclosure) {
+		this.items.get(this.items.indexOf(installEnclosure)).setInstalledItem(installingItem);
+	}
 	public final String toString() {
 		String d = this.roomWasVisited ? this.shortDescription : this.description;
 		this.roomWasVisited = true;
 		return d;
 	}
 	public String description(){ 
-		return this.description;
+		String s = "";
+		for(Item item : this.items) {
+			s += "\nThere is a " + item.detailDescription() + " here.";
+		}
+		return this.description + s;
 	}
 
 }

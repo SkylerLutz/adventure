@@ -24,7 +24,7 @@ public enum Action {
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
-	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT);
+	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),
 
 // Misc
 	ActionUnknown(666),

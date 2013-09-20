@@ -64,6 +64,46 @@ public class PlayerInterpreter {
 				
 					// test if it has indirect object
 					// "put CPU IN VAX"
+
+					if(string.length > 1) {
+
+						String d = string[1];
+						Item item = null;
+						for(Item i : Item.values()) {
+							if(d.compareTo(i.toString()) == 0) {
+								item = i;
+								break;
+							}
+						}
+						// item is the direct object of the action
+						action.setDirectObject(item);
+						
+						if(string.length > 2) {
+							String in = string[2];
+							if(in.compareTo("in") == 0) {
+								
+								if(string.length > 3) {
+									String io = string[3];
+									Item indob = null;
+									for(Item i2 : Item.values()) {
+										if(io.compareTo(i2.toString()) == 0) {
+											indob = i2;
+											break;
+										}
+									}
+									action.setIndirectObject(indob);	
+									return action;
+								}
+							}
+							else {
+								return Action.ActionUnknown;
+							}
+						}
+					}
+					else {
+						System.out.println("You must supply a direct object");
+						return Action.ActionError;
+					}
 					break;
 				case TYPE_HASNOOBJECT:
 					return action;
