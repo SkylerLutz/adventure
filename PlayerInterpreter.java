@@ -94,11 +94,16 @@ public class PlayerInterpreter {
 									action.setIndirectObject(indob);	
 									return action;
 								}
+								else {
+									System.out.println("You must supply an indirect object");
+									return Action.ActionError;
+								}
 							}
 							else {
 								return Action.ActionUnknown;
 							}
 						}
+						
 					}
 					else {
 						System.out.println("You must supply a direct object");

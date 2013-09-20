@@ -118,13 +118,16 @@ public class Game {
 				case ActionPut:
 					Item itemToPut = a.directObject();
 					Item itemToBePutInto = a.indirectObject();
-					if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
+					if(!this.player.hasItem(itemToPut)) {
+						System.out.println("You don't have that object in your inventory.");
+						break;
+					}
+					else if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
 						System.out.println("That object doesn't exist in this room.");
 						break;
 					}
-					else if(!this.player.hasItem(itemToPut)) {
-						System.out.println("You don't have that object in your inventory.");
-						break;
+					else if(!itemToBePutInto.canInstallItems()) {
+						System.out.println("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
 					}
 					else {
 						Item dropped = this.player.drop(itemToPut);

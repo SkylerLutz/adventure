@@ -7,17 +7,26 @@ public enum Item {
 	ItemUnknown;
 
 	Item(String description) {
+		this(description, false);
+	}
+	Item(String description, boolean permitsInstalledItems) {
 		this.description = description;
 		this.installedItem = null;
+		this.permitsInstalledItems = permitsInstalledItems;
 	}
 	Item() {
-		this("unknown item");
+		this("unknown item", false);
 	}
 	public String toString() {
 		return description;
 	}
 	public void setInstalledItem(Item item) {
-		this.installedItem = item;
+		if(this.permitsInstalledItems) {
+			this.installedItem = item;
+		}
+		else {
+			System.out.println("You cannot install an item into this " + this);
+		}
 	}
 	public Item removeInstalledItem() {
 		Item i = this.installedItem;
@@ -26,6 +35,12 @@ public enum Item {
 	}
 	public boolean hasItemInstalled() {
 		return this.installedItem != null;
+	}
+	public boolean canInstallItems() {
+		return this.permitsInstalledItems;
+	}
+	public void setCanInstallItems(boolean permission) {
+		this.permitsInstalledItems = permission;
 	}
 	public String detailDescription() {
 		String s = "";
@@ -36,4 +51,5 @@ public enum Item {
 	}
 	protected String description;
 	protected Item installedItem;
+	protected boolean permitsInstalledItems;
 }
