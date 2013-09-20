@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class PlayerInterpreter {
 
 	public PlayerInterpreter () {
@@ -6,83 +8,73 @@ public class PlayerInterpreter {
 
 	public Action interpretString(String string) {
 
-		if(isMoveCommand(string)) {
-			
-			return move(string);
-		}
-		else if(isActionCommand(string)) {
-			
-			return action(string);
-		}
-		return Action.ActionUnknown;
+		return action(string.toLowerCase().split(" "));
 	}
-	public boolean isMoveCommand(String string) {
-		Action a;
-		return (a = move(string)) != null && a != Action.ActionUnknown;
-	}
-	public Action move(String string) {
-	
-		String s = string.toLowerCase();
-
-		if (s.compareTo("e") == 0 || s.compareTo("east") == 0) {
-
-			return Action.ActionGoEast;
+	public Action action(String[] string) throws ArrayIndexOutOfBoundsException {
+		
+		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0){
+			String[] command = Arrays.copyOfRange(string, 1, string.length);
+			return action(command);
 		}
-		else if (s.compareTo("n") == 0 || s.compareTo("north") == 0) {
+		else {
 
-			return Action.ActionGoNorth;
-		}
-		else if (s.compareTo("w") == 0 || s.compareTo("west") == 0) {
+			// input could be northeast, put cpu in vax, throw shovel, examine bin
+			
+			String s = string[0];
+			Action action = null;
+			out:{
+				for(Action a : Action.values()) {
+					for(String alias : a.getAliases()) {
 
-			return Action.ActionGoWest;
-		}
-		else if (s.compareTo("s") == 0 || s.compareTo("south") == 0) {
-
-			return Action.ActionGoSouth;
-		}
-		else if (s.compareTo("ne") == 0 || s.compareTo("northeast") == 0) {
-
-			return Action.ActionGoNortheast;
-		}
-		else if (s.compareTo("nw") == 0 || s.compareTo("northwest") == 0) {
-
-			return Action.ActionGoNorthwest;
-		}
-		else if (s.compareTo("sw") == 0 || s.compareTo("southwest") == 0) {
-
-			return Action.ActionGoSouthwest;
-		}
-		else if (s.compareTo("se") == 0 || s.compareTo("southeast") == 0) {
-
-			return Action.ActionGoSoutheast;
-		}
-		else if(new Character(s.charAt(0)).compareTo('g') == 0 && new Character(s.charAt(1)).compareTo('o') == 0) {
-			String dir;
-			try { 
-				dir = s.substring(3, s.length());
-				return move(dir);
+						if(s.compareTo(alias) == 0) {
+							action = a;
+							break out;
+						}
+					}
+				}
 			}
-			catch(Exception e) {
+			if(action == null) {
 				return Action.ActionUnknown;
 			}
-			
+			switch(action.type()) {
+				case TYPE_DIRECTIONAL:
+					return action;
+				case TYPE_HASDIRECTOBJECT:
+					// test direct object
+					// "throw SHOVEL"
+					if(string.length > 1) {
+
+						String d = string[1];
+						Item item = null;
+						for(Item i : Item.values()) {
+							if(d.compareTo(i.toString()) == 0) {
+								item = i;
+								break;
+							}
+						}
+						// item is the direct object of the action
+						action.setDirectObject(item);
+						return action;
+					}
+					else {
+						System.out.println("You must supply a direct object");
+						return Action.ActionError;
+					}
+				case TYPE_HASINDIRECTOBJECT:
+				
+					// test if it has indirect object
+					// "put CPU IN VAX"
+					break;
+				case TYPE_HASNOOBJECT:
+					return action;
+				case TYPE_UNKNOWN:
+					return Action.ActionUnknown;
+				default:
+					System.out.println("Unknown type");
+					break;
+			}
 		}
 		
-		return null;
-	}
-	public Action action(String string) {
-
-		String s = string.toLowerCase();
-		if(s.compareTo("look") == 0 || s.compareTo("l") ==0 ) {
-			return Action.ActionLook;
-		}
-		else if(s.compareTo("inventory") == 0 || s.compareTo("items") == 0) {
-			return Action.ActionViewItems;
-		}	
 		return Action.ActionUnknown;
-	}
-	public boolean isActionCommand(String string) {
-
-		return action(string) != null;
 	}
 }

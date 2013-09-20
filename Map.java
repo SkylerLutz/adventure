@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Map {
 
@@ -14,8 +15,13 @@ public class Map {
 		rooms.put(Action.ActionGoNorth, mid1);
 		rooms.put(Action.ActionGoEast, mid2);
 		rooms.put(Action.ActionGoWest, end);
+
+		LinkedList<Item> startItems = new LinkedList<Item>();
+		startItems.add(Item.ItemBrick);
+		startItems.add(Item.ItemShovel);
+		startItems.add(Item.ItemFood);
 		
-		Room start = new Room("There is a tree", "Tree", rooms);
+		Room start = new Room("There is a tree", "Tree", rooms, startItems);
 		return start;
 	}
 }
