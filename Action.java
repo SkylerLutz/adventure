@@ -4,6 +4,7 @@ public enum Action {
 	ActionLook(new String[]{"look", "l"}, Type.TYPE_HASNOOBJECT),	
 	ActionDig(new String[]{"dig"}, Type.TYPE_HASNOOBJECT),
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
+	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
 
 // Directional
 	ActionGoEast(1, new String[]{"east", "e"}, Type.TYPE_DIRECTIONAL),
@@ -21,7 +22,7 @@ public enum Action {
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDrop(new String[]{"throw", "chuck", "drop"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionShake(new String[]{"shake", "chickendance"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
+	ActionEnable(new String[]{"enable","hit", "start"}, Type.TYPE_HASDIRECTOBJECT),
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),

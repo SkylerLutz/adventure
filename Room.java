@@ -8,25 +8,26 @@ public class Room {
 	protected HashMap<Action, Room> adjacentRooms;
 	protected boolean roomWasVisited;
 	protected LinkedList<Item> items;
-	protected Item requiredKey;
 
 	public Room() {
 		this("You are in a room", "Room");
 	}
 	public Room(String description, String shortDescription) {
-		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>(), null);
+		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>());
 	}
-	public Room(String description, String shortDescription, Item key) {
-		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>(), key);
-	}
-	public Room(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items, Item key){
+	public Room(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items){
 		
 		this.roomWasVisited = false;
 		this.description = description;
 		this.shortDescription = shortDescription;
 		this.adjacentRooms = adjacentRooms;
-		this.items = items;
-		this.requiredKey = key;
+		
+		if(items == null){
+			this.items = new LinkedList<Item>();
+		}
+		else { 
+			this.items = items;
+		}
 		
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
@@ -40,6 +41,17 @@ public class Room {
 	
 		this.adjacentRooms.put(a, r);
 	}
+	public void setAdjacentRooms(HashMap<Action, Room> rooms) {
+		this.adjacentRooms.putAll(rooms);
+		
+		// set reverse relationships in adjacent rooms with opposite directions
+		for(Action a : Action.values()) {
+			if(adjacentRooms.containsKey(a)) {
+				Room adjacentRoom = this.adjacentRooms.get(a);
+				adjacentRoom.setAdjacentRoom(Action.getOppositeDirection(a), this);
+			}
+		}
+	}
 	public Room getRoomForDirection(Action a) {
 		if(canMoveToRoomInDirection(a)) {
 			return this.adjacentRooms.get(a);
@@ -49,22 +61,20 @@ public class Room {
 	public boolean canMoveToRoomInDirection(Action a) {
 		return this.adjacentRooms.containsKey(a);
 	}
-	public Item requiredKey() {
-		return this.requiredKey;
-	}
-	public boolean requiresKey() {
-		return this.requiredKey != null;
-	}
-
 	public void putItem(Item item) {
 		this.items.add(item);
 	}
 
 	public Item takeItem(Item item) {
+		if(!item.canBePickedUp()) {
+			System.out.println("You cannot pick up this item");
+			return null;
+		}
 		if(this.items.remove(item)) {
 			return item;
 		}
 		else {
+			System.out.println("I don't see that here.");
 			return null;
 		}
 	}

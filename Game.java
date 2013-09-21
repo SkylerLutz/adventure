@@ -14,7 +14,7 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.level1();
+		Room startingRoom = Map.njit();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -74,7 +74,6 @@ public class Game {
 					Item itemToTake = a.directObject();
 					Item takenItem = this.player.currentRoom.takeItem(itemToTake);
 					if (takenItem == null) {
-						System.out.println("I don't see that here.");
 						break;
 					}
 					this.player.pickup(takenItem);
@@ -85,6 +84,15 @@ public class Game {
 				case ActionBreak:
 					break;
 				case ActionInspect:
+					
+					Item itemToInspect = a.directObject();
+					if(this.player.hasItem(itemToInspect) || this.player.currentRoom.hasItem(itemToInspect)) {
+						System.out.println(itemToInspect.toDetailString());
+					}
+					else {
+						System.out.println("I don't see that here.");
+					}
+
 					break;
 				case ActionDrop:
 					
@@ -96,6 +104,16 @@ public class Game {
 					}
 					this.player.currentRoom.putItem(droppedItem);
 
+					break;
+				case ActionEnable:
+					
+					Item enabledItem = a.directObject();
+					if(this.player.currentRoom.hasItem(enabledItem)) {
+						System.out.println("Let there be light");
+					}
+					else {
+						System.out.println("I don't see that here");
+					}
 					break;
 				case ActionJump:
 					break;
@@ -133,26 +151,9 @@ public class Game {
 	public void move(Action a) {
 	
 		if(this.player.currentRoom.canMoveToRoomInDirection(a)) {
-			boolean shouldProceed = false;
 			Room nextRoom = this.player.currentRoom.getRoomForDirection(a);
-			if(nextRoom.requiresKey()) {
-				if(this.player.hasKeyForRoom(nextRoom)) {
-					// strip key
-					this.player.drop(this.player.currentRoom.requiredKey());
-					System.out.println("Door unlocked");
-					shouldProceed = true;
-				}
-				else {
-					System.out.println("You don't have the key to enter this room");
-				}
-			}
-			else {
-				shouldProceed = true;
-			}
-			if (shouldProceed) {
-				this.player.currentRoom = nextRoom;
-				System.out.println(this.player.currentRoom);
-			}
+			this.player.currentRoom = nextRoom;
+			System.out.println(this.player.currentRoom);
 		}
 		else {
 			// test if requires key
