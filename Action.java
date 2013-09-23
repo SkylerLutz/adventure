@@ -5,16 +5,17 @@ public enum Action {
 	ActionDig(new String[]{"dig"}, Type.TYPE_HASNOOBJECT),
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
+	ActionHelp(new String[]{"help", "h"}, Type.TYPE_HASNOOBJECT),
 
 // Directional
-	ActionGoEast(1, new String[]{"east", "e"}, Type.TYPE_DIRECTIONAL),
-	ActionGoWest(-1, new String[]{"west", "w"}, Type.TYPE_DIRECTIONAL),
-	ActionGoSouth(-2, new String[]{"south", "s"}, Type.TYPE_DIRECTIONAL),
-	ActionGoNorth(2, new String[]{"north", "n"}, Type.TYPE_DIRECTIONAL),
-	ActionGoNortheast(3, new String[]{"northeast", "ne"}, Type.TYPE_DIRECTIONAL),
-	ActionGoNorthwest(-3, new String[]{"northwest", "nw"}, Type.TYPE_DIRECTIONAL),
-	ActionGoSoutheast(4, new String[]{"southeast", "se"}, Type.TYPE_DIRECTIONAL),
-	ActionGoSouthwest(-4, new String[]{"southwest", "sw"}, Type.TYPE_DIRECTIONAL),
+	ActionGoEast(new String[]{"east", "e"}, Type.TYPE_DIRECTIONAL),
+	ActionGoWest(new String[]{"west", "w"}, Type.TYPE_DIRECTIONAL),
+	ActionGoSouth(new String[]{"south", "s"}, Type.TYPE_DIRECTIONAL),
+	ActionGoNorth(new String[]{"north", "n"}, Type.TYPE_DIRECTIONAL),
+	ActionGoNortheast(new String[]{"northeast", "ne"}, Type.TYPE_DIRECTIONAL),
+	ActionGoNorthwest(new String[]{"northwest", "nw"}, Type.TYPE_DIRECTIONAL),
+	ActionGoSoutheast(new String[]{"southeast", "se"}, Type.TYPE_DIRECTIONAL),
+	ActionGoSouthwest(new String[]{"southwest", "sw"}, Type.TYPE_DIRECTIONAL),
 
 // Diretct Object. Has one direct object e.g. Break shovel, throw lamp
 	ActionPickUp(new String[]{"pickup", "pick up", "get"}, Type.TYPE_HASDIRECTOBJECT),
@@ -28,26 +29,28 @@ public enum Action {
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),
 
 // Misc
-	ActionUnknown(666),
-	ActionError(667);
+	ActionUnknown(new String[]{}, Type.TYPE_UNKNOWN),
+	ActionError(new String[]{}, Type.TYPE_UNKNOWN);
 
 // Constructors
-	Action(int code) {
-		this(code, new String[]{}, Type.TYPE_UNKNOWN);
-	}
 	Action(String[] aliases, Type type) {
-		this(0, aliases, type);
-	}
-	Action(int code, String[] aliases, Type type) {
-		this.code = code;
 		this.aliases = aliases;
 		this.type = type;
 	}
+	
+	static {
+
+		ActionGoEast.opposite = ActionGoWest;
+		ActionGoWest.opposite = ActionGoEast;
+		ActionGoNorth.opposite = ActionGoSouth;
+		ActionGoSouth.opposite = ActionGoNorth;
+		ActionGoNortheast.opposite = ActionGoSouthwest;
+		ActionGoSoutheast.opposite = ActionGoNorthwest;
+		ActionGoNorthwest.opposite = ActionGoSoutheast;
+		ActionGoSouthwest.opposite = ActionGoNortheast;
+	}
 
 // Getters and Setters
-	int getCode() {
-		return this.code;
-	}
 	String[] getAliases() {
 		return this.aliases;
 	}
@@ -69,19 +72,17 @@ public enum Action {
 	}
 
 // opposite directions are used for the directional enumeration constants.
-	static Action getOppositeDirection(Action a) {
+	Action getOppositeDirection() {
 
-		Action result = null;
-		for(Action oa : Action.values()) {
-			if(oa.getCode() == -(a.getCode())) {
-				result = oa;
-				break;
-			}
+		if(this.type() == Type.TYPE_DIRECTIONAL) {
+			return this.opposite;
 		}
-		return result;
+		else {
+			return null;
+		}
 	}
 
-	protected int code;
+	protected Action opposite;
 	protected String[] aliases;
 	protected Type type;
 	protected Item directObject;

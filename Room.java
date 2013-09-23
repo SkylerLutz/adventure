@@ -20,7 +20,6 @@ public class Room {
 		this.roomWasVisited = false;
 		this.description = description;
 		this.shortDescription = shortDescription;
-		this.adjacentRooms = adjacentRooms;
 		
 		if(items == null){
 			this.items = new LinkedList<Item>();
@@ -29,16 +28,17 @@ public class Room {
 			this.items = items;
 		}
 		
+		this.adjacentRooms = adjacentRooms;
+
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
-			if(adjacentRooms.containsKey(a)) {
+			if(this.adjacentRooms.containsKey(a)) {
 				Room adjacentRoom = this.adjacentRooms.get(a);
-				adjacentRoom.setAdjacentRoom(Action.getOppositeDirection(a), this);
+				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
 			}
 		}
 	}
-	public void setAdjacentRoom(Action a, Room r) {
-	
+	private void setAdjacentRoom(Action a, Room r) {
 		this.adjacentRooms.put(a, r);
 	}
 	public void setAdjacentRooms(HashMap<Action, Room> rooms) {
@@ -46,9 +46,9 @@ public class Room {
 		
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
-			if(adjacentRooms.containsKey(a)) {
+			if(this.adjacentRooms.containsKey(a)) {
 				Room adjacentRoom = this.adjacentRooms.get(a);
-				adjacentRoom.setAdjacentRoom(Action.getOppositeDirection(a), this);
+				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
 			}
 		}
 	}
@@ -66,6 +66,9 @@ public class Room {
 	}
 
 	public Item takeItem(Item item) {
+		if(item == null) {
+			return null;
+		}
 		if(!item.canBePickedUp()) {
 			System.out.println("You cannot pick up this item");
 			return null;
@@ -81,9 +84,6 @@ public class Room {
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);
 	}
-	public void installItemIntoItem(Item installingItem, Item installEnclosure) {
-		this.items.get(this.items.indexOf(installEnclosure)).setInstalledItem(installingItem);
-	}
 	public final String toString() {
 		String d = this.roomWasVisited ? this.shortDescription : this.description;
 		this.roomWasVisited = true;
@@ -91,10 +91,10 @@ public class Room {
 	}
 	public String description(){ 
 		String s = "";
+		// take this loop out before release, just print the detaildescription instead, because this reveals any and every item in the room, including hidden ones
 		for(Item item : this.items) {
 			s += "\nThere is a " + item.detailDescription() + " here.";
 		}
 		return this.description + s;
 	}
-
 }

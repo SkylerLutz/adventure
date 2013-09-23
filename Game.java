@@ -14,7 +14,7 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.njit();
+		Room startingRoom = Map.level1();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -37,107 +37,95 @@ public class Game {
 			System.out.print(">>> ");
 			input = this.scanner.nextLine();
 			Action a = this.interpreter.interpretString(input);
-			switch(a) {
-				case ActionGoEast:
-					move(a);
-					break; 
-				case ActionGoWest:
-					move(a);
-					break; 
-				case ActionGoNorth:
-					move(a);
-					break; 
-				case ActionGoSouth:
-					move(a);
-					break; 
-				case ActionGoSoutheast: 
+			switch(a.type()){
+				case TYPE_DIRECTIONAL:
 					move(a);
 					break;
-				case ActionGoSouthwest: 
-					move(a);
-					break;
-				case ActionGoNortheast: 
-					move(a);
-					break;
-				case ActionGoNorthwest: 
-					move(a);
-					break;
-				case ActionLook:
-					System.out.println(this.player.currentRoom.description());
-					break;
-				case ActionViewItems: 
-					for(Item item : this.player.getItems()) {
-						System.out.println("You have a " + item.detailDescription());
+				case TYPE_HASDIRECTOBJECT:
+					switch(a) {
+
+						case ActionPickUp:
+							this.player.pickup(a.directObject());
+						case ActionBreak:
+							break;
+						case ActionInspect:
+							
+							Item itemToInspect = a.directObject();
+							if(this.player.hasItem(itemToInspect) || this.player.currentRoom.hasItem(itemToInspect)) {
+								System.out.println(itemToInspect.toDetailString());
+							}
+							else {
+								System.out.println("I don't see that here.");
+							}
+
+							break;
+						case ActionDrop:
+							this.player.dropItem(a.directObject());
+							break;
+						case ActionShake:
+							this.player.die();
+							break;
+						case ActionEnable:
+							
+							Item enabledItem = a.directObject();
+							if(this.player.currentRoom.hasItem(enabledItem)) {
+								System.out.println("Let there be light");
+							}
+							else {
+								System.out.println("I don't see that here");
+							}
+							break;
 					}
-					break;	
-				case ActionPickUp:
-					Item itemToTake = a.directObject();
-					Item takenItem = this.player.currentRoom.takeItem(itemToTake);
-					if (takenItem == null) {
-						break;
-					}
-					this.player.pickup(takenItem);
 					break;
-				case ActionDig:
-					System.out.println("There is nothing here to dig");
-					break;
-				case ActionBreak:
-					break;
-				case ActionInspect:
-					
-					Item itemToInspect = a.directObject();
-					if(this.player.hasItem(itemToInspect) || this.player.currentRoom.hasItem(itemToInspect)) {
-						System.out.println(itemToInspect.toDetailString());
-					}
-					else {
-						System.out.println("I don't see that here.");
-					}
+				case TYPE_HASINDIRECTOBJECT:
+					switch(a) {
+	
+						case ActionPut:
+							Item itemToPut = a.directObject();
+							Item itemToBePutInto = a.indirectObject();
+							if(!this.player.hasItem(itemToPut)) {
+								System.out.println("You don't have that object in your inventory.");
+								break;
+							}
+							else if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
+								System.out.println("That object doesn't exist in this room.");
+								break;
+							}
+							else if(!itemToBePutInto.canInstallItems()) {
+								System.out.println("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
+							}
+							else {
+								this.player.putItemInItem(itemToPut, itemToBePutInto);
+							}
+							break;
+							}
 
 					break;
-				case ActionDrop:
-					
-					Item itemToDrop= a.directObject();
-					Item droppedItem = this.player.drop(itemToDrop);
-					if (droppedItem == null) {
-						System.out.println("No " + itemToDrop + " to drop.");
-						break;
-					}
-					this.player.currentRoom.putItem(droppedItem);
-
-					break;
-				case ActionEnable:
-					
-					Item enabledItem = a.directObject();
-					if(this.player.currentRoom.hasItem(enabledItem)) {
-						System.out.println("Let there be light");
-					}
-					else {
-						System.out.println("I don't see that here");
-					}
-					break;
-				case ActionJump:
-					break;
-				case ActionShake:
-					break;
-				case ActionError:
-					break;
-				case ActionPut:
-					Item itemToPut = a.directObject();
-					Item itemToBePutInto = a.indirectObject();
-					if(!this.player.hasItem(itemToPut)) {
-						System.out.println("You don't have that object in your inventory.");
-						break;
-					}
-					else if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
-						System.out.println("That object doesn't exist in this room.");
-						break;
-					}
-					else if(!itemToBePutInto.canInstallItems()) {
-						System.out.println("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
-					}
-					else {
-						Item dropped = this.player.drop(itemToPut);
-						this.player.currentRoom.installItemIntoItem(dropped, itemToBePutInto);
+				case TYPE_HASNOOBJECT:
+					switch(a) {
+	
+						case ActionLook:
+							System.out.println(this.player.currentRoom.description());
+							break;
+						case ActionDig:
+							System.out.println("There is nothing here to dig");
+							break;
+						case ActionJump:
+							break;
+						case ActionViewItems: 
+							LinkedList<Item> items = this.player.getItems();
+							if (items.size() == 0) {
+								System.out.println("You don't have any items");
+							}
+							else {
+								for(Item item : this.player.getItems()) {
+									System.out.println("You have a " + item.detailDescription());
+								}
+							}
+							break;
+						case ActionHelp:
+							help();
+							break;	
 					}
 					break;
 				default:
@@ -148,7 +136,7 @@ public class Game {
 
 		System.out.println("Quitting game...");
 	}
-	public void move(Action a) {
+	private void move(Action a) {
 	
 		if(this.player.currentRoom.canMoveToRoomInDirection(a)) {
 			Room nextRoom = this.player.currentRoom.getRoomForDirection(a);
@@ -159,5 +147,13 @@ public class Game {
 			// test if requires key
 			System.out.println("You can't move that way");
 		}
+	}
+	private void help() {
+
+		System.out.println(" -- Text RPG Help Menu -- ");
+		
+		System.out.println("To view your current items: type \"inventory\"");
+		System.out.println("To travel in a direction like north, type \"Go North\"");
+		System.out.println("You can inspect an inspectable item by typing \"Inspect <item>\"");
 	}
 }

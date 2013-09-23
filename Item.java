@@ -32,13 +32,15 @@ public enum Item {
 	public String toDetailString() {
 		return this.detailDescription;
 	}
-	public void setInstalledItem(Item item) {
+	public boolean setInstalledItem(Item item) {
 		if(this.permitsInstalledItems) {
 			this.installedItem = item;
+			return true;
 		}
 		else {
 			System.out.println("You cannot install an item into this " + this);
 		}
+		return false;
 	}
 	public Item removeInstalledItem() {
 		Item i = this.installedItem;

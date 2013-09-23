@@ -9,7 +9,9 @@ public class Map {
 		Room mid2 = new Room("Ferocious bear", "bear");
 		Room end = new Room("You are inside of a building", "Building interior");
 		
-		end.setAdjacentRoom(Action.ActionGoNortheast, mid1);
+		HashMap<Action, Room> l = new HashMap<Action,Room>();
+		l.put(Action.ActionGoNortheast, mid1); 
+		end.setAdjacentRooms(l);
 		
 		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
 		rooms.put(Action.ActionGoNorth, mid1);
