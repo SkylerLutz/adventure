@@ -28,7 +28,12 @@ public class Room {
 			this.items = items;
 		}
 		
-		this.adjacentRooms = adjacentRooms;
+		if(adjacentRooms == null) {
+			this.adjacentRooms = new HashMap<Action, Room>();
+		}
+		else {
+			this.adjacentRooms = adjacentRooms;
+		}
 
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
@@ -84,12 +89,13 @@ public class Room {
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);
 	}
-	public final String toString() {
+	public String toString() {
 		String d = this.roomWasVisited ? this.shortDescription : this.description;
 		this.roomWasVisited = true;
 		return d;
 	}
 	public String description(){ 
+		this.roomWasVisited = true;
 		String s = "";
 		// take this loop out before release, just print the detaildescription instead, because this reveals any and every item in the room, including hidden ones
 		for(Item item : this.items) {

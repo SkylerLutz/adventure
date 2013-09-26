@@ -32,11 +32,10 @@ public class Player {
 
 		Item takenItem = this.currentRoom.takeItem(item);
 		if (takenItem == null) {
-			System.out.println("I don't see that here");
 			return false;
 		}
 		this.pick(takenItem);
-		System.out.println("Picked up");
+		System.out.println("Taken.");
 		return true;
 	}
 	private void pick(Item item) {

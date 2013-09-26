@@ -16,9 +16,11 @@ public enum Action {
 	ActionGoNorthwest(new String[]{"northwest", "nw"}, Type.TYPE_DIRECTIONAL),
 	ActionGoSoutheast(new String[]{"southeast", "se"}, Type.TYPE_DIRECTIONAL),
 	ActionGoSouthwest(new String[]{"southwest", "sw"}, Type.TYPE_DIRECTIONAL),
+	ActionGoDown(new String[]{"down", "d"}, Type.TYPE_DIRECTIONAL),
+	ActionGoUp(new String[]{"up", "u"}, Type.TYPE_DIRECTIONAL),
 
 // Diretct Object. Has one direct object e.g. Break shovel, throw lamp
-	ActionPickUp(new String[]{"pickup", "pick up", "get"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionPickUp(new String[]{"pickup", "pick up", "get", "take", "acquire"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionBreak(new String[]{"break", "smash", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDrop(new String[]{"throw", "chuck", "drop"}, Type.TYPE_HASDIRECTOBJECT),
@@ -48,6 +50,8 @@ public enum Action {
 		ActionGoSoutheast.opposite = ActionGoNorthwest;
 		ActionGoNorthwest.opposite = ActionGoSoutheast;
 		ActionGoSouthwest.opposite = ActionGoNortheast;
+		ActionGoUp.opposite = ActionGoDown;
+		ActionGoDown.opposite = ActionGoUp;
 	}
 
 // Getters and Setters
@@ -82,11 +86,11 @@ public enum Action {
 		}
 	}
 
-	protected Action opposite;
-	protected String[] aliases;
-	protected Type type;
-	protected Item directObject;
-	protected Item indirectObject;
+	private Action opposite;
+	private String[] aliases;
+	private Type type;
+	private Item directObject;
+	private Item indirectObject;
 };
 enum Type {
 

@@ -2,10 +2,6 @@ import java.util.Arrays;
 
 public class PlayerInterpreter {
 
-	public PlayerInterpreter () {
-
-	}
-
 	public Action interpretString(String string) {
 
 		return action(string.toLowerCase().split(" "));
@@ -15,7 +11,7 @@ public class PlayerInterpreter {
 		if(string == null || string.length == 0) {
 			return Action.ActionUnknown;
 		}
-		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0){
+		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0 || string[0].compareTo("jump") == 0){
 			String[] command = Arrays.copyOfRange(string, 1, string.length);
 			return action(command);
 		}
@@ -50,9 +46,11 @@ public class PlayerInterpreter {
 						String d = string[1];
 						Item item = null;
 						for(Item i : Item.values()) {
-							if(d.compareTo(i.toString()) == 0) {
-								item = i;
-								break;
+							for(String alias : i.getAliases()) {
+								if(alias.compareTo(i.toString()) == 0) {
+									item = i;
+									break;
+								}
 							}
 						}
 						// item is the direct object of the action

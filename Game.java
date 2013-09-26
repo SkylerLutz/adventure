@@ -14,7 +14,7 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.level1();
+		Room startingRoom = Map.njit();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -31,11 +31,9 @@ public class Game {
 
 	public void start() {
 
-		String input="";
+		String input="look";
 		while(input.compareTo("quit") != 0) {
 	
-			System.out.print(">>> ");
-			input = this.scanner.nextLine();
 			Action a = this.interpreter.interpretString(input);
 			switch(a.type()){
 				case TYPE_DIRECTIONAL:
@@ -46,6 +44,7 @@ public class Game {
 
 						case ActionPickUp:
 							this.player.pickup(a.directObject());
+							break;
 						case ActionBreak:
 							break;
 						case ActionInspect:
@@ -69,7 +68,11 @@ public class Game {
 							
 							Item enabledItem = a.directObject();
 							if(this.player.currentRoom.hasItem(enabledItem)) {
-								System.out.println("Let there be light");
+								if(enabledItem == Item.ItemLightSwitch && (this.player.currentRoom instanceof RoomDark)) {
+									RoomDark room = (RoomDark)this.player.currentRoom;
+									room.setDark(false);
+									System.out.println(room);
+								}
 							}
 							else {
 								System.out.println("I don't see that here");
@@ -96,6 +99,18 @@ public class Game {
 							}
 							else {
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
+								if(itemToBePutInto == Item.ItemLock1) {
+									// this restricts me to one locked adjacent room at a time
+									
+									for(Action action : Action.values()) {
+										
+										Room adjacentRoom = this.player.currentRoom.getRoomForDirection(action);
+										if(adjacentRoom instanceof RoomLockable) {
+											((RoomLockable)adjacentRoom).unlock(itemToPut);
+											break;
+										}
+									}
+								}	
 							}
 							break;
 							}
@@ -132,19 +147,37 @@ public class Game {
 					System.out.println("I don't understand that");
 					break; 
 			}
+			System.out.print(">>> ");
+			input = this.scanner.nextLine();
 		}
 
 		System.out.println("Quitting game...");
 	}
 	private void move(Action a) {
 	
+		// test if room is dark
+		if(this.player.currentRoom instanceof RoomDark) {
+			if(((RoomDark)this.player.currentRoom).isDark()) {
+				System.out.println("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock");
+				this.player.die();
+			}
+		}
 		if(this.player.currentRoom.canMoveToRoomInDirection(a)) {
+
 			Room nextRoom = this.player.currentRoom.getRoomForDirection(a);
+			// test if requires key
+			if(nextRoom instanceof RoomLockable) {
+
+				
+				if(((RoomLockable)nextRoom).isLocked()) {
+					System.out.println("This door is locked. You must unlock it.");
+					return;
+				}
+			}
 			this.player.currentRoom = nextRoom;
 			System.out.println(this.player.currentRoom);
 		}
 		else {
-			// test if requires key
 			System.out.println("You can't move that way");
 		}
 	}
