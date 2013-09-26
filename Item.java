@@ -9,7 +9,8 @@ public enum Item {
 	ItemLock1   ("lock1",  "silver lock",   new String[]{"lock"}, true, true),
 	ItemLock2   ("lock2",  "brass lock",    new String[]{"lock"}, true, true),
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}, false, false),
-	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch", "light"}, false, false),
+	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}, false, false),
+	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}, false, true),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases, boolean permitsInstalledItems, boolean canBePickedUp) {

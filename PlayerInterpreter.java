@@ -47,7 +47,7 @@ public class PlayerInterpreter {
 						Item item = null;
 						for(Item i : Item.values()) {
 							for(String alias : i.getAliases()) {
-								if(alias.compareTo(i.toString()) == 0) {
+								if(d.compareTo(alias) == 0) {
 									item = i;
 									break;
 								}
@@ -71,9 +71,11 @@ public class PlayerInterpreter {
 						String d = string[1];
 						Item item = null;
 						for(Item i : Item.values()) {
-							if(d.compareTo(i.toString()) == 0) {
-								item = i;
-								break;
+							for(String alias : i.getAliases()) {
+								if(d.compareTo(alias) == 0) {
+									item = i;
+									break;
+								}
 							}
 						}
 						// item is the direct object of the action

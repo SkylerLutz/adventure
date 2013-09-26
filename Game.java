@@ -73,6 +73,9 @@ public class Game {
 									room.setDark(false);
 									System.out.println(room);
 								}
+								else {
+					System.out.println("failed" + enabledItem + " " + (this.player.currentRoom instanceof RoomDark));
+								}
 							}
 							else {
 								System.out.println("I don't see that here");
@@ -120,6 +123,16 @@ public class Game {
 					switch(a) {
 	
 						case ActionLook:
+
+							if(this.player.currentRoom instanceof RoomDark) {
+								if(this.player.hasItem(Item.ItemFlashLight)) {
+									RoomDark room = (RoomDark)this.player.currentRoom;
+									room.setDark(false);
+									System.out.println(room.description());
+									room.setDark(true);
+									break;
+								}
+							}
 							System.out.println(this.player.currentRoom.description());
 							break;
 						case ActionDig:
@@ -157,7 +170,7 @@ public class Game {
 	
 		// test if room is dark
 		if(this.player.currentRoom instanceof RoomDark) {
-			if(((RoomDark)this.player.currentRoom).isDark()) {
+			if(((RoomDark)this.player.currentRoom).isDark() && !this.player.hasItem(Item.ItemFlashLight)) {
 				System.out.println("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock");
 				this.player.die();
 			}

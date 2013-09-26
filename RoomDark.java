@@ -23,6 +23,7 @@ public class RoomDark extends Room {
 	}
 		
 	@Override
+	/* I would also like to test if the player has a flashlight
 	public boolean canMoveToRoomInDirection(Action a) {
 
 		if(super.canMoveToRoomInDirection(a)) {
@@ -30,6 +31,7 @@ public class RoomDark extends Room {
 		}
 		return false;
 	}
+	*/
 	public String toString() {
 		return this.isDark ? this.darkDescription : super.toString();
 	}

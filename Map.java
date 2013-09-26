@@ -50,6 +50,7 @@ public class Map {
 
 		LinkedList<Item> items = new LinkedList<Item>();
 		items.add(Item.ItemLightSwitch);
+		items.add(Item.ItemFlashLight);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
 		return acm;
 		
