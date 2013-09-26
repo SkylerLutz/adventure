@@ -34,10 +34,26 @@ public class RoomDark extends Room {
 	*/
 	public String toString() {
 		return this.isDark ? this.darkDescription : super.toString();
+		/*
+ *			if(this.isDark) {
+ *				return player has flashlight ? super.toString : this.darkDescription;
+ *			}
+ *			else { 
+ *				return this.darkDescription;
+ *			}
+ * 		*/
 	}
 	public String description() {
 
 		return this.isDark ? this.darkShortDescription : super.description();
+		/*
+ *			if(this.isDark) {
+ *				return player has flashlight ? super.description: this.darkShortDescription;
+ *			}
+ *			else { 
+ *				return this.darkShortDescription;
+ *			}
+ * 		*/
 	}
 	protected String darkDescription;
 	protected String darkShortDescription;
