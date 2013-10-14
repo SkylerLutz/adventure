@@ -44,6 +44,9 @@ public class Room implements Comparable {
 	private void setAdjacentRoom(Action a, Room r) {
 		this.adjacentRooms.put(a, r);
 	}
+	public void setOneWayAdjacentRoom(Action a, Room r) {
+		setAdjacentRoom(a, r);
+	}
 	public void setAdjacentRooms(HashMap<Action, Room> rooms) {
 		this.adjacentRooms.putAll(rooms);
 		

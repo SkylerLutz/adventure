@@ -61,9 +61,7 @@ public class Map {
 		items.add(Item.ItemKey1);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
 		
-		HashMap<Action, Room> roofmap = new HashMap<Action, Room>();
-		roofmap.put(Action.ActionGoEast, acm);
-		roof.setAdjacentRooms(roofmap);
+		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
 		return acm;
 		
 	}
