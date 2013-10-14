@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Player {
@@ -64,8 +65,21 @@ public class Player {
 		}
 	}
 	public void move(Room room) {
+		
+		if(this.currentRoom == null) {
+			this.currentRoom = room;
+			this.currentRoom.player = this;
+		}	
+		// show transition message from old room to new room
+		Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
+		HashMap<Action, String> messages = this.currentRoom.transitionMessages();
+		String message = messages.get(directionOfTravel);
+		if(message != null) {
+			System.out.println(message);
+		}
 		this.currentRoom = room;
 		this.currentRoom.player = this;
+		
 		System.out.println(this.currentRoom.description());
 	}	
 	public Room currentRoom() {

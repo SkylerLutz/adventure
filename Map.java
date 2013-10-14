@@ -35,10 +35,12 @@ public class Map {
 		Room conference = new Room("You are in the conference room. You think back to all of the successful ACM meetings you had here. There looks like there's something under the carpet...", "Conference room");
 
 		RoomLockable stairwell = new RoomLockable("You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.", "Stairwell", true, Item.ItemKey1);
-		stairwell.setCausesDeath(true, "Grim reaper has appeared");
 
 		HashMap<Action, Room> r = new HashMap<Action,Room>();
 		Room roof = new Room("You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.", "GITC Rooftop");
+		roof.setAdjacentRoomTransitionMessage("You miss the roof and fall through the floor. Nobody seems to notice.", Action.ActionGoEast);
+
+
 		r.put(Action.ActionGoUp, roof);
 		stairwell.setAdjacentRooms(r);
 		Room bathroom = new Room("You are in the 4th floor bathroom. You are overcome by the stench of a disgusting turd that was once laid. There is grafitti on the wall...", "Bathroom");
@@ -59,6 +61,9 @@ public class Map {
 		items.add(Item.ItemKey1);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
 		
+		HashMap<Action, Room> roofmap = new HashMap<Action, Room>();
+		roofmap.put(Action.ActionGoEast, acm);
+		roof.setAdjacentRooms(roofmap);
 		return acm;
 		
 	}

@@ -1,14 +1,8 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Room {
+public class Room implements Comparable {
 
-	protected String description;
-	protected String shortDescription;
-	protected HashMap<Action, Room> adjacentRooms;
-	protected boolean roomWasVisited;
-	protected LinkedList<Item> items;
-	protected Player player;
 
 	public Room() {
 		this("You are in a room", "Room");
@@ -43,6 +37,9 @@ public class Room {
 				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
 			}
 		}
+
+
+		this.transitionMessages = new HashMap<Action, String>();
 	}
 	private void setAdjacentRoom(Action a, Room r) {
 		this.adjacentRooms.put(a, r);
@@ -64,9 +61,23 @@ public class Room {
 		}
 		return null;
 	}
+	public Action getDirectionForRoom(Room room) {
+		for(Action a : this.adjacentRooms.keySet()) {
+			if(this.adjacentRooms.get(a).compareTo(room) == 0) {
+				return a;
+			}
+		}
+		return Action.ActionUnknown;
+	}
 	public boolean canMoveToRoomInDirection(Action a) {
 		return this.adjacentRooms.containsKey(a);
 	}
+	public void setAdjacentRoomTransitionMessage(String message, Action direction) {
+		this.transitionMessages.put(direction, message);
+	}
+	public HashMap<Action, String> transitionMessages() {
+		return this.transitionMessages;
+	} 
 	public void putItem(Item item) {
 		this.items.add(item);
 	}
@@ -106,4 +117,17 @@ public class Room {
 	public String shortDescription() {
 		return this.shortDescription;
 	}
+	public int compareTo(Object other) {
+		if(toString().compareTo(other.toString()) == 0) {
+			return 0;
+		}
+		return -1;
+	}
+	protected String description;
+	protected String shortDescription;
+	protected HashMap<Action, Room> adjacentRooms;
+	protected HashMap<Action, String> transitionMessages;
+	protected boolean roomWasVisited;
+	protected LinkedList<Item> items;
+	protected Player player;
 }
