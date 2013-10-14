@@ -4,6 +4,7 @@ public enum Item {
 	ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}, false, true),
 	ItemFood    ("food",   "food",          new String[]{"food"}, false, true),
 	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}, false, true),
+	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}, false, true),
 	ItemKey1    ("key1",    "silver key",    new String[]{"key1"}, false, true),
 	ItemKey2    ("key2",    "brass key",     new String[]{"key2"}, false, true),
 	ItemLock1   ("lock1",  "silver lock",   new String[]{"lock"}, true, true),

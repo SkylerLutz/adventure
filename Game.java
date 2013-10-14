@@ -129,7 +129,14 @@ public class Game {
 							this.player.look();
 							break;
 						case ActionDig:
-							System.out.println("There is nothing here to dig");
+							if(this.player.currentRoom instanceof RoomExcavatable) {
+								RoomExcavatable curr = (RoomExcavatable)this.player.currentRoom;
+								curr.dig();
+							}
+							else {
+								System.out.println("You are not allowed to dig here");
+							}
+
 							break;
 						case ActionJump:
 							break;

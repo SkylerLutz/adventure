@@ -43,11 +43,17 @@ public class Map {
 
 		r.put(Action.ActionGoUp, roof);
 		stairwell.setAdjacentRooms(r);
+
+		RoomExcavatable dirt = new RoomExcavatable("There is a pile of dirt here.", "Dirt pile", "You revealed a diamond!");
+		LinkedList<Item> revealableItems = new LinkedList<Item>();
+		revealableItems.add(Item.ItemDiamond);
+		dirt.setRevealableItems(revealableItems);
 		Room bathroom = new Room("You are in the 4th floor bathroom. You are overcome by the stench of a disgusting turd that was once laid. There is grafitti on the wall...", "Bathroom");
 		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
 		rooms.put(Action.ActionGoEast, stairwell);
 		rooms.put(Action.ActionGoWest, conference);
 		rooms.put(Action.ActionGoNorth, bathroom);
+		rooms.put(Action.ActionGoNortheast, dirt);
 		hw.setAdjacentRooms(rooms);
 
 		bathroom.putItem(Item.ItemGrafitti);
@@ -59,6 +65,7 @@ public class Map {
 		items.add(Item.ItemLightSwitch);
 		items.add(Item.ItemFlashLight);
 		items.add(Item.ItemKey1);
+		items.add(Item.ItemShovel);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
 		
 		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
