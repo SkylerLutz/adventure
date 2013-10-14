@@ -15,6 +15,7 @@ public class Game {
 	
 		// Parse room from file
 		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.level1();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -31,9 +32,10 @@ public class Game {
 
 	public void start() {
 
-		String input="look";
+		String input = "";
 		while(input.compareTo("quit") != 0) {
-	
+			System.out.print(">>> ");
+			input = this.scanner.nextLine();
 			Action a = this.interpreter.interpretString(input);
 			switch(a.type()){
 				case TYPE_DIRECTIONAL:
@@ -71,7 +73,7 @@ public class Game {
 								if(enabledItem == Item.ItemLightSwitch && (this.player.currentRoom instanceof RoomDark)) {
 									RoomDark room = (RoomDark)this.player.currentRoom;
 									room.setDark(false);
-									System.out.println(room);
+									this.player.look();
 								}
 								else {
 					System.out.println("failed" + enabledItem + " " + (this.player.currentRoom instanceof RoomDark));
@@ -124,16 +126,7 @@ public class Game {
 	
 						case ActionLook:
 
-							if(this.player.currentRoom instanceof RoomDark) {
-								if(this.player.hasItem(Item.ItemFlashLight)) {
-									RoomDark room = (RoomDark)this.player.currentRoom;
-									room.setDark(false);
-									System.out.println(room.description());
-									room.setDark(true);
-									break;
-								}
-							}
-							System.out.println(this.player.currentRoom.description());
+							this.player.look();
 							break;
 						case ActionDig:
 							System.out.println("There is nothing here to dig");
@@ -160,8 +153,6 @@ public class Game {
 					System.out.println("I don't understand that");
 					break; 
 			}
-			System.out.print(">>> ");
-			input = this.scanner.nextLine();
 		}
 
 		System.out.println("Quitting game...");
@@ -181,14 +172,18 @@ public class Game {
 			// test if requires key
 			if(nextRoom instanceof RoomLockable) {
 
-				
-				if(((RoomLockable)nextRoom).isLocked()) {
+				RoomLockable lockedRoom = (RoomLockable)nextRoom;
+				if(lockedRoom.isLocked()) {
+
+					if(lockedRoom.causesDeath()) {
+						System.out.println(lockedRoom.deathMessage());
+						this.player.die();
+					}
 					System.out.println("This door is locked. You must unlock it.");
 					return;
 				}
 			}
-			this.player.currentRoom = nextRoom;
-			System.out.println(this.player.currentRoom);
+			this.player.move(nextRoom);
 		}
 		else {
 			System.out.println("You can't move that way");

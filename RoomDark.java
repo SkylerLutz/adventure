@@ -32,28 +32,39 @@ public class RoomDark extends Room {
 		return false;
 	}
 	*/
+
 	public String toString() {
-		return this.isDark ? this.darkDescription : super.toString();
-		/*
- *			if(this.isDark) {
- *				return player has flashlight ? super.toString : this.darkDescription;
- *			}
- *			else { 
- *				return this.darkDescription;
- *			}
- * 		*/
+
+		if(this.isDark) {
+			if(this.player.hasItem(Item.ItemFlashLight)) {
+				return super.toString();
+			}
+			else {
+				return this.darkDescription;
+			}
+		}
+		else {
+			return super.toString();
+		}
 	}
 	public String description() {
-
-		return this.isDark ? this.darkShortDescription : super.description();
-		/*
- *			if(this.isDark) {
- *				return player has flashlight ? super.description: this.darkShortDescription;
- *			}
- *			else { 
- *				return this.darkShortDescription;
- *			}
- * 		*/
+		if(this.isDark) {
+			if(this.player.hasItem(Item.ItemFlashLight)) {
+				String s = this.roomWasVisited ? this.description : this.shortDescription;
+				this.roomWasVisited = true;
+				return s;
+			}
+			else {
+				String s = this.roomWasVisited ? this.darkDescription : this.darkShortDescription;
+				this.roomWasVisited = true;
+				return s;
+			}
+		}
+		else {
+			String s = this.roomWasVisited ? this.description : this.shortDescription;
+			this.roomWasVisited = true;
+			return s;
+		}
 	}
 	protected String darkDescription;
 	protected String darkShortDescription;

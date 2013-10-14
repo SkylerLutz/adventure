@@ -29,9 +29,14 @@ public class Map {
 
 	public static Room njit() {
 
-		Room hw = new Room("You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E.", "Fourth floor hallway");
+		Room hw = new Room("You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door", "Fourth floor hallway");
+		hw.putItem(Item.ItemLock1);
+
 		Room conference = new Room("You are in the conference room. You think back to all of the successful ACM meetings you had here. There looks like there's something under the carpet...", "Conference room");
-		Room stairwell = new Room("You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.", "Stairwell");
+
+		RoomLockable stairwell = new RoomLockable("You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.", "Stairwell", true, Item.ItemKey1);
+		stairwell.setCausesDeath(true, "Grim reaper has appeared");
+
 		HashMap<Action, Room> r = new HashMap<Action,Room>();
 		Room roof = new Room("You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.", "GITC Rooftop");
 		r.put(Action.ActionGoUp, roof);
@@ -51,7 +56,9 @@ public class Map {
 		LinkedList<Item> items = new LinkedList<Item>();
 		items.add(Item.ItemLightSwitch);
 		items.add(Item.ItemFlashLight);
+		items.add(Item.ItemKey1);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
+		
 		return acm;
 		
 	}

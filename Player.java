@@ -6,8 +6,8 @@ public class Player {
 		this(currentRoom, new LinkedList<Item>());
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
-		this.currentRoom = currentRoom;
 		this.items = items;
+		this.move(currentRoom);
 	}	
 	private Item drop(Item item) {
 		if(this.items.remove(item)) {
@@ -32,6 +32,7 @@ public class Player {
 
 		Item takenItem = this.currentRoom.takeItem(item);
 		if (takenItem == null) {
+			System.out.println("I don't see that here");
 			return false;
 		}
 		this.pick(takenItem);
@@ -53,7 +54,7 @@ public class Player {
 			return false;
 		}
 		if(indirect.setInstalledItem(direct)){
-			System.out.println(direct + " installed");
+			//System.out.println(direct + " installed");
 			return true;
 		}
 		else {
@@ -62,10 +63,15 @@ public class Player {
 	}
 	public void move(Room room) {
 		this.currentRoom = room;
+		this.currentRoom.player = this;
+		System.out.println(this.currentRoom.description());
 	}	
 	public Room currentRoom() {
 		return this.currentRoom;
 	}	
+	public void look() {
+		System.out.println(this.currentRoom);
+	}
 	public void die() {
 		System.out.println("You score 0 out of 90 possible points. You are dead.");
 		System.exit(0);

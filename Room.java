@@ -8,6 +8,7 @@ public class Room {
 	protected HashMap<Action, Room> adjacentRooms;
 	protected boolean roomWasVisited;
 	protected LinkedList<Item> items;
+	protected Player player;
 
 	public Room() {
 		this("You are in a room", "Room");
@@ -90,17 +91,19 @@ public class Room {
 		return this.items.contains(item);
 	}
 	public String toString() {
-		String d = this.roomWasVisited ? this.shortDescription : this.description;
-		this.roomWasVisited = true;
-		return d;
-	}
-	public String description(){ 
-		this.roomWasVisited = true;
 		String s = "";
 		// take this loop out before release, just print the detaildescription instead, because this reveals any and every item in the room, including hidden ones
 		for(Item item : this.items) {
 			s += "\nThere is a " + item.detailDescription() + " here.";
 		}
 		return this.description + s;
+	}
+	public String description(){ 
+		String d = this.roomWasVisited ? this.shortDescription : this.description;
+		this.roomWasVisited = true;
+		return d;
+	}
+	public String shortDescription() {
+		return this.shortDescription;
 	}
 }
