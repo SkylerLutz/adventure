@@ -7,7 +7,9 @@ public class Player {
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
 		this.items = items;
-		this.move(currentRoom);
+		//this.currentRoom = currentRoom;
+		//this.currentRoom.player = this;
+		move(currentRoom);
 	}	
 	private Item drop(Item item) {
 		if(this.items.remove(item)) {

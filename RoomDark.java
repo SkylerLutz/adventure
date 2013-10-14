@@ -50,18 +50,18 @@ public class RoomDark extends Room {
 	public String description() {
 		if(this.isDark) {
 			if(this.player.hasItem(Item.ItemFlashLight)) {
-				String s = this.roomWasVisited ? this.description : this.shortDescription;
+				String s = this.roomWasVisited ? this.shortDescription : this.description;
 				this.roomWasVisited = true;
 				return s;
 			}
 			else {
-				String s = this.roomWasVisited ? this.darkDescription : this.darkShortDescription;
+				String s = this.roomWasVisited ? this.darkShortDescription : this.darkDescription;
 				this.roomWasVisited = true;
 				return s;
 			}
 		}
 		else {
-			String s = this.roomWasVisited ? this.description : this.shortDescription;
+			String s = this.roomWasVisited ? this.shortDescription : this.description;
 			this.roomWasVisited = true;
 			return s;
 		}
