@@ -48,6 +48,10 @@ public class Game {
 							this.player.pickup(a.directObject());
 							break;
 						case ActionBreak:
+							Item item = a.directObject();
+							this.player.dropItem(item);
+							Item destroyed = item.destroy();
+							this.player.currentRoom.putItem(destroyed);
 							break;
 						case ActionInspect:
 							

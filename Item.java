@@ -4,6 +4,7 @@ public enum Item {
 	ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}, false, true),
 	ItemFood    ("food",   "food",          new String[]{"food"}, false, true),
 	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}, false, true),
+	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}, true, true),
 	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}, false, true),
 	ItemKey1    ("key1",    "silver key",    new String[]{"key1"}, false, true),
 	ItemKey2    ("key2",    "brass key",     new String[]{"key2"}, false, true),
@@ -21,6 +22,8 @@ public enum Item {
 		this.installedItem = null;
 		this.permitsInstalledItems = permitsInstalledItems;
 		this.canBePickedUp = canBePickedUp;
+
+		this.destroyMessage = null;
 	}
 	Item() {
 		this("unknown item", "unknown item", new String[]{"unknown"}, false, true);
@@ -46,6 +49,16 @@ public enum Item {
 		this.installedItem = null;
 		return i;
 	}
+	public Item destroy() {
+		// Todo if object is breakable
+		Item i = removeInstalledItem();
+		showDestroyMessage();
+
+		return i;
+		// else {
+		//	System.out.println("You cannot break this item.");
+		// }
+	}
 	public boolean hasItemInstalled() {
 		return this.installedItem != null;
 	}
@@ -57,6 +70,14 @@ public enum Item {
 	}
 	public boolean canBePickedUp() {
 		return this.canBePickedUp;
+	}
+	public void setDestroyMessage(String message) {
+		this.destroyMessage = message;
+	}
+	public void showDestroyMessage() {
+		if(destroyMessage != null) {
+			System.out.println(destroyMessage);
+		}
 	}
 	public String[] getAliases() {
 		return this.aliases;
@@ -76,4 +97,7 @@ public enum Item {
 	// item attributes
 	private boolean permitsInstalledItems;
 	private boolean canBePickedUp;
+
+	private boolean canBeDestroyed;
+	private String destroyMessage;
 }
