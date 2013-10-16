@@ -21,6 +21,7 @@ public enum Item {
 		this.aliases = aliases;
 		this.installedItem = null;
 		this.permitsInstalledItems = permitsInstalledItems;
+		this.installedItemsAreVisible = true;
 		this.canBePickedUp = canBePickedUp;
 
 		this.destroyMessage = null;
@@ -48,6 +49,9 @@ public enum Item {
 		Item i = this.installedItem;
 		this.installedItem = null;
 		return i;
+	}
+	public void setInstalledItemVisible(boolean visible) {
+		this.installedItemsAreVisible = visible;
 	}
 	public Item destroy() {
 		// Todo if object is breakable
@@ -84,7 +88,7 @@ public enum Item {
 	}
 	public String detailDescription() {
 		String s = "";
-		if(this.installedItem != null) {
+		if(this.installedItem != null && this.installedItemsAreVisible) {
 			s = ", with a " + this.installedItem + " installed";
 		}
 		return description + s;
@@ -96,6 +100,7 @@ public enum Item {
 
 	// item attributes
 	private boolean permitsInstalledItems;
+	private boolean installedItemsAreVisible;
 	private boolean canBePickedUp;
 
 	private boolean canBeDestroyed;

@@ -89,17 +89,20 @@ public class Room implements Comparable {
 		if(item == null) {
 			return null;
 		}
-		if(!item.canBePickedUp()) {
-			System.out.println("You cannot pick up this item");
-			return null;
-		}
-		if(this.items.remove(item)) {
-			return item;
+		else if(this.items.contains(item)) {
+			
+			if(item.canBePickedUp()) {
+				this.items.remove(item);
+				return item;
+			}
+			else {
+				System.out.println("You cannot pick up this item");
+			}
 		}
 		else {
 			System.out.println("I don't see that here.");
-			return null;
 		}
+		return Item.ItemUnknown;
 	}
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);

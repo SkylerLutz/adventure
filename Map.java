@@ -68,6 +68,7 @@ public class Map {
 		items.add(Item.ItemShovel);
 		Item i = Item.ItemClayPot;
 		i.setInstalledItem(Item.ItemDiamond);
+		i.setInstalledItemVisible(false);
 		i.setDestroyMessage("You revealed a beautiful diamond!");
 		items.add(i);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);

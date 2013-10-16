@@ -12,7 +12,7 @@ public class Player {
 		//this.currentRoom.player = this;
 		move(currentRoom);
 	}	
-	private Item drop(Item item) {
+	public Item drop(Item item) {
 		if(this.items.remove(item)) {
 			return item;
 		}
@@ -28,7 +28,6 @@ public class Player {
 			return false;
 		}
 		this.currentRoom.putItem(dropped);
-		System.out.println("Dropped");
 		return true;
 	}
 	public boolean pickup(Item item){ 
@@ -36,6 +35,9 @@ public class Player {
 		Item takenItem = this.currentRoom.takeItem(item);
 		if (takenItem == null) {
 			System.out.println("I don't see that here");
+			return false;
+		}
+		else if(takenItem == Item.ItemUnknown) {
 			return false;
 		}
 		this.pick(takenItem);

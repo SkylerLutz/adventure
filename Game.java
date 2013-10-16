@@ -49,7 +49,7 @@ public class Game {
 							break;
 						case ActionBreak:
 							Item item = a.directObject();
-							this.player.dropItem(item);
+							this.player.drop(item);
 							Item destroyed = item.destroy();
 							this.player.currentRoom.putItem(destroyed);
 							break;
@@ -66,6 +66,7 @@ public class Game {
 							break;
 						case ActionDrop:
 							this.player.dropItem(a.directObject());
+							System.out.println("Dropped");
 							break;
 						case ActionShake:
 							this.player.die();
