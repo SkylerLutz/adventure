@@ -65,8 +65,15 @@ public class Game {
 
 							break;
 						case ActionDrop:
-							this.player.dropItem(a.directObject());
-							System.out.println("Dropped");
+							
+							if(this.player.dropItem(a.directObject())){
+								System.out.println("Dropped");
+							}
+							break;
+						case ActionThrow:
+							if(this.player.dropItem(a.directObject())) {
+								System.out.println("Thrown");
+							}
 							break;
 						case ActionShake:
 							this.player.die();

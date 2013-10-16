@@ -23,7 +23,8 @@ public enum Action {
 	ActionPickUp(new String[]{"pickup", "pick up", "get", "take", "acquire"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionBreak(new String[]{"break", "smash", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionDrop(new String[]{"throw", "chuck", "drop"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionDrop(new String[]{"drop"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionThrow(new String[]{"throw", "chuck"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionShake(new String[]{"shake", "chickendance"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionEnable(new String[]{"enable","hit", "start"}, Type.TYPE_HASDIRECTOBJECT),
 
