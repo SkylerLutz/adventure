@@ -6,10 +6,10 @@ public class RoomDark extends Room {
 
 	public RoomDark(String description, String shortDescription, String darkDescription, String darkShortDescription) {
 
-		this(description, shortDescription, darkDescription, darkShortDescription, null, null, true);
+		this(description, shortDescription, darkDescription, darkShortDescription, true);
 	}
-	public RoomDark(String description, String shortDescription, String darkDescription, String darkShortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items, boolean isDark){
-		super(description, shortDescription, adjacentRooms, items);
+	public RoomDark(String description, String shortDescription, String darkDescription, String darkShortDescription, boolean isDark){
+		super(description, shortDescription);
 
 		this.isDark = isDark;
 		this.darkDescription = darkDescription;
@@ -21,18 +21,6 @@ public class RoomDark extends Room {
 	public void setDark(boolean isDark) {
 		this.isDark = isDark;
 	}
-		
-	@Override
-	/* I would also like to test if the player has a flashlight
-	public boolean canMoveToRoomInDirection(Action a) {
-
-		if(super.canMoveToRoomInDirection(a)) {
-			return !this.isDark();
-		}
-		return false;
-	}
-	*/
-
 	public String toString() {
 
 		if(this.isDark) {

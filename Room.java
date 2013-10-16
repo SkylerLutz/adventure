@@ -7,28 +7,13 @@ public class Room implements Comparable {
 	public Room() {
 		this("You are in a room", "Room");
 	}
-	public Room(String description, String shortDescription) {
-		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>());
-	}
-	public Room(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items){
+	public Room(String description, String shortDescription){
 		
 		this.roomWasVisited = false;
 		this.description = description;
 		this.shortDescription = shortDescription;
-		
-		if(items == null){
-			this.items = new LinkedList<Item>();
-		}
-		else { 
-			this.items = items;
-		}
-		
-		if(adjacentRooms == null) {
-			this.adjacentRooms = new HashMap<Action, Room>();
-		}
-		else {
-			this.adjacentRooms = adjacentRooms;
-		}
+		this.items = new LinkedList<Item>();
+		this.adjacentRooms = new HashMap<Action, Room>();
 
 		// set reverse relationships in adjacent rooms with opposite directions
 		for(Action a : Action.values()) {
@@ -37,7 +22,6 @@ public class Room implements Comparable {
 				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
 			}
 		}
-
 
 		this.transitionMessages = new HashMap<Action, String>();
 	}
@@ -83,6 +67,11 @@ public class Room implements Comparable {
 	} 
 	public void putItem(Item item) {
 		this.items.add(item);
+	}
+	public void putItems(LinkedList<Item> items) {
+		for(Item i : items) {
+			this.items.add(i);
+		}
 	}
 
 	public Item takeItem(Item item) {

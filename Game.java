@@ -116,7 +116,7 @@ public class Game {
 							}
 							else {
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
-								if(itemToBePutInto == Item.ItemLock1) {
+								if(itemToBePutInto == Item.ItemLock) {
 									// this restricts me to one locked adjacent room at a time
 									
 									for(Action action : Action.values()) {

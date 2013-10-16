@@ -3,11 +3,8 @@ import java.util.LinkedList;
 
 public class RoomExcavatable extends Room {
 
-	public RoomExcavatable(String description, String shortDescription, String message) {
-		this(description, shortDescription, new HashMap<Action, Room>(), new LinkedList<Item>(), message);
-	}
-	public RoomExcavatable(String description, String shortDescription, HashMap<Action, Room> adjacentRooms, LinkedList<Item> items, String digMessage) {
-		super(description, shortDescription, adjacentRooms, items);
+	public RoomExcavatable(String description, String shortDescription, String digMessage) {
+		super(description, shortDescription);
 		this.digMessage = digMessage;
 		this.wasDugUp = false;
 		this.revealableItems = new LinkedList<Item>();

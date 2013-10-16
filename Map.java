@@ -7,7 +7,7 @@ public class Map {
 
 		Room mid1 = new Room("There is a fork", "Fork");
 		Room mid2 = new Room("Ferocious bear", "bear");
-		Room end = new RoomLockable("You are inside of a building", "Building interior", true, Item.ItemKey1);
+		Room end = new RoomLockable("You are inside of a building", "Building interior", true, Item.ItemKey);
 		
 		HashMap<Action, Room> l = new HashMap<Action,Room>();
 		l.put(Action.ActionGoNortheast, mid1); 
@@ -20,21 +20,23 @@ public class Map {
 
 		LinkedList<Item> startItems = new LinkedList<Item>();
 		startItems.add(Item.ItemBrick);
-		startItems.add(Item.ItemKey1);
-		startItems.add(Item.ItemLock1);
+		startItems.add(Item.ItemKey);
+		startItems.add(Item.ItemLock);
 		
-		Room start = new Room("There is a tree, with a building to the west. There is a lock on the door.", "Tree", rooms, startItems);
+		Room start = new Room("There is a tree, with a building to the west. There is a lock on the door.", "Tree" );
+		start.setAdjacentRooms(rooms);
+		start.putItems(startItems);
 		return start;
 	}
 
 	public static Room njit() {
 
 		Room hw = new Room("You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door", "Fourth floor hallway");
-		hw.putItem(Item.ItemLock1);
+		hw.putItem(Item.ItemLock);
 
 		Room conference = new Room("You are in the conference room. You think back to all of the successful ACM meetings you had here. There looks like there's something under the carpet...", "Conference room");
 
-		RoomLockable stairwell = new RoomLockable("You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.", "Stairwell", true, Item.ItemKey1);
+		RoomLockable stairwell = new RoomLockable("You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.", "Stairwell", true, Item.ItemKey);
 
 		HashMap<Action, Room> r = new HashMap<Action,Room>();
 		Room roof = new Room("You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.", "GITC Rooftop");
@@ -68,9 +70,11 @@ public class Map {
 		LinkedList<Item> items = new LinkedList<Item>();
 		items.add(Item.ItemLightSwitch);
 		items.add(Item.ItemFlashLight);
-		items.add(Item.ItemKey1);
+		items.add(Item.ItemKey);
 		items.add(Item.ItemShovel);
-		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", hall, items, true);
+		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", true);
+		acm.putItems(items);
+		acm.setAdjacentRooms(hall);
 		
 		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
 		return acm;
