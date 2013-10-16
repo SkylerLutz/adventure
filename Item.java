@@ -1,31 +1,96 @@
+import java.util.HashMap;
+
 public enum Item {
 
-	ItemShovel  ("shovel", "metal shovel",  new String[]{"shovel"}, false, true),
-	ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}, false, true),
-	ItemFood    ("food",   "food",          new String[]{"food"}, false, true),
-	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}, false, true),
-	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}, true, true),
-	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}, false, true),
-	ItemKey    ("key",    "silver key",    new String[]{"key"}, false, true),
-	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}, true, true),
-	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}, false, false),
-	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}, false, false),
-	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}, false, true),
+	ItemShovel  ("shovel", "metal shovel",  new String[]{"shovel"}),
+	ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}),
+	ItemFood    ("food",   "food",          new String[]{"food"}),
+	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}),
+	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}),
+	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}),
+	ItemKey    ("key",    "silver key",    new String[]{"key"}),
+	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}),
+	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
+	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
+	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
 	ItemUnknown;
 
-	Item(String description, String detailDescription, String[] aliases, boolean permitsInstalledItems, boolean canBePickedUp) {
+	Item(String description, String detailDescription, String[] aliases) {
 		this.description = description;
 		this.detailDescription = detailDescription;
 		this.aliases = aliases;
 		this.installedItem = null;
-		this.permitsInstalledItems = permitsInstalledItems;
-		this.installedItemsAreVisible = true;
-		this.canBePickedUp = canBePickedUp;
-
 		this.destroyMessage = null;
+		setDefaults();
 	}
 	Item() {
-		this("unknown item", "unknown item", new String[]{"unknown"}, false, true);
+		this("unknown item", "unknown item", new String[]{"unknown"});
+	}
+	private void setDefaults() {
+		switch(this.description) {
+			case "shovel":
+				this.defaults = genericDefaults();
+				break;
+			case "brick":
+				this.defaults = genericDefaults();
+				break;
+			case "food":
+				this.defaults = genericDefaults();
+				break;
+			case "ladder":
+				this.defaults = genericDefaults();
+				break;
+			case "pot":
+				this.defaults = genericDefaults();
+				this.defaults.put("permitsInstalledItems", true);
+				this.defaults.put("installedItemsAreVisible", true);
+				this.defaults.put("canBeDestroyed", true);
+				break;
+			case "diamond":
+				this.defaults = genericDefaults();
+				break;
+			case "key":
+				this.defaults = genericDefaults();
+				break;
+			case "lock":  
+				this.defaults = genericDefaults();
+				this.defaults.put("permitsInstalledItems", true);
+				break;
+			case "grafitti":
+				this.defaults = genericDefaults();
+				this.defaults.put("permitsInstalledItems", false);
+				this.defaults.put("canBePickedUp", false);
+				break;
+			case "lightswitch":
+				this.defaults = genericDefaults();
+				this.defaults.put("permitsInstalledItems", false);
+				this.defaults.put("canBePickedUp", false);
+				break;
+			case "flashlight":
+				this.defaults = genericDefaults();
+				break;
+			case "unknown":
+				this.defaults = genericDefaults();
+				break;
+			default:
+				this.defaults = genericDefaults();
+				break;
+		}
+	}
+	private static HashMap<String, Boolean> genericDefaults() {
+		HashMap<String, Boolean> defaults = new HashMap<String, Boolean>();
+		defaults.put("permitsInstalledItems", false);
+		defaults.put("canBePickedUp", true);
+		defaults.put("canBeDestroyed", false);
+		defaults.put("installedItemsAreVisible", false);
+		defaults.put("canBePickedUp", true);
+		return defaults;
+	}
+	public HashMap<String, Boolean> defaults() {
+		return this.defaults;
+	}
+	public void updateDefault(String key, Boolean value) {
+		this.defaults.put(key, value);
 	}
 	public String toString() {
 		return description;
@@ -34,7 +99,7 @@ public enum Item {
 		return this.detailDescription;
 	}
 	public boolean setInstalledItem(Item item) {
-		if(this.permitsInstalledItems) {
+		if(this.defaults.get("permitsInstalledItems")) {
 			this.installedItem = item;
 			return true;
 		}
@@ -49,7 +114,7 @@ public enum Item {
 		return i;
 	}
 	public void setInstalledItemVisible(boolean visible) {
-		this.installedItemsAreVisible = visible;
+		this.defaults.put("installedItemsAreVisible", visible);
 	}
 	public Item destroy() {
 		// Todo if object is breakable
@@ -65,13 +130,13 @@ public enum Item {
 		return this.installedItem != null;
 	}
 	public boolean canInstallItems() {
-		return this.permitsInstalledItems;
+		return this.defaults.get("permitsInstalledItems");
 	}
 	public void setCanInstallItems(boolean permission) {
-		this.permitsInstalledItems = permission;
+		this.defaults.put("permitsInstalledItems", permission);
 	}
 	public boolean canBePickedUp() {
-		return this.canBePickedUp;
+		return this.defaults.get("canBePickedUp");
 	}
 	public void setDestroyMessage(String message) {
 		this.destroyMessage = message;
@@ -86,7 +151,7 @@ public enum Item {
 	}
 	public String detailDescription() {
 		String s = "";
-		if(this.installedItem != null && this.installedItemsAreVisible) {
+		if(this.installedItem != null && this.defaults.get("installedItemsAreVisible")) {
 			s = ", with a " + this.installedItem + " installed";
 		}
 		return description + s;
@@ -97,10 +162,6 @@ public enum Item {
 	private Item installedItem;
 
 	// item attributes
-	private boolean permitsInstalledItems;
-	private boolean installedItemsAreVisible;
-	private boolean canBePickedUp;
-
-	private boolean canBeDestroyed;
 	private String destroyMessage;
+	private HashMap<String, Boolean> defaults;
 }
