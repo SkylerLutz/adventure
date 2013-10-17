@@ -82,14 +82,10 @@ public class Game {
 							
 							Item enabledItem = a.directObject();
 							if(this.player.currentRoom.hasItem(enabledItem)) {
-								if(enabledItem == Item.ItemLightSwitch && (this.player.currentRoom instanceof RoomDark)) {
-									RoomDark room = (RoomDark)this.player.currentRoom;
-									room.setDark(false);
-									this.player.look();
+								if(this.player.currentRoom instanceof RoomDark) {
+									((RoomDark)this.player.currentRoom).setDark(false);
 								}
-								else {
-					System.out.println("failed" + enabledItem + " " + (this.player.currentRoom instanceof RoomDark));
-								}
+								enabledItem.start();
 							}
 							else {
 								System.out.println("I don't see that here");
@@ -128,6 +124,7 @@ public class Game {
 										}
 									}
 								}	
+								System.out.println("Done");
 							}
 							break;
 							}
@@ -162,6 +159,9 @@ public class Game {
 									System.out.println("You have a " + item.detailDescription());
 								}
 							}
+							break;
+						case ActionSuicide:
+							this.player.die();
 							break;
 						case ActionHelp:
 							help();

@@ -5,6 +5,7 @@ public enum Action {
 	ActionDig(new String[]{"dig"}, Type.TYPE_HASNOOBJECT),
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
+	ActionSuicide(new String[]{"suicide", "die"}, Type.TYPE_HASNOOBJECT),
 	ActionHelp(new String[]{"help", "h"}, Type.TYPE_HASNOOBJECT),
 
 // Directional
@@ -20,7 +21,7 @@ public enum Action {
 	ActionGoUp(new String[]{"up", "u"}, Type.TYPE_DIRECTIONAL),
 
 // Diretct Object. Has one direct object e.g. Break shovel, throw lamp
-	ActionPickUp(new String[]{"pickup", "pick up", "get", "take", "acquire"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionPickUp(new String[]{"pickup", "get", "take", "acquire", "grab"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionBreak(new String[]{"break", "smash", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDrop(new String[]{"drop"}, Type.TYPE_HASDIRECTOBJECT),
