@@ -8,6 +8,7 @@ public enum Item {
 	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}),
 	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}),
 	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}),
+	ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}),
 	ItemStatue  ("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}),
 	ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}),
 
@@ -158,6 +159,14 @@ public enum Item {
 					System.out.println("The room is lit");
 					break;
 				case ItemMicrowave:
+					for(int i=0; i < 3; i++) {
+						System.out.println("...");
+						try {
+							Thread.sleep(1000);
+						} catch(Exception e1) {
+							e1.printStackTrace();
+						}
+					}
 					System.out.println("Beep beep beep");
 					if(this.installedItem == Item.ItemStatue) {
 						System.out.println("You melted Richard Stallman!");

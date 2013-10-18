@@ -153,7 +153,8 @@ public class Map {
 		acm.setAdjacentRooms(hall);
 		
 		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
-		return acm;
+		//return acm;
+		return floor1;
 		
 	}
 }
