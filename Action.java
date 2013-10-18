@@ -28,6 +28,7 @@ public enum Action {
 	ActionThrow(new String[]{"throw", "chuck"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionShake(new String[]{"shake", "chickendance"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionEnable(new String[]{"enable","hit", "start"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionPush(new String[]{"push","call"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),

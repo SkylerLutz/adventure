@@ -91,6 +91,44 @@ public class Game {
 								System.out.println("I don't see that here");
 							}
 							break;
+						case ActionPush:
+							
+							Item button = a.directObject();
+							if(button == Item.ItemElevatorButton) {
+								for(int i=0; i < 3; i++) {
+									System.out.println("...");
+									try {
+										Thread.sleep(1000);
+									} catch(Exception e1) {
+										e1.printStackTrace();
+									}
+								}
+								System.out.println("Ding");
+								((RoomElevator)button.getElevator()).call(this.player.currentRoom);
+							}
+							else if(button.toString().equals("Elevator Button")){
+								RoomElevator e = (RoomElevator)this.player.currentRoom;
+								e.call(Integer.parseInt(button.getAliases()[0])-1);
+								for(int i=0; i < 3; i++) {
+									System.out.println("...");
+									try {
+										Thread.sleep(1000);
+									} catch(Exception e1) {
+										e1.printStackTrace();
+									}
+								}
+								System.out.println("Ding");
+								System.out.println("The doors open");
+								// TODO : add support for restricted floors
+								/*
+								if(floor is restricted) {
+									"this floor is restricted"
+									"the doors do not open"
+								}
+								*/
+								this.player.look();
+							}
+							break;
 					}
 					break;
 				case TYPE_HASINDIRECTOBJECT:

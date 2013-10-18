@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Map {
 
@@ -40,12 +41,13 @@ public class Map {
 
 		HashMap<Action, Room> r = new HashMap<Action,Room>();
 		Room roof = new Room("You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.", "GITC Rooftop");
-		roof.setAdjacentRoomTransitionMessage("You miss the roof and fall through the floor. Nobody seems to notice.", Action.ActionGoEast);
+		roof.setAdjacentRoomTransitionMessage("You miss the roof and fall through the floor. Since everyone is using their headphones, nobody seems to notice.", Action.ActionGoEast);
 
 
 		r.put(Action.ActionGoUp, roof);
 		stairwell.setAdjacentRooms(r);
 
+/*
 		RoomExcavatable dirt = new RoomExcavatable("There is a pile of dirt here.", "Dirt pile", "You have revealed a clay pot.");
 		LinkedList<Item> revealableItems = new LinkedList<Item>();
 		Item i = Item.ItemClayPot;
@@ -54,12 +56,84 @@ public class Map {
 		i.setDestroyMessage("You revealed a beautiful diamond!");
 		revealableItems.add(i);
 		dirt.setRevealableItems(revealableItems);
+*/
+
+
+		RoomElevator elevator = new RoomElevator("GITC Elevator", "Elevator");
+		elevator.putItem(Item.ItemElevatorFloor1Button);
+		elevator.putItem(Item.ItemElevatorFloor2Button);
+		elevator.putItem(Item.ItemElevatorFloor3Button);
+		elevator.putItem(Item.ItemElevatorFloor4Button);
+		
+		String floor1Description = "First floor of GITC";
+		String floor2Description = "Second floor Lobby";
+		String floor3Description = "Third floor Lobby";
+		String floor4Description = "Fourth floor Lobby of GITC";
+		
+		Room floor1 = new Room(floor1Description, "Lobby 1"); 
+		Item b1 = Item.ItemElevatorButton;
+		b1.setElevator(elevator);
+		floor1.putItem(b1);
+
+		Room floor2 = new Room(floor2Description, "Lobby 2"); 
+		Item b2 = Item.ItemElevatorButton;
+		b2.setElevator(elevator);
+		floor2.putItem(b2);
+
+		Room floor3 = new Room(floor3Description, "Lobby 3"); 
+		Item b3 = Item.ItemElevatorButton;
+		b3.setElevator(elevator);
+		floor3.putItem(b3);
+
+		Room floor4 = new Room(floor4Description, "Lobby 4"); 
+		Item b4 = Item.ItemElevatorButton;
+		b4.setElevator(elevator);
+		floor4.putItem(b4);
+
+		ArrayList<Room> list = new ArrayList<Room>();
+		list.add(floor1);
+		list.add(floor2);
+		list.add(floor3);
+		list.add(floor4);
+
+		ArrayList<String> descriptions = new ArrayList<String>();
+		descriptions.add("Inside Elevator -- floor 1.");
+		descriptions.add("Inside elevator -- floor 2");
+		descriptions.add("Inside elevator -- floor 3");
+		descriptions.add("Inside elevator -- floor 4");
+		
+		elevator.setFloors(descriptions, list, Action.ActionGoEast);
+		elevator.call(floor3);
+
+/*
+ * RoomElevator e = new RoomElevator("GITC Elevator", "Elevator");
+ * 
+ * String floor1Description
+ * String floor2Description
+ * String floor3Description
+ * Room floor1; // constructor...
+ * Room floor2; // constructor...
+ * Room floor3; // constructor...
+ * ArrayList<Room> list = new ArrayList<Room>();
+ * list.add(floor1);
+ * list.add(floor2);
+ * list.add(floor3);
+ * ArrayList<String> descriptions = new ArrayList<String>();
+ * descriptions.add(floor1Description, floor2Description, floor3Description); 
+ *
+ * e.setFloors(descriptions, list, Action.ActionGoWest);
+ * e.call(2);
+ *
+ * 
+ */
+
 		Room bathroom = new Room("You are in the 4th floor bathroom. You are overcome by the stench of a disgusting turd that was once laid. There is grafitti on the wall...", "Bathroom");
 		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
 		rooms.put(Action.ActionGoEast, stairwell);
 		rooms.put(Action.ActionGoWest, conference);
 		rooms.put(Action.ActionGoNorth, bathroom);
-		rooms.put(Action.ActionGoNortheast, dirt);
+		rooms.put(Action.ActionGoNortheast, floor4);
+//		rooms.put(Action.ActionGoNortheast, dirt);
 		hw.setAdjacentRooms(rooms);
 
 		bathroom.putItem(Item.ItemGrafitti);
@@ -72,7 +146,9 @@ public class Map {
 		items.add(Item.ItemFlashLight);
 		items.add(Item.ItemKey);
 		items.add(Item.ItemShovel);
-		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", true);
+		items.add(Item.ItemStatue);
+		items.add(Item.ItemMicrowave);
+		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", false);
 		acm.putItems(items);
 		acm.setAdjacentRooms(hall);
 		

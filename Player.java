@@ -8,6 +8,9 @@ public class Player {
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
 		this.items = items;
+		this.MAX_HEALTH = 100;
+		this.health = this.MAX_HEALTH;
+
 		//this.currentRoom = currentRoom;
 		//this.currentRoom.player = this;
 		move(currentRoom);
@@ -90,10 +93,24 @@ public class Player {
 	public void look() {
 		System.out.println(this.currentRoom);
 	}
+	public void injure(int damage) {
+		this.health-=damage;
+		if(this.health <= 0) {
+			die();
+		}
+	}
+	public void heal(int health) {
+		this.health+=health;
+		if(this.health > this.MAX_HEALTH){
+			this.health = this.MAX_HEALTH;
+		}
+	}
 	public void die() {
 		System.out.println("You score 0 out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
 	protected LinkedList<Item> items;
 	protected Room currentRoom;
+	protected int health;
+	protected final int MAX_HEALTH;
 }	

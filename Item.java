@@ -8,6 +8,15 @@ public enum Item {
 	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}),
 	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}),
 	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}),
+	ItemStatue  ("statue", "wax statuette of Richard Stallman", new String[]{"statue", "statuette", "rms"}),
+	ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}),
+
+	ItemElevatorButton("elevator button", "elevator button", new String[]{"elevator"}),
+	ItemElevatorFloor1Button("Elevator Button", "Floor 1 Button", new String[]{"1"}),
+	ItemElevatorFloor2Button("Elevator Button", "Floor 2 Button", new String[]{"2"}),
+	ItemElevatorFloor3Button("Elevator Button", "Floor 3 Button", new String[]{"3"}),
+	ItemElevatorFloor4Button("Elevator Button", "Floor 4 Button", new String[]{"4"}),
+
 	ItemKey    ("key",    "silver key",    new String[]{"key"}),
 	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}),
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
@@ -49,6 +58,20 @@ public enum Item {
 			case "diamond":
 				this.defaults = genericDefaults();
 				break;
+			case "statue":
+				this.defaults = genericDefaults();
+				break;
+			case "microwave":
+				this.defaults = genericDefaults();
+				this.defaults.put("canBePickedUp", false);
+				this.defaults.put("permitsInstalledItems", true);
+				this.defaults.put("installedItemsAreVisible", true);
+				defaults.put("canBeEnabled", true);
+				break;
+			case "Elevator Button": 
+				this.defaults = genericDefaults();
+				this.defaults.put("isVisible", false);
+				break;
 			case "key":
 				this.defaults = genericDefaults();
 				break;
@@ -65,6 +88,7 @@ public enum Item {
 				this.defaults = genericDefaults();
 				this.defaults.put("permitsInstalledItems", false);
 				this.defaults.put("canBePickedUp", false);
+				defaults.put("canBeEnabled", true);
 				break;
 			case "flashlight":
 				this.defaults = genericDefaults();
@@ -79,11 +103,12 @@ public enum Item {
 	}
 	private static HashMap<String, Boolean> genericDefaults() {
 		HashMap<String, Boolean> defaults = new HashMap<String, Boolean>();
+		defaults.put("isVisible", true);
 		defaults.put("permitsInstalledItems", false);
 		defaults.put("canBePickedUp", true);
 		defaults.put("canBeDestroyed", false);
 		defaults.put("installedItemsAreVisible", false);
-		defaults.put("canBePickedUp", true);
+		defaults.put("canBeEnabled", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {
@@ -126,6 +151,24 @@ public enum Item {
 		//	System.out.println("You cannot break this item.");
 		// }
 	}
+	public void start() {
+		if(this.defaults.get("canBeEnabled")) {
+			switch(this) {
+				case ItemLightSwitch:
+					System.out.println("The room is lit");
+					break;
+				case ItemMicrowave:
+					System.out.println("Beep beep beep");
+					break;
+				default:
+					System.out.println("I don't know how to start that item");
+					break;	
+			}
+		}
+		else {
+			System.out.println("I don't understand what that means");
+		}
+	}
 	public boolean hasItemInstalled() {
 		return this.installedItem != null;
 	}
@@ -134,6 +177,15 @@ public enum Item {
 	}
 	public void setCanInstallItems(boolean permission) {
 		this.defaults.put("permitsInstalledItems", permission);
+	}
+	public void setElevator(RoomElevator elevator) {
+		this.elevator = elevator;
+	}
+	public Room getElevator() {
+		return this.elevator;
+	}
+	public boolean isVisible() {
+		return this.defaults.get("isVisible");
 	}
 	public boolean canBePickedUp() {
 		return this.defaults.get("canBePickedUp");
@@ -154,12 +206,13 @@ public enum Item {
 		if(this.installedItem != null && this.defaults.get("installedItemsAreVisible")) {
 			s = ", with a " + this.installedItem + " installed";
 		}
-		return description + s;
+		return this.detailDescription + s;
 	}
 	private String description;
 	private String detailDescription;
 	private String[] aliases;
 	private Item installedItem;
+	private Room elevator; // to be associated with a button
 
 	// item attributes
 	private String destroyMessage;
