@@ -47,7 +47,7 @@ public class Player {
 		System.out.println("Taken.");
 		return true;
 	}
-	private void pick(Item item) {
+	public void pick(Item item) {
 		this.items.add(item);
 	}
 	public boolean hasItem(Item item) {

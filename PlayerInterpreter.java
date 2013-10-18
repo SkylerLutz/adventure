@@ -65,6 +65,7 @@ public class PlayerInterpreter {
 				
 					// test if it has indirect object
 					// "put CPU IN VAX"
+					// "Take Diamond from Microwave"
 
 					if(string.length > 1) {
 
@@ -83,7 +84,7 @@ public class PlayerInterpreter {
 						
 						if(string.length > 2) {
 							String in = string[2];
-							if(in.compareTo("in") == 0) {
+							if(in.equals("in") || in.equals("from")) {
 								
 								if(string.length > 3) {
 									String io = string[3];

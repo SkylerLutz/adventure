@@ -21,7 +21,7 @@ public enum Action {
 	ActionGoUp(new String[]{"up", "u"}, Type.TYPE_DIRECTIONAL),
 
 // Diretct Object. Has one direct object e.g. Break shovel, throw lamp
-	ActionPickUp(new String[]{"pickup", "get", "take", "acquire", "grab"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionPickUp(new String[]{"pickup", "get", "take","acquire", "grab"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionBreak(new String[]{"break", "smash", "destroy", "obliterate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionInspect(new String[]{"inspect", "examine", "read", "view"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDrop(new String[]{"drop"}, Type.TYPE_HASDIRECTOBJECT),
@@ -32,6 +32,7 @@ public enum Action {
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),
+	ActionTake(new String[]{"remove"}, Type.TYPE_HASINDIRECTOBJECT),
 
 // Misc
 	ActionUnknown(new String[]{}, Type.TYPE_UNKNOWN),

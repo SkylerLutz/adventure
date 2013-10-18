@@ -8,7 +8,7 @@ public enum Item {
 	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}),
 	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}),
 	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}),
-	ItemStatue  ("statue", "wax statuette of Richard Stallman", new String[]{"statue", "statuette", "rms"}),
+	ItemStatue  ("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}),
 	ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}),
 
 	ItemElevatorButton("elevator button", "elevator button", new String[]{"elevator"}),
@@ -159,6 +159,11 @@ public enum Item {
 					break;
 				case ItemMicrowave:
 					System.out.println("Beep beep beep");
+					if(this.installedItem == Item.ItemStatue) {
+						System.out.println("You melted Richard Stallman!");
+						this.installedItem = Item.ItemDiamond;
+					}
+						
 					break;
 				default:
 					System.out.println("I don't know how to start that item");
@@ -204,7 +209,7 @@ public enum Item {
 	public String detailDescription() {
 		String s = "";
 		if(this.installedItem != null && this.defaults.get("installedItemsAreVisible")) {
-			s = ", with a " + this.installedItem + " installed";
+			s = ", with a " + this.installedItem.detailDescription() + " inside it";
 		}
 		return this.detailDescription + s;
 	}

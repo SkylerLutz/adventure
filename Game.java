@@ -165,8 +165,16 @@ public class Game {
 								System.out.println("Done");
 							}
 							break;
-							}
+						case ActionTake: 
 
+							System.out.println("Direct: " + a.directObject() + " Indirect: " + a.indirectObject());
+							Item contents = a.directObject();
+							Item container = a.indirectObject();
+							container.setInstalledItem(null);
+							this.player.pick(contents);
+							break;
+
+							}
 					break;
 				case TYPE_HASNOOBJECT:
 					switch(a) {
