@@ -160,6 +160,9 @@ public enum Item {
 		//	System.out.println("You cannot break this item.");
 		// }
 	}
+	public void eat() {
+		System.out.println("yummy");
+	}
 	public void push() {
 		if(this.defaults.get("canBePushed")) {
 			this.wasPushed = true;
