@@ -144,7 +144,7 @@ public class Map {
 		elevator.call(floor3);
 
 
-		Room bathroom = new Room(bathroomShortDescription, bathroomShortDescription);
+		Room bathroom = new Room(bathroomDescription, bathroomShortDescription);
 		hallway.setAdjacentRoom(Action.ActionGoEast, stairwell);
 		hallway.setAdjacentRoom(Action.ActionGoWest, conference);
 		hallway.setAdjacentRoom(Action.ActionGoNorth, bathroom);
