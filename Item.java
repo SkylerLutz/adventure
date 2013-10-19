@@ -117,6 +117,7 @@ public enum Item {
 		defaults.put("installedItemsAreVisible", false);
 		defaults.put("canBeEnabled", false);
 		defaults.put("canBePushed", false);
+		defaults.put("isEdible", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {

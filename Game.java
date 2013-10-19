@@ -148,6 +148,15 @@ public class Game {
 								}
 							}
 							break;
+						case ActionEat:
+							if(!a.directObject().defaults().get("isEdible") && (this.player.currentRoom().hasItem(a.directObject()) || this.player.hasItem(a.directObject()))) {
+								System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
+								this.player.die();
+							}
+							else {
+								System.out.println("I don't see that here");
+							}
+							break;
 					}
 					break;
 				case TYPE_HASINDIRECTOBJECT:
