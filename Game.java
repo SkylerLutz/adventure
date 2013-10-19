@@ -130,9 +130,14 @@ public class Game {
 								this.player.look();
 							}
 							else if(directObject == Item.ItemFridge){
-								directObject.push();
-								// set room to not obscured
-								directObject.getPassage().setObscured(false);
+								if(this.player.currentRoom().hasItem(directObject)) {
+									directObject.push();
+									// set room to not obscured
+									directObject.getPassage().setObscured(false);
+								}
+								else {
+									System.out.println("I don't see that here");
+								}
 							}
 							break;
 					}
