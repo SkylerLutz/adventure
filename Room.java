@@ -27,12 +27,14 @@ public class Room implements Comparable {
 
 		this.transitionMessages = new HashMap<Action, String>();
 	}
-	protected void setAdjacentRoom(Action a, Room r) {
-		this.adjacentRooms.put(a, r);
+	public void setAdjacentRoom(Action a, Room r) {
+		setOneWayAdjacentRoom(a, r);
+		r.setOneWayAdjacentRoom(a.getOppositeDirection(), this);
 	}
 	public void setOneWayAdjacentRoom(Action a, Room r) {
-		setAdjacentRoom(a, r);
+		this.adjacentRooms.put(a, r);
 	}
+	/*
 	public void setAdjacentRooms(HashMap<Action, Room> rooms) {
 		this.adjacentRooms.putAll(rooms);
 		
@@ -44,6 +46,7 @@ public class Room implements Comparable {
 			}
 		}
 	}
+	*/
 	public Room getRoomForDirection(Action a) {
 		if(canMoveToRoomInDirection(a)) {
 			return this.adjacentRooms.get(a);

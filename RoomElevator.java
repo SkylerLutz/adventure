@@ -13,9 +13,7 @@ public class RoomElevator extends Room {
 	}
 	public void call(int index) { // call to a specific floor. Will set adjacent room
 		Room adjacentFloor = this.floors.get(index);
-		HashMap<Action, Room> map = new HashMap<Action, Room>();
-		map.put(this.directionOfFloors, adjacentFloor);
-		setAdjacentRooms(map);
+		setAdjacentRoom(this.directionOfFloors, adjacentFloor);
 		this.description = this.descriptions.get(index);
 	}
 	public void call(Room floor) { // call to the floor the player is on

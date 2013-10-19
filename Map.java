@@ -10,26 +10,21 @@ public class Map {
 		Room mid2 = new Room("Ferocious bear", "bear");
 		Room end = new RoomLockable("You are inside of a building", "Building interior", true, Item.ItemKey);
 		
-		HashMap<Action, Room> l = new HashMap<Action,Room>();
-		l.put(Action.ActionGoNortheast, mid1); 
-		end.setAdjacentRooms(l);
+		end.setAdjacentRoom(Action.ActionGoNortheast, mid1);
 		
-		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
-		rooms.put(Action.ActionGoNorth, mid1);
-		rooms.put(Action.ActionGoEast, mid2);
-		rooms.put(Action.ActionGoWest, end);
-
 		LinkedList<Item> startItems = new LinkedList<Item>();
 		startItems.add(Item.ItemBrick);
 		startItems.add(Item.ItemKey);
 		startItems.add(Item.ItemLock);
 		
 		Room start = new Room("There is a tree, with a building to the west. There is a lock on the door.", "Tree" );
-		start.setAdjacentRooms(rooms);
+		start.setAdjacentRoom(Action.ActionGoNorth, mid1);
+		start.setAdjacentRoom(Action.ActionGoEast, mid2);
+		start.setAdjacentRoom(Action.ActionGoWest, end);
 		start.putItems(startItems);
 		return start;
 	}
-
+	/*
 	public static Room njit() {
 
 		Room hw = new Room("You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door", "Fourth floor hallway");
@@ -47,7 +42,6 @@ public class Map {
 		r.put(Action.ActionGoUp, roof);
 		stairwell.setAdjacentRooms(r);
 
-/*
 		RoomExcavatable dirt = new RoomExcavatable("There is a pile of dirt here.", "Dirt pile", "You have revealed a clay pot.");
 		LinkedList<Item> revealableItems = new LinkedList<Item>();
 		Item i = Item.ItemClayPot;
@@ -56,7 +50,6 @@ public class Map {
 		i.setDestroyMessage("You revealed a beautiful diamond!");
 		revealableItems.add(i);
 		dirt.setRevealableItems(revealableItems);
-*/
 
 
 		RoomElevator elevator = new RoomElevator("GITC Elevator", "Elevator");
@@ -65,10 +58,10 @@ public class Map {
 		elevator.putItem(Item.ItemElevatorFloor3Button);
 		elevator.putItem(Item.ItemElevatorFloor4Button);
 		
-		String floor1Description = "First floor of GITC";
-		String floor2Description = "Second floor Lobby";
-		String floor3Description = "Third floor Lobby";
-		String floor4Description = "Fourth floor Lobby of GITC";
+		String floor1Description = "First floor of GITC. There is an elevator to the west.";
+		String floor2Description = "Second floor Lobby. There is an elevator to the west";
+		String floor3Description = "Third floor Lobby. There is an elevator to the west";
+		String floor4Description = "Fourth floor Lobby of GITC. There is an elevator to the west";
 		
 		Room floor1 = new Room(floor1Description, "Lobby 1"); 
 		Item b1 = Item.ItemElevatorButton;
@@ -105,7 +98,6 @@ public class Map {
 		elevator.setFloors(descriptions, list, Action.ActionGoEast);
 		elevator.call(floor3);
 
-/*
  * RoomElevator e = new RoomElevator("GITC Elevator", "Elevator");
  * 
  * String floor1Description
@@ -125,7 +117,6 @@ public class Map {
  * e.call(2);
  *
  * 
- */
 
 		Room bathroom = new Room("You are in the 4th floor bathroom. You are overcome by the stench of a disgusting turd that was once laid. There is grafitti on the wall...", "Bathroom");
 		HashMap<Action, Room> rooms = new HashMap<Action, Room>();
@@ -138,23 +129,42 @@ public class Map {
 
 		bathroom.putItem(Item.ItemGrafitti);
 		
+		Item fridge = Item.ItemFridge;
+		RoomObscured passage = new RoomObscured("You are in a dark corridor dimly lit by torches. There are portaits of past ACM Presidents, such as Akhil and Ben Slepp. You can hear the distance sound of running water.", "Dark Corridor.", fridge);
+		fridge.setPassage(passage);
 		HashMap<Action, Room> hall = new HashMap<Action, Room>();
 		hall.put(Action.ActionGoNorth, hw);
+		hall.put(Action.ActionGoEast, passage);
+
+		// make a RoomDark here for extension of passage
+		RoomDark corridor = new RoomDark("Well lit corridor. The sound of running water is getting louder.", "Well lit corridor", "The light of the torches cannot reach here. It is completely pitch black. The sound of running water is getting louder.", "Pitch black corridor", true);
+		// TODO set corridors adjacent rooms to water slide and passage
+		
+		Room waterslide = new Room("You have found the source of the running water! It is the waterslide that Ben Slepp promised! You can go down it if you want, but its destination is unknown", "Waterslide");
+		waterslide.setAdjacentRoomTransitionMessage("Wee!!", Action.ActionGoDown);
+		HashMap<Action, Room> water = new HashMap<Action, Room>();
+		water.put(Action.ActionGoDown, floor1);
+		water.put(Action.ActionGoWest, corridor);
+		waterslide.setAdjacentRooms(water);
+		HashMap<Action, Room> c = new HashMap<Action, Room>();
+		c.put(Action.ActionGoWest, passage);
+		corridor.setAdjacentRooms(c);
 
 		LinkedList<Item> items = new LinkedList<Item>();
-		items.add(Item.ItemLightSwitch);
-		items.add(Item.ItemFlashLight);
+		//items.add(Item.ItemLightSwitch);
+		//items.add(Item.ItemFlashLight);
 		items.add(Item.ItemKey);
-		items.add(Item.ItemShovel);
+		//items.add(Item.ItemShovel);
 		items.add(Item.ItemStatue);
 		items.add(Item.ItemMicrowave);
+		items.add(Item.ItemFridge);
 		RoomDark acm = new RoomDark("You are in the ACM office. It is filled with students", "ACM Office", "It is dark. Perhaps you can find a way to see...", "Darkness", false);
 		acm.putItems(items);
 		acm.setAdjacentRooms(hall);
 		
 		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
-		//return acm;
-		return floor1;
+		return acm;
 		
 	}
+	*/
 }

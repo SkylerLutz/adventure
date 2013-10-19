@@ -11,6 +11,7 @@ public enum Item {
 	ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}),
 	ItemStatue  ("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}),
 	ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}),
+	ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}),
 
 	ItemElevatorButton("elevator button", "elevator button", new String[]{"elevator"}),
 	ItemElevatorFloor1Button("Elevator Button", "Floor 1 Button", new String[]{"1"}),
@@ -31,6 +32,7 @@ public enum Item {
 		this.aliases = aliases;
 		this.installedItem = null;
 		this.destroyMessage = null;
+		this.wasPushed = false;
 		setDefaults();
 	}
 	Item() {
@@ -68,6 +70,10 @@ public enum Item {
 				this.defaults.put("permitsInstalledItems", true);
 				this.defaults.put("installedItemsAreVisible", true);
 				defaults.put("canBeEnabled", true);
+				break;
+			case "fridge": 
+				this.defaults = genericDefaults();
+				this.defaults.put("canBePushed", true);
 				break;
 			case "Elevator Button": 
 				this.defaults = genericDefaults();
@@ -110,6 +116,7 @@ public enum Item {
 		defaults.put("canBeDestroyed", false);
 		defaults.put("installedItemsAreVisible", false);
 		defaults.put("canBeEnabled", false);
+		defaults.put("canBePushed", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {
@@ -151,6 +158,16 @@ public enum Item {
 		// else {
 		//	System.out.println("You cannot break this item.");
 		// }
+	}
+	public void push() {
+		if(this.defaults.get("canBePushed")) {
+			this.wasPushed = true;
+		}
+		switch(this) {
+			case ItemFridge: 
+				System.out.println("You revealed a secret passage to the east!");
+				break;
+		}
 	}
 	public void start() {
 		if(this.defaults.get("canBeEnabled")) {
@@ -198,6 +215,12 @@ public enum Item {
 	public Room getElevator() {
 		return this.elevator;
 	}
+	public void setPassage(RoomObscured room) {
+		this.passage = room;
+	}
+	public RoomObscured getPassage() {
+		return this.passage;
+	}
 	public boolean isVisible() {
 		return this.defaults.get("isVisible");
 	}
@@ -227,8 +250,10 @@ public enum Item {
 	private String[] aliases;
 	private Item installedItem;
 	private Room elevator; // to be associated with a button
+	private RoomObscured passage; // to be associated with a passage
 
 	// item attributes
 	private String destroyMessage;
+	private boolean wasPushed;
 	private HashMap<String, Boolean> defaults;
 }

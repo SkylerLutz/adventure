@@ -14,8 +14,8 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.njit();
-		//Room startingRoom = Map.level1();
+		//Room startingRoom = Map.njit();
+		Room startingRoom = Map.level1();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -93,8 +93,8 @@ public class Game {
 							break;
 						case ActionPush:
 							
-							Item button = a.directObject();
-							if(button == Item.ItemElevatorButton) {
+							Item directObject = a.directObject();
+							if(directObject == Item.ItemElevatorButton) {
 								for(int i=0; i < 3; i++) {
 									System.out.println("...");
 									try {
@@ -104,11 +104,11 @@ public class Game {
 									}
 								}
 								System.out.println("Ding");
-								((RoomElevator)button.getElevator()).call(this.player.currentRoom);
+								((RoomElevator)directObject.getElevator()).call(this.player.currentRoom);
 							}
-							else if(button.toString().equals("Elevator Button")){
+							else if(directObject.toString().equals("Elevator Button")){
 								RoomElevator e = (RoomElevator)this.player.currentRoom;
-								e.call(Integer.parseInt(button.getAliases()[0])-1);
+								e.call(Integer.parseInt(directObject.getAliases()[0])-1);
 								for(int i=0; i < 3; i++) {
 									System.out.println("...");
 									try {
@@ -127,6 +127,11 @@ public class Game {
 								}
 								*/
 								this.player.look();
+							}
+							else if(directObject == Item.ItemFridge){
+								directObject.push();
+								// set room to not obscured
+								directObject.getPassage().setObscured(false);
 							}
 							break;
 					}
@@ -243,6 +248,13 @@ public class Game {
 						this.player.die();
 					}
 					System.out.println("This door is locked. You must unlock it.");
+					return;
+				}
+			}
+			else if(nextRoom instanceof RoomObscured) {
+				RoomObscured obscuredRoom = (RoomObscured)nextRoom;
+				if(obscuredRoom.isObscured()) {
+					System.out.println("You can't move that way");
 					return;
 				}
 			}
