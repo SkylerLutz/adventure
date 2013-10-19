@@ -99,7 +99,7 @@ public class Room implements Comparable {
 		return this.shortDescription;
 	}
 	public int compareTo(Object other) {
-		if(toString().compareTo(other.toString()) == 0) {
+		if(shortDescription.compareTo(((Room)other).shortDescription()) == 0) {
 			return 0;
 		}
 		return -1;

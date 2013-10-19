@@ -71,12 +71,15 @@ public class Player {
 	}
 	public void move(Room room) {
 		
-
+		/*
 		room.setPlayer(this);
 		if(this.currentRoom == null) {
 			this.currentRoom = room;
 		}
+
+		
 		// show transition message from old room to new room
+		
 		Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
 		HashMap<Action, String> messages = this.currentRoom.transitionMessages();
 		String message = messages.get(directionOfTravel);
@@ -89,6 +92,21 @@ public class Player {
 		room.player = this;
 		
 		System.out.println(room.description());
+		*/
+
+		room.setPlayer(this);
+		if(this.currentRoom != null && room.compareTo(this.currentRoom) != 0) { 
+			Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
+			HashMap<Action, String> messages = this.currentRoom.transitionMessages();
+			String message = messages.get(directionOfTravel);
+			if(message != null) {
+				System.out.println(message);
+			}
+		}
+
+		this.currentRoom = room;
+		System.out.println(this.currentRoom.description());
+		
 	}	
 	public Room currentRoom() {
 		return this.currentRoom;
