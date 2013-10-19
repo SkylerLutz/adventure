@@ -167,6 +167,8 @@ public enum Item {
 			case ItemFridge: 
 				System.out.println("You revealed a secret passage to the east!");
 				break;
+			default:
+				System.out.println("You cannot push this item");
 		}
 	}
 	public void start() {

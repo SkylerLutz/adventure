@@ -139,6 +139,14 @@ public class Game {
 									System.out.println("I don't see that here");
 								}
 							}
+							else {
+								if(this.player.currentRoom().hasItem(directObject)) {
+									directObject.push();
+								}
+								else {
+									System.out.println("I don't see that here");
+								}
+							}
 							break;
 					}
 					break;

@@ -95,7 +95,7 @@ public class Room implements Comparable {
 		String s = "";
 		for(Item item : this.items) {
 			if(item.isVisible()) {
-				s += "There is a " + item.detailDescription() + " here.\n";
+				s += "\nThere is a " + item.detailDescription() + " here.";
 			}
 		}
 		return s;
