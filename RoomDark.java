@@ -24,6 +24,13 @@ public class RoomDark extends Room {
 	public String toString() {
 
 		if(this.isDark) {
+			if(this.player == null) {
+				System.out.println("player ref nll");
+			}	
+			else {
+				System.out.println("player ref not nll");
+			
+			}
 			if(this.player.hasItem(Item.ItemFlashLight)) {
 				return super.toString();
 			}

@@ -14,17 +14,6 @@ public class Room implements Comparable {
 		this.shortDescription = shortDescription;
 		this.items = new LinkedList<Item>();
 		this.adjacentRooms = new HashMap<Action, Room>();
-
-		/*
-		// set reverse relationships in adjacent rooms with opposite directions
-		for(Action a : Action.values()) {
-			if(this.adjacentRooms.containsKey(a)) {
-				Room adjacentRoom = this.adjacentRooms.get(a);
-				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
-			}
-		}
-		*/
-
 		this.transitionMessages = new HashMap<Action, String>();
 	}
 	public void setAdjacentRoom(Action a, Room r) {
@@ -34,19 +23,6 @@ public class Room implements Comparable {
 	public void setOneWayAdjacentRoom(Action a, Room r) {
 		this.adjacentRooms.put(a, r);
 	}
-	/*
-	public void setAdjacentRooms(HashMap<Action, Room> rooms) {
-		this.adjacentRooms.putAll(rooms);
-		
-		// set reverse relationships in adjacent rooms with opposite directions
-		for(Action a : Action.values()) {
-			if(this.adjacentRooms.containsKey(a)) {
-				Room adjacentRoom = this.adjacentRooms.get(a);
-				adjacentRoom.setAdjacentRoom(a.getOppositeDirection(), this);
-			}
-		}
-	}
-	*/
 	public Room getRoomForDirection(Action a) {
 		if(canMoveToRoomInDirection(a)) {
 			return this.adjacentRooms.get(a);
@@ -101,6 +77,9 @@ public class Room implements Comparable {
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);
 	}
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
 	public String toString() {
 		String s = "";
 		// take this loop out before release, just print the detaildescription instead, because this reveals any and every item in the room, including hidden ones
@@ -131,5 +110,5 @@ public class Room implements Comparable {
 	protected HashMap<Action, String> transitionMessages;
 	protected boolean roomWasVisited;
 	protected LinkedList<Item> items;
-	protected Player player;
+	public Player player;
 }

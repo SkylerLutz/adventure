@@ -163,11 +163,11 @@ public class Map {
 
 		waterslide.setAdjacentRoom(Action.ActionGoDown, floor1);
 		waterslide.setAdjacentRoom(Action.ActionGoWest, corridor);
-		corridor.setAdjacentRoom(Action.ActionGoWest, passage);
+		passage.setAdjacentRoom(Action.ActionGoEast, corridor);
 
 		LinkedList<Item> items = new LinkedList<Item>();
 		//items.add(Item.ItemLightSwitch);
-		//items.add(Item.ItemFlashLight);
+		items.add(Item.ItemFlashLight);
 		items.add(Item.ItemKey);
 		//items.add(Item.ItemShovel);
 		items.add(Item.ItemStatue);
