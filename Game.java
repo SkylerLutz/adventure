@@ -14,8 +14,8 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		//Room startingRoom = Map.njit();
-		Room startingRoom = Map.level1();
+		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.level1();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
