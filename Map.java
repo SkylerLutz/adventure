@@ -158,6 +158,7 @@ public class Map {
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
 		corridor.setSafeDirection(Action.ActionGoWest);
+		corridor.setAdjacentRoomTransitionMessage("You proceed back toward the dim light of the dim torches", Action.ActionGoWest);
 		
 		Room waterslide = new Room(waterslideDescription, waterslideShortDescription);
 		waterslide.setAdjacentRoomTransitionMessageWithDelay("Wee!!", Action.ActionGoDown, 1000);
