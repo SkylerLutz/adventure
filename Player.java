@@ -99,13 +99,28 @@ public class Player {
 			Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
 			HashMap<Action, String> messages = this.currentRoom.transitionMessages();
 			String message = messages.get(directionOfTravel);
+			int delay = this.currentRoom.transitionDelay();
 			if(message != null) {
+				if(delay != 0) {
+					for(int i=0; i < 3; i++) { 
+						System.out.println("...");
+						try{
+							Thread.sleep(delay);
+						}
+						catch(Exception e1) {
+							// pass
+						}
+					}
+				}
 				System.out.println(message);
 			}
 		}
 
 		this.currentRoom = room;
 		System.out.println(this.currentRoom.description());
+
+		// TODO not sure if I want to leave this line in for the final release
+		System.out.println(this.currentRoom.visibleItems());
 		
 	}	
 	public Room currentRoom() {

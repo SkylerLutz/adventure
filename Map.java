@@ -157,9 +157,10 @@ public class Map {
 		fridge.setPassage(passage);
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
+		corridor.setSafeDirection(Action.ActionGoWest);
 		
 		Room waterslide = new Room(waterslideDescription, waterslideShortDescription);
-		waterslide.setAdjacentRoomTransitionMessage("Wee!!", Action.ActionGoDown);
+		waterslide.setAdjacentRoomTransitionMessageWithDelay("Wee!!", Action.ActionGoDown, 1000);
 
 		waterslide.setAdjacentRoom(Action.ActionGoDown, floor1);
 		waterslide.setAdjacentRoom(Action.ActionGoWest, corridor);

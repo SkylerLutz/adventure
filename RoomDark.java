@@ -14,12 +14,19 @@ public class RoomDark extends Room {
 		this.isDark = isDark;
 		this.darkDescription = darkDescription;
 		this.darkShortDescription = darkShortDescription;
+		this.safeDirections = new LinkedList<Action>();
 	}
 	public boolean isDark() {
 		return this.isDark;
 	}
 	public void setDark(boolean isDark) {
 		this.isDark = isDark;
+	}
+	public void setSafeDirection(Action direction) {
+		this.safeDirections.add(direction);
+	}
+	public boolean willDieInDirection(Action dir) {
+		return !this.safeDirections.contains(dir);
 	}
 	public String toString() {
 
@@ -61,6 +68,7 @@ public class RoomDark extends Room {
 			return s;
 		}
 	}
+	protected LinkedList<Action> safeDirections;
 	protected String darkDescription;
 	protected String darkShortDescription;
 	protected boolean isDark;

@@ -30,8 +30,9 @@ public class Game {
 		}
 	}
 
-	public void start() {
+	public void start() throws NullPointerException {
 
+		try {
 		String input = "";
 		while(input.compareTo("quit") != 0) {
 			System.out.print(">>> ");
@@ -222,6 +223,10 @@ public class Game {
 					break; 
 			}
 		}
+		}catch(Exception n) {
+			System.out.println("I don't understand that (exception caught)");
+			start();
+		}
 
 		System.out.println("Quitting game...");
 	}
@@ -229,7 +234,7 @@ public class Game {
 	
 		// test if room is dark
 		if(this.player.currentRoom instanceof RoomDark) {
-			if(((RoomDark)this.player.currentRoom).isDark() && !this.player.hasItem(Item.ItemFlashLight)) {
+			if(((RoomDark)this.player.currentRoom).isDark() && ((RoomDark)this.player.currentRoom).willDieInDirection(a) && !this.player.hasItem(Item.ItemFlashLight)) {
 				System.out.println("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock");
 				this.player.die();
 			}

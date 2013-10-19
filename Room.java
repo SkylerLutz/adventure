@@ -15,6 +15,7 @@ public class Room implements Comparable {
 		this.items = new LinkedList<Item>();
 		this.adjacentRooms = new HashMap<Action, Room>();
 		this.transitionMessages = new HashMap<Action, String>();
+		this.transitionDelay = 0;
 	}
 	public void setAdjacentRoom(Action a, Room r) {
 		setOneWayAdjacentRoom(a, r);
@@ -43,9 +44,16 @@ public class Room implements Comparable {
 	public void setAdjacentRoomTransitionMessage(String message, Action direction) {
 		this.transitionMessages.put(direction, message);
 	}
+	public void setAdjacentRoomTransitionMessageWithDelay(String message, Action direction, int delay) {
+		this.setAdjacentRoomTransitionMessage(message, direction);
+		this.transitionDelay = delay;
+	}
 	public HashMap<Action, String> transitionMessages() {
 		return this.transitionMessages;
 	} 
+	public int transitionDelay() {
+		return this.transitionDelay;
+	}
 	public void putItem(Item item) {
 		this.items.add(item);
 	}
@@ -81,14 +89,16 @@ public class Room implements Comparable {
 		this.player = p;
 	}
 	public String toString() {
+		return this.description + visibleItems();
+	}
+	public String visibleItems() {
 		String s = "";
-		// take this loop out before release, just print the detaildescription instead, because this reveals any and every item in the room, including hidden ones
 		for(Item item : this.items) {
 			if(item.isVisible()) {
-				s += "\nThere is a " + item.detailDescription() + " here.";
+				s += "There is a " + item.detailDescription() + " here.\n";
 			}
 		}
-		return this.description + s;
+		return s;
 	}
 	public String description(){ 
 		String d = this.roomWasVisited ? this.shortDescription : this.description;
@@ -108,6 +118,7 @@ public class Room implements Comparable {
 	protected String shortDescription;
 	protected HashMap<Action, Room> adjacentRooms;
 	protected HashMap<Action, String> transitionMessages;
+	protected int transitionDelay;
 	protected boolean roomWasVisited;
 	protected LinkedList<Item> items;
 	public Player player;
