@@ -140,8 +140,11 @@ public class Map {
 		descriptions.add("Inside elevator -- floor 3");
 		descriptions.add("Inside elevator -- floor 4");
 		
-		elevator.setFloors(descriptions, list, Action.ActionGoEast);
-		elevator.call(floor3);
+		elevator.setFloors(descriptions, list, Action.ActionGoEast, 1);
+		ArrayList<Integer> restrictedFloors = new ArrayList<Integer>();
+		restrictedFloors.add(1);
+		restrictedFloors.add(2);
+		elevator.setRestrictedFloors(restrictedFloors);
 
 
 		Room bathroom = new Room(bathroomDescription, bathroomShortDescription);

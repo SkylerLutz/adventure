@@ -96,20 +96,12 @@ public class Game {
 							
 							Item directObject = a.directObject();
 							if(directObject == Item.ItemElevatorButton) {
-								for(int i=0; i < 3; i++) {
-									System.out.println("...");
-									try {
-										Thread.sleep(1000);
-									} catch(Exception e1) {
-										e1.printStackTrace();
-									}
-								}
-								System.out.println("Ding");
 								((RoomElevator)directObject.getElevator()).call(this.player.currentRoom);
 							}
 							else if(directObject.toString().equals("Elevator Button")){
 								RoomElevator e = (RoomElevator)this.player.currentRoom;
 								e.call(Integer.parseInt(directObject.getAliases()[0])-1);
+							/*
 								for(int i=0; i < 3; i++) {
 									System.out.println("...");
 									try {
@@ -119,7 +111,7 @@ public class Game {
 									}
 								}
 								System.out.println("Ding");
-								System.out.println("The doors open");
+							*/
 								// TODO : add support for restricted floors
 								/*
 								if(floor is restricted) {
