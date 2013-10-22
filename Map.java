@@ -234,9 +234,20 @@ public class Map {
 		chute.setSky(sky);
 		plane.putItem(chute);
 
-		Room field = new Room("You are in a meadow", "meadow");
+		Room field = new Room("You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see what appears to be an abandoned house to the East.", "Landing site.");
 		field.putItem(Item.ItemDiamond);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, field);
+
+		Room houseFront = new Room("You are at the base of an abandoned house. The windows are broken, and there is a rocking chair on the porch, rocking in the wind. You can return to the landing site to the West, or enter the house to the North", "Abandonded house front");
+		houseFront.setAdjacentRoom(Action.ActionGoWest, field);
+		
+		Room house = new Room("You are in the foyer of an abandoned house. There is a kitchen to the north, a sitting area to the East, and a dining area to the West.", "Abandoned house interior");
+		Item i = Item.ItemClayPot;
+		i.setInstalledItem(Item.ItemGold);
+		i.setInstalledItemVisible(false);
+		i.setDestroyMessage("You revealed a beautiful block of solid gold!");
+		house.putItem(i);
+		house.setAdjacentRoom(Action.ActionGoSouth, houseFront);
 		return plane;
 	}
 }
