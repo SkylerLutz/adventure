@@ -92,9 +92,6 @@ public class Game {
 							else if(this.player.hasItem(enabledItem)) {
 
 								enabledItem.start();
-								if(this.player.currentRoom instanceof RoomSky) {
-									((RoomSky)this.player.currentRoom).breakFall();
-								}
 							}
 							else {
 								System.out.println("I don't see that here");
@@ -235,6 +232,9 @@ public class Game {
 							break;
 						case ActionSuicide:
 							this.player.die();
+							break;
+						case ActionPass:
+							// intentionally blank
 							break;
 						case ActionHelp:
 							help();

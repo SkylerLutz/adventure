@@ -6,6 +6,7 @@ public enum Action {
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
 	ActionSuicide(new String[]{"suicide", "die"}, Type.TYPE_HASNOOBJECT),
+	ActionPass(new String[]{"pass"}, Type.TYPE_HASNOOBJECT),
 	ActionHelp(new String[]{"help", "h"}, Type.TYPE_HASNOOBJECT),
 
 // Directional

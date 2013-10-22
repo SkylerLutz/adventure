@@ -227,10 +227,16 @@ public class Map {
 	public static Room skydiving() {
 
 		Room plane = new Room("You are in an airplane", "Airplane");
-		plane.putItem(Item.ItemParachute);
 		
 		RoomSky sky = new RoomSky("The wind hits you in the face", "Sky", 5);
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
+		Item chute = Item.ItemParachute;
+		chute.setSky(sky);
+		plane.putItem(chute);
+
+		Room field = new Room("You are in a meadow", "meadow");
+		field.putItem(Item.ItemDiamond);
+		sky.setOneWayAdjacentRoom(Action.ActionGoDown, field);
 		return plane;
 	}
 }
