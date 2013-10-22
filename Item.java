@@ -180,7 +180,7 @@ public enum Item {
 					break;
 				case ItemParachute:
 
-					System.out.println("You broke your fall!");
+					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
 					this.sky.breakFall();
 					break;
 				default:

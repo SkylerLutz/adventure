@@ -35,6 +35,7 @@ public class RoomSky extends Room {
 				else {
 					// move to field
 					System.out.println("You landed safely");
+					// transition to field
 					p.move(r);
 					System.out.print(">>> ");
 				}		
@@ -43,8 +44,6 @@ public class RoomSky extends Room {
 		thread.start();
 	}
 	public void breakFall() {
-		// transition to field
-		System.out.println("Fall broken");
 		shouldDie = false;
 	}
 	public static boolean shouldDie() {
