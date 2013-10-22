@@ -24,6 +24,7 @@ public enum Item {
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
 	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
+	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases) {
