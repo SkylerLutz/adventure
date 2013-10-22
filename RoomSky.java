@@ -16,7 +16,7 @@ public class RoomSky extends Room {
 			}
 		}
 	}
-	public void breakfall() {
+	public void breakFall() {
 		// transition to field
 	}
 	protected int duration; // in seconds

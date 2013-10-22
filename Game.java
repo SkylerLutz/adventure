@@ -88,6 +88,13 @@ public class Game {
 								}
 								enabledItem.start();
 							}
+							else if(this.player.hasItem(enabledItem)) {
+
+								enabledItem.start();
+								if(this.player.currentRoom instanceof RoomSky) {
+									((RoomSky)this.player.currentRoom).breakFall();
+								}
+							}
 							else {
 								System.out.println("I don't see that here");
 							}
@@ -212,6 +219,7 @@ public class Game {
 
 							break;
 						case ActionJump:
+							move(Action.ActionGoDown);
 							break;
 						case ActionViewItems: 
 							LinkedList<Item> items = this.player.getItems();
