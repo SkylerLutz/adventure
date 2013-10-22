@@ -14,8 +14,9 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.njit();
 		//Room startingRoom = Map.level1();
+		Room startingRoom = Map.skydiving();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -286,6 +287,10 @@ public class Game {
 				}
 			}
 			this.player.move(nextRoom);
+			if(nextRoom instanceof RoomSky) {
+				RoomSky sky = (RoomSky)nextRoom;
+				sky.freefall();
+			}
 		}
 		else {
 			System.out.println("You can't move that way");

@@ -224,4 +224,13 @@ public class Map {
 		return acm;
 		
 	}
+	public static Room skydiving() {
+
+		Room plane = new Room("You are in an airplane", "Airplane");
+		plane.putItem(Item.ItemParachute);
+		
+		RoomSky sky = new RoomSky("The wind hits you in the face", "Sky", 5);
+		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
+		return plane;
+	}
 }
