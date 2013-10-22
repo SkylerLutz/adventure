@@ -14,14 +14,9 @@ public class RoomSky extends Room {
 				for(int i=0; i < dur; i++) {
 
 					try {
-						Thread.sleep(2000);
 						System.out.println("\n" + (dur-i)*1000 + " thousand feet.");
 						System.out.print(">>> ");
-
-						for(int j=0; j < 3; j++) {
-							//System.out.println("...");
-							Thread.sleep(200);
-						}
+						Thread.sleep(2500 + (RoomSky.shouldDie() ? 0 : 1000));
 					}
 					catch(Exception e1) {
 						

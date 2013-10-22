@@ -96,7 +96,7 @@ public class Game {
 								enabledItem.start();
 							}
 							else {
-								System.out.println("I don't see that here");
+								System.out.println("You don't have that item in your inventory");
 							}
 							break;
 						case ActionPush:
