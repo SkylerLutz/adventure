@@ -17,7 +17,7 @@ public class Map {
 		startItems.add(Item.ItemKey);
 		startItems.add(Item.ItemLock);
 		
-		Room start = new Room("There is a tree, with a building to the west. There is a lock on the door.", "Tree" );
+		Room start = new Room("There is a tree, with a building to the West. There is a lock on the door.", "Tree" );
 		start.setAdjacentRoom(Action.ActionGoNorth, mid1);
 		start.setAdjacentRoom(Action.ActionGoEast, mid2);
 		start.setAdjacentRoom(Action.ActionGoWest, end);
@@ -45,14 +45,18 @@ public class Map {
 		String elevatorDescription = "GITC Elevator";
 		String elevatorShortDescription = "Elevator";
 
-		String floor1Description = "First floor of GITC. There is an elevator to the west.";
-		String floor2Description = "Second floor Lobby. There is an elevator to the west";
-		String floor3Description = "Third floor Lobby. There is an elevator to the west";
-		String floor4Description = "Fourth floor Lobby of GITC. There is an elevator to the west";
+		String floor1Description = "First floor of GITC. There is an elevator to the West.";
+		String floor2Description = "Second floor Lobby. There is an elevator to the West";
+		String floor3Description = "Third floor Lobby. There is an elevator to the West";
+		String floor4Description = "Fourth floor Lobby of GITC. There is an elevator to the West";
 		String floor1ShortDescription = "First floor of GITC.";
 		String floor2ShortDescription = "Second floor Lobby.";
 		String floor3ShortDescription = "Third floor Lobby.";
 		String floor4ShortDescription = "Fourth Floor Lobby";
+
+		String gitcExteriorDescription = "You are outside the GITC building. You are blocked in because of construction purposes. The GITC is to the North";
+		String gitcExteriorShortDescription = "GITC Exterior";
+		
 
 		String bathroomDescription = "You are in the 4th floor bathroom. You are overcome by the stench of a disgusting turd that was once laid. There is grafitti on the wall...";
 		String bathroomShortDescription = "Bathroom";
@@ -145,6 +149,11 @@ public class Map {
 		restrictedFloors.add(1);
 		restrictedFloors.add(2);
 		elevator.setRestrictedFloors(restrictedFloors);
+
+
+		Room gitcExterior = new Room(gitcExteriorDescription, gitcExteriorShortDescription);
+		gitcExterior.setAdjacentRoom(Action.ActionGoNorth, floor1);
+		gitcExterior.putItem(Item.ItemGold);
 
 
 		Room bathroom = new Room(bathroomDescription, bathroomShortDescription);
