@@ -226,9 +226,9 @@ public class Map {
 	}
 	public static Room skydiving() {
 
-		Room plane = new Room("You are in an airplane", "Airplane");
+		Room plane = new Room("You are on a top secret mission. Your objective is to parachute into the complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Military Airplane");
 		
-		RoomSky sky = new RoomSky("The wind hits you in the face", "Sky", 5);
+		RoomSky sky = new RoomSky("You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.", "Skydiving", 5);
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
 		Item chute = Item.ItemParachute;
 		chute.setSky(sky);
