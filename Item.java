@@ -24,6 +24,7 @@ public enum Item {
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
 	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
+	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases) {
@@ -40,29 +41,11 @@ public enum Item {
 	}
 	private void setDefaults() {
 		switch(this.description) {
-			case "shovel":
-				this.defaults = genericDefaults();
-				break;
-			case "brick":
-				this.defaults = genericDefaults();
-				break;
-			case "food":
-				this.defaults = genericDefaults();
-				break;
-			case "ladder":
-				this.defaults = genericDefaults();
-				break;
 			case "pot":
 				this.defaults = genericDefaults();
 				this.defaults.put("permitsInstalledItems", true);
 				this.defaults.put("installedItemsAreVisible", true);
 				this.defaults.put("canBeDestroyed", true);
-				break;
-			case "diamond":
-				this.defaults = genericDefaults();
-				break;
-			case "statue":
-				this.defaults = genericDefaults();
 				break;
 			case "microwave":
 				this.defaults = genericDefaults();
@@ -79,12 +62,13 @@ public enum Item {
 				this.defaults = genericDefaults();
 				this.defaults.put("isVisible", false);
 				break;
-			case "key":
-				this.defaults = genericDefaults();
-				break;
 			case "lock":  
 				this.defaults = genericDefaults();
 				this.defaults.put("permitsInstalledItems", true);
+				break;
+			case "parachute":  
+				this.defaults = genericDefaults();
+				this.defaults.put("canBeEnabled", true);
 				break;
 			case "grafitti":
 				this.defaults = genericDefaults();
@@ -96,9 +80,6 @@ public enum Item {
 				this.defaults.put("permitsInstalledItems", false);
 				this.defaults.put("canBePickedUp", false);
 				defaults.put("canBeEnabled", true);
-				break;
-			case "flashlight":
-				this.defaults = genericDefaults();
 				break;
 			case "unknown":
 				this.defaults = genericDefaults();
@@ -197,6 +178,11 @@ public enum Item {
 					}
 						
 					break;
+				case ItemParachute:
+
+					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
+					this.sky.breakFall();
+					break;
 				default:
 					System.out.println("I don't know how to start that item");
 					break;	
@@ -223,6 +209,12 @@ public enum Item {
 	}
 	public void setPassage(RoomObscured room) {
 		this.passage = room;
+	}
+	public void setSky(RoomSky sky) {
+		this.sky = sky;
+	}
+	public RoomSky getSky() {
+		return this.sky;
 	}
 	public RoomObscured getPassage() {
 		return this.passage;
@@ -257,6 +249,7 @@ public enum Item {
 	private Item installedItem;
 	private Room elevator; // to be associated with a button
 	private RoomObscured passage; // to be associated with a passage
+	private RoomSky sky;
 
 	// item attributes
 	private String destroyMessage;

@@ -11,7 +11,7 @@ public class PlayerInterpreter {
 		if(string == null || string.length == 0) {
 			return Action.ActionUnknown;
 		}
-		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0 || string[0].compareTo("jump") == 0 || string[0].compareTo("proceed") == 0){
+		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0 || string[0].compareTo("proceed") == 0){
 			String[] command = Arrays.copyOfRange(string, 1, string.length);
 			return action(command);
 		}

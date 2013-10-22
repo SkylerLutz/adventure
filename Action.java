@@ -6,6 +6,7 @@ public enum Action {
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
 	ActionViewItems(new String[]{"inventory", "items"}, Type.TYPE_HASNOOBJECT),
 	ActionSuicide(new String[]{"suicide", "die"}, Type.TYPE_HASNOOBJECT),
+	ActionPass(new String[]{"pass"}, Type.TYPE_HASNOOBJECT),
 	ActionHelp(new String[]{"help", "h"}, Type.TYPE_HASNOOBJECT),
 
 // Directional
@@ -27,7 +28,7 @@ public enum Action {
 	ActionDrop(new String[]{"drop"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionThrow(new String[]{"throw", "chuck"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionShake(new String[]{"shake", "chickendance"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionEnable(new String[]{"enable","hit", "start"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionEnable(new String[]{"enable","hit", "start", "use", "deploy"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionPush(new String[]{"push","call"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 	ActionEat(new String[]{"eat","chew", "consume", "bite", "swallow"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 

@@ -14,8 +14,9 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.njit();
 		//Room startingRoom = Map.level1();
+		Room startingRoom = Map.skydiving();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -88,6 +89,10 @@ public class Game {
 								if(this.player.currentRoom instanceof RoomDark) {
 									((RoomDark)this.player.currentRoom).setDark(false);
 								}
+								enabledItem.start();
+							}
+							else if(this.player.hasItem(enabledItem)) {
+
 								enabledItem.start();
 							}
 							else {
@@ -214,6 +219,7 @@ public class Game {
 
 							break;
 						case ActionJump:
+							move(Action.ActionGoDown);
 							break;
 						case ActionViewItems: 
 							LinkedList<Item> items = this.player.getItems();
@@ -228,6 +234,9 @@ public class Game {
 							break;
 						case ActionSuicide:
 							this.player.die();
+							break;
+						case ActionPass:
+							// intentionally blank
 							break;
 						case ActionHelp:
 							help();
@@ -280,6 +289,10 @@ public class Game {
 				}
 			}
 			this.player.move(nextRoom);
+			if(nextRoom instanceof RoomSky) {
+				RoomSky sky = (RoomSky)nextRoom;
+				sky.freefall();
+			}
 		}
 		else {
 			System.out.println("You can't move that way");

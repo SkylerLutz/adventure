@@ -22,6 +22,10 @@ public class RoomElevator extends Room {
 			System.out.println("You push the button, but nothing happens. Perhaps this floor is off-limits to students.");
 			return;
 		}
+		else if(index == currentFloor) {
+			System.out.println("The elevator is already on this floor -- the doors are open.");
+			return;
+		}
 		for(int i=0; i < 3; i++) {
 			System.out.println("...");
 			try {
@@ -35,6 +39,7 @@ public class RoomElevator extends Room {
 		setFloor(index);
 	}
 	protected void setFloor(int index) {
+		this.currentFloor = index;
 		Room adjacentFloor = this.floors.get(index);
 		setAdjacentRoom(this.directionOfFloors, adjacentFloor);
 		this.description = this.descriptions.get(index);
