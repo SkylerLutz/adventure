@@ -29,11 +29,26 @@ public class Map {
 		String hallwayDesription = "You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door";
 		String hallwayShortDescription = "Fourth floor hallway";
 
+		String hallway2Desription = "You are in the second floor hallway. This floor of the GITC seems pointless, as it is completely desolate and have never done anything here ever. There is the stairwell to the East, and the elevator to the North.";
+		String hallway2ShortDescription = "Second floor hallway";
+
+		String hallway1Desription = "You are in the first floor lobby. There is the stairwell to the West, and the elevators to the North.";
+		String hallway1ShortDescription = "First floor lobby";
+
 		String conferenceRoomDescription = "You are in the conference room. You think back to all of the successful ACM meetings you had here.";
 		String conferenceRoomShortDescription = "Conference room";
 
-		String stairwellDescription = "You are in the stairwell. There is a couple making out, and you stand there awkwardly watching.";
-		String stairwellShortDescription = "Stairwell";
+		String stairwellDescription = "You are in the stairwell. There is a couple making out, and you stand there awkwardly watching. You can go up, down, or back to the West.";
+		String stairwellShortDescription = "Fourth floorStairwell";
+
+		String stairwell3Description = "You are in the third floor stairwell. It is very quiet. The door leading to the third floor hallway is blocked.";
+		String stairwell3ShortDescription = "Third floor Stairwell";
+
+		String stairwell2Description = "You are in the second floor stairwell. You can go up, down, or to the second floor hallway to the West";
+		String stairwell2ShortDescription = "Second floor Stairwell";
+
+		String stairwell1Description = "You are in the first floor stairwell. You can go up, down, or to the first floor lobby to the West";
+		String stairwell1ShortDescription = "First floor Stairwell";
 
 		String roofDescription = "You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.";
 		String roofShortDescription = "GITC Rooftop";
@@ -45,14 +60,14 @@ public class Map {
 		String elevatorDescription = "GITC Elevator";
 		String elevatorShortDescription = "Elevator";
 
-		String floor1Description = "First floor of GITC. There is an elevator to the West.";
-		String floor2Description = "Second floor Lobby. There is an elevator to the West";
+		String floor1Description = "First floor of GITC. There is an elevator to the West, and the first floor lobby to the South.";
+		String floor2Description = "Second floor Lobby. There is an elevator to the West, and the second floor hallway to the South.";
 		String floor3Description = "Third floor Lobby. There is an elevator to the West";
-		String floor4Description = "Fourth floor Lobby of GITC. There is an elevator to the West";
-		String floor1ShortDescription = "First floor of GITC.";
-		String floor2ShortDescription = "Second floor Lobby.";
-		String floor3ShortDescription = "Third floor Lobby.";
-		String floor4ShortDescription = "Fourth Floor Lobby";
+		String floor4Description = "Fourth floor Lobby of GITC. There is an elevator to the West, and the fourth floor hallway to the South.";
+		String floor1ShortDescription = "First floor Elevator Front.";
+		String floor2ShortDescription = "Second floor Elevator Front";
+		String floor3ShortDescription = "Third floor Elevator Front";
+		String floor4ShortDescription = "Fourth Floor Elevator Front";
 
 		String gitcExteriorDescription = "You are outside the GITC building. You are blocked in because of construction purposes. The GITC is to the North";
 		String gitcExteriorShortDescription = "GITC Exterior";
@@ -87,8 +102,20 @@ public class Map {
 		Room hallway = new Room(hallwayDesription, hallwayShortDescription);
 		hallway.putItem(Item.ItemLock);
 
+		Room hallway2 = new Room(hallway2Desription, hallway2ShortDescription);
+		Room hallway1 = new Room(hallway1Desription, hallway1ShortDescription);
+
 		Room conference = new Room(conferenceRoomDescription, conferenceRoomShortDescription);
 		RoomLockable stairwell = new RoomLockable(stairwellDescription, stairwellShortDescription, true, Item.ItemKey);
+		Room stairwell3 = new Room(stairwell3Description, stairwell3ShortDescription);
+		stairwell3.setAdjacentRoom(Action.ActionGoUp, stairwell);
+		Room stairwell2 = new Room(stairwell2Description, stairwell2ShortDescription);
+		stairwell2.setAdjacentRoom(Action.ActionGoUp, stairwell3);
+		stairwell2.setAdjacentRoom(Action.ActionGoWest, hallway2);
+		Room stairwell1 = new Room(stairwell1Description, stairwell1ShortDescription);
+		stairwell1.setAdjacentRoom(Action.ActionGoUp, stairwell2);
+		stairwell1.setAdjacentRoom(Action.ActionGoWest, hallway1);
+		
 
 		Room roof = new Room(roofDescription, roofShortDescription);
 		roof.setAdjacentRoomTransitionMessage("You miss the roof and fall through the floor. Since everyone is using their headphones, nobody seems to notice.", Action.ActionGoEast);
@@ -115,11 +142,13 @@ public class Map {
 		Item b1 = Item.ItemElevatorButton;
 		b1.setElevator(elevator);
 		floor1.putItem(b1);
+		floor1.setAdjacentRoom(Action.ActionGoSouth, hallway1);
 
 		Room floor2 = new Room(floor2Description, floor2ShortDescription); 
 		Item b2 = Item.ItemElevatorButton;
 		b2.setElevator(elevator);
 		floor2.putItem(b2);
+		floor2.setAdjacentRoom(Action.ActionGoSouth, hallway2);
 
 		Room floor3 = new Room(floor3Description, floor3ShortDescription); 
 		Item b3 = Item.ItemElevatorButton;
@@ -146,13 +175,12 @@ public class Map {
 		
 		elevator.setFloors(descriptions, list, Action.ActionGoEast, 1);
 		ArrayList<Integer> restrictedFloors = new ArrayList<Integer>();
-		restrictedFloors.add(1);
 		restrictedFloors.add(2);
 		elevator.setRestrictedFloors(restrictedFloors);
 
 
 		Room gitcExterior = new Room(gitcExteriorDescription, gitcExteriorShortDescription);
-		gitcExterior.setAdjacentRoom(Action.ActionGoNorth, floor1);
+		gitcExterior.setAdjacentRoom(Action.ActionGoNorth, hallway1);
 		gitcExterior.putItem(Item.ItemGold);
 
 
