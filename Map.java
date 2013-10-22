@@ -211,7 +211,7 @@ public class Map {
 		//items.add(Item.ItemLightSwitch);
 		items.add(Item.ItemFlashLight);
 		items.add(Item.ItemKey);
-		//items.add(Item.ItemShovel);
+		items.add(Item.ItemShovel);
 		items.add(Item.ItemStatue);
 		items.add(Item.ItemMicrowave);
 		items.add(Item.ItemFridge);

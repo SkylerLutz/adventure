@@ -50,7 +50,9 @@ public class Game {
 							break;
 						case ActionBreak:
 							Item item = a.directObject();
-							this.player.drop(item);
+							if(this.player.drop(item) == null) {
+								this.player.currentRoom.takeItem(item);
+							}
 							Item destroyed = item.destroy();
 							this.player.currentRoom.putItem(destroyed);
 							break;
