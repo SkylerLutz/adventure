@@ -34,10 +34,15 @@ public class RoomSky extends Room {
 				}
 				else {
 					// move to field
-					System.out.println("You landed safely");
+					System.out.println("You land softly in the grass");
 					// transition to field
 					p.move(r);
+					Item i = Item.ItemParachute;
+					p.dropItem(i);
+					i.setDetailDescription("used parachute");
+					i.setCanBePickedUp(false);
 					System.out.print(">>> ");
+					
 				}		
 			}
 		});

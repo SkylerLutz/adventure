@@ -201,6 +201,9 @@ public enum Item {
 	public void setCanInstallItems(boolean permission) {
 		this.defaults.put("permitsInstalledItems", permission);
 	}
+	public void setCanBePickedUp(boolean permission) {
+		this.defaults.put("canBePickedUp", permission);
+	}
 	public void setElevator(RoomElevator elevator) {
 		this.elevator = elevator;
 	}
@@ -235,6 +238,12 @@ public enum Item {
 	}
 	public String[] getAliases() {
 		return this.aliases;
+	}
+	public void setDescription(String d) {
+		this.description = d;
+	}
+	public void setDetailDescription(String dd) {
+		this.detailDescription = dd;
 	}
 	public String detailDescription() {
 		String s = "";
