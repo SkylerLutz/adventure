@@ -224,9 +224,9 @@ public class Map {
 		return acm;
 		
 	}
-	public static Room skydiving() {
+	public static Room mission() {
 
-		Room plane = new Room("You are on a top secret mission. Your objective is to parachute into the complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Military Airplane");
+		Room plane = new Room("You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Mercenary Airplane");
 		
 		RoomSky sky = new RoomSky("You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.", "Skydiving", 5);
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
@@ -234,20 +234,13 @@ public class Map {
 		chute.setSky(sky);
 		plane.putItem(chute);
 
-		Room field = new Room("You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see what appears to be an abandoned house to the East.", "Landing site.");
-		field.putItem(Item.ItemDiamond);
+		Room field = new Room("You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see the top secret complex to the East.", "Landing site.");
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, field);
 
-		Room houseFront = new Room("You are at the base of an abandoned house. The windows are broken, and there is a rocking chair on the porch, rocking in the wind. You can return to the landing site to the West, or enter the house to the North", "Abandonded house front");
-		houseFront.setAdjacentRoom(Action.ActionGoWest, field);
+		Room field2 = new Room("You are nearing the complex, but as you move closer you realize that there are trained snipers watching the field. You will need a way to proceed without being spotted.", "Sniper-watched field");
+
 		
-		Room house = new Room("You are in the foyer of an abandoned house. There is a kitchen to the north, a sitting area to the East, and a dining area to the West.", "Abandoned house interior");
-		Item i = Item.ItemClayPot;
-		i.setInstalledItem(Item.ItemGold);
-		i.setInstalledItemVisible(false);
-		i.setDestroyMessage("You revealed a beautiful block of solid gold!");
-		house.putItem(i);
-		house.setAdjacentRoom(Action.ActionGoSouth, houseFront);
+
 		return plane;
 	}
 }
