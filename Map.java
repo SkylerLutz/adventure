@@ -227,6 +227,7 @@ public class Map {
 	public static Room mission() {
 
 		Room plane = new Room("You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Mercenary Airplane");
+		plane.putItem(Item.ItemGhillieSuit);
 		
 		RoomSky sky = new RoomSky("You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.", "Skydiving", 5);
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);

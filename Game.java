@@ -16,7 +16,7 @@ public class Game {
 		// Parse room from file
 		//Room startingRoom = Map.njit();
 		//Room startingRoom = Map.level1();
-		Room startingRoom = Map.skydiving();
+		Room startingRoom = Map.mission();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -154,6 +154,15 @@ public class Game {
 							}
 							else {
 								System.out.println("I don't see that here");
+							}
+							break;
+						case ActionWear: 
+
+							if(a.directObject().defaults().get("isDisguise")) {
+								this.player.wearDisguise(a.directObject());
+							}
+							else {
+									System.out.println("You can not use this item as a disguise.");
 							}
 							break;
 					}

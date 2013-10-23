@@ -25,6 +25,7 @@ public enum Item {
 	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
 	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
+	ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases) {
@@ -81,6 +82,10 @@ public enum Item {
 				this.defaults.put("canBePickedUp", false);
 				defaults.put("canBeEnabled", true);
 				break;
+			case "camouflage":
+				this.defaults = genericDefaults();
+				defaults.put("isDisguise", true);
+				break;
 			case "unknown":
 				this.defaults = genericDefaults();
 				break;
@@ -99,6 +104,7 @@ public enum Item {
 		defaults.put("canBeEnabled", false);
 		defaults.put("canBePushed", false);
 		defaults.put("isEdible", false);
+		defaults.put("isDisguise", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {

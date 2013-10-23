@@ -10,6 +10,7 @@ public class Player {
 		this.items = items;
 		this.MAX_HEALTH = 100;
 		this.health = this.MAX_HEALTH;
+		this.disguise = null;
 
 		//this.currentRoom = currentRoom;
 		//this.currentRoom.player = this;
@@ -68,6 +69,9 @@ public class Player {
 		else {
 			return false;
 		}
+	}
+	public void wearDisguise(Item disguise) {
+		this.disguise = disguise;
 	}
 	public void move(Room room) {
 		
@@ -145,6 +149,7 @@ public class Player {
 		System.out.println("You score 0 out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
+	protected Item disguise;
 	protected LinkedList<Item> items;
 	protected Room currentRoom;
 	protected int health;
