@@ -32,11 +32,6 @@ public class RoomDark extends Room {
 
 		if(this.isDark) {
 			
-			/*if(this.player == null) {
-			}	
-			else {
-			}
-			*/
 			if(this.player.hasItem(Item.ItemFlashLight)) {
 				return super.toString();
 			}

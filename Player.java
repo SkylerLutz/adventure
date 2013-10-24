@@ -74,30 +74,14 @@ public class Player {
 		this.disguise = disguise;
 	}
 	public void move(Room room) {
-		
-		/*
-		room.setPlayer(this);
-		if(this.currentRoom == null) {
-			this.currentRoom = room;
+
+		if(room instanceof RoomRequiredItem) {
+			if(!this.hasItem(((RoomRequiredItem)room).requiredItem())) {
+				System.out.println(((RoomRequiredItem)room).deathMessage());
+				die();
+			}
 		}
-
 		
-		// show transition message from old room to new room
-		
-		Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
-		HashMap<Action, String> messages = this.currentRoom.transitionMessages();
-		String message = messages.get(directionOfTravel);
-		if(message != null) {
-			System.out.println(message);
-		}
-
-		room.setPlayer(this);
-		this.currentRoom = room;
-		room.player = this;
-		
-		System.out.println(room.description());
-		*/
-
 		room.setPlayer(this);
 		if(this.currentRoom != null && room.compareTo(this.currentRoom) != 0) { 
 			Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
