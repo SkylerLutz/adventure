@@ -75,13 +75,6 @@ public class Player {
 	}
 	public void move(Room room) {
 
-		if(room instanceof RoomRequiredItem) {
-			if(!this.hasItem(((RoomRequiredItem)room).requiredItem())) {
-				System.out.println(((RoomRequiredItem)room).deathMessage());
-				die();
-			}
-		}
-		
 		room.setPlayer(this);
 		if(this.currentRoom != null && room.compareTo(this.currentRoom) != 0) { 
 			Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
@@ -101,6 +94,13 @@ public class Player {
 					}
 				}
 				System.out.println(message);
+			}
+		}
+		if(room instanceof RoomRequiredItem) {
+			RoomRequiredItem r = (RoomRequiredItem)room;
+			if(r.diesOnEntry()) {
+				System.out.println(r.deathMessage());
+				this.die();
 			}
 		}
 

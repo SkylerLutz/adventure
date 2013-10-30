@@ -140,24 +140,24 @@ public class Map {
 		
 		Room floor1 = new Room(floor1Description, floor1ShortDescription ); 
 		Item b1 = Item.ItemElevatorButton;
-		b1.setElevator(elevator);
+		b1.setRelatedRoom(elevator);
 		floor1.putItem(b1);
 		floor1.setAdjacentRoom(Action.ActionGoSouth, hallway1);
 
 		Room floor2 = new Room(floor2Description, floor2ShortDescription); 
 		Item b2 = Item.ItemElevatorButton;
-		b2.setElevator(elevator);
+		b2.setRelatedRoom(elevator);
 		floor2.putItem(b2);
 		floor2.setAdjacentRoom(Action.ActionGoSouth, hallway2);
 
 		Room floor3 = new Room(floor3Description, floor3ShortDescription); 
 		Item b3 = Item.ItemElevatorButton;
-		b3.setElevator(elevator);
+		b3.setRelatedRoom(elevator);
 		floor3.putItem(b3);
 
 		Room floor4 = new Room(floor4Description, floor4ShortDescription); 
 		Item b4 = Item.ItemElevatorButton;
-		b4.setElevator(elevator);
+		b4.setRelatedRoom(elevator);
 		floor4.putItem(b4);
 		floor4.setAdjacentRoom(Action.ActionGoSouth, dirt);
 
@@ -194,7 +194,7 @@ public class Map {
 		
 		Item fridge = Item.ItemFridge;
 		RoomObscured passage = new RoomObscured(passageDescription ,passageShortDescription, fridge);
-		fridge.setPassage(passage);
+		fridge.setRelatedRoom(passage);
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
 		corridor.setSafeDirection(Action.ActionGoWest);
@@ -226,22 +226,129 @@ public class Map {
 	}
 	public static Room mission() {
 
-		Room plane = new Room("You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Mercenary Airplane");
+		String planeDescription = "You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.";
+		String planeShortDescription = "Mercenary Airplane";
+
+		String skyDescription = "You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.";
+		String skyShortDescription = "Skydiving";
+
+		String landingDescription = "You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see the top secret complex to the North.";
+		String landingShortDescription = "Landing site.";
+
+		String warning = "You are likely to be seen by a sniper";
+		String shortWarning = "Danger";
+		String deathMessage = "You were spotted, and killed instantly by a trained sniper.";
+
+		String mine = "Landmine -- boom.";
+		String shortMine = "Landmine";
+		String mineDeath = "As you make your approach, you notice something shiny. Upon closer inspection, you realize it is a landmine. It explodes.";
+
+		String approachDescription = "You are nearing the complex, but as you move closer you realize that there are trained snipers watching the field. On your approach, you also dodge a landmine by mere inches. You suspect there are more in the field. You will need a way to proceed without being spotted.";
+		String approachShort = "You can see the CIA complex in the distance";
+			
+		String f1d= "You are prone in a grass field. It is difficult to see over the brush, so you are crawling blindly.";
+		String fShort = "Sniper-watched field";
+
+		String f2d = "You are prone in a grass field. You can feel the sweat dripping down your forehead.";
 		
-		RoomSky sky = new RoomSky("You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.", "Skydiving", 5);
+		String f3d = "You are prone in a grass field. The annoying flies are buzzing around your head.";
+		String f11d = "You are prone in a grass field. You nearly have a heart attack because you thought you were prone on a landmine, but it was just igneous rock.";
+
+		String f32d = "You are prone in a grass field. You are very close to the complex.";
+	
+		String compWD = "You are at the base of a fence on West end of the complex. You will be spotted if you attempt to climb the fence. You will need to find another way.";
+		String compWSD = "West";
+		String compD = "You are at the base of a fence in the center of the complex. You will be spotted if you attempt to climb the fence. You will need to find another way.";
+		String compSD = "Center";
+		String compED = "You are at the base of a fence on East end of the complex. You will be spotted if you attempt to climb the fence. There appears to be an entrance to the complex to the East."; 
+		String compESD = "East";
+
+		String compEntranceD = "The complex entrance is now in sight. There is a sleeping guard in the entrance booth. He may need to be taken care of...";
+		String compEntranceSD = "Complex Entrance Exterior.";
+
+		String boothD = "You are inside the operator's booth.";
+		String boothSD = "Operator Booth";
+
+
+
+		Room plane = new Room(planeDescription, planeShortDescription);
+		
+		RoomSky sky = new RoomSky(skyDescription, skyShortDescription, 5);
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
 		Item chute = Item.ItemParachute;
-		chute.setSky(sky);
+		chute.setRelatedRoom(sky);
 		plane.putItem(chute);
 
-		Room field = new Room("You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see the top secret complex to the East.", "Landing site.");
-		sky.setOneWayAdjacentRoom(Action.ActionGoDown, field);
-		field.putItem(Item.ItemGhillieSuit);
+		Room landing = new Room(landingDescription, landingShortDescription);
+		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
+		landing.putItem(Item.ItemGhillieSuit);
 
-		RoomRequiredItem field2 = new RoomRequiredItem("You are nearing the complex, but as you move closer you realize that there are trained snipers watching the field. You will need a way to proceed without being spotted.", "Sniper-watched field", "The snipers are on high alert", "High alert", Item.ItemGhillieSuit);
-		field2.setAdjacentRoom(Action.ActionGoWest, field);
-		field2.setDeathMessage("The snipers spot you, and shoot you on sight");
+		RoomRequiredItem approach= new RoomRequiredItem(approachDescription, approachShort, warning, shortWarning, Item.ItemGhillieSuit);
+		approach.setAdjacentRoom(Action.ActionGoSouth, landing);
+		approach.setSafeDirection(Action.ActionGoSouth);
+		approach.setDeathMessage(deathMessage);
 
-		return field;
+		RoomRequiredItem f1dr = new RoomRequiredItem(f1d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
+		f1dr.setAdjacentRoom(Action.ActionGoSoutheast, approach);
+
+		RoomRequiredItem f2dr = new RoomRequiredItem(f2d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
+		f2dr.setAdjacentRoom(Action.ActionGoSouth, approach);
+
+		RoomRequiredItem f3dr = new RoomRequiredItem(f3d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
+		f3dr.setAdjacentRoom(Action.ActionGoSouthwest, approach);
+		f2dr.setAdjacentRoom(Action.ActionGoWest, f1dr);
+		f2dr.setAdjacentRoom(Action.ActionGoEast, f3dr);
+
+		RoomRequiredItem mineRoom1 = new RoomRequiredItem(mine, shortMine, Item.ItemArmor);
+		mineRoom1.setAdjacentRoom(Action.ActionGoSoutheast, f2dr);
+		mineRoom1.setAdjacentRoom(Action.ActionGoSouth, f1dr);
+		mineRoom1.setDeathMessage(mineDeath);
+		mineRoom1.setPlayerDiesOnEntry(true);
+
+		RoomRequiredItem mineRoom2 = new RoomRequiredItem(mine, shortMine, Item.ItemArmor);
+		mineRoom2.setAdjacentRoom(Action.ActionGoSouthwest, f1dr);
+		mineRoom2.setAdjacentRoom(Action.ActionGoSouth, f2dr);
+		mineRoom2.setAdjacentRoom(Action.ActionGoSoutheast, f3dr);
+		mineRoom2.setDeathMessage(mineDeath);
+		mineRoom2.setPlayerDiesOnEntry(true);
+
+		RoomRequiredItem mineRoom3 = new RoomRequiredItem(mine, shortMine, Item.ItemArmor);
+		mineRoom3.setAdjacentRoom(Action.ActionGoSouth, f3dr);
+		mineRoom3.setAdjacentRoom(Action.ActionGoSouthwest, f2dr);
+		mineRoom3.setDeathMessage(mineDeath);
+		mineRoom3.setPlayerDiesOnEntry(true);
+
+		mineRoom2.setAdjacentRoom(Action.ActionGoWest, mineRoom1);
+		mineRoom2.setAdjacentRoom(Action.ActionGoEast, mineRoom3);
+
+		RoomRequiredItem f11dr = new RoomRequiredItem(f11d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
+		f11dr.setAdjacentRoom(Action.ActionGoSoutheast, f1dr);
+		f11dr.setAdjacentRoom(Action.ActionGoEast, mineRoom1);
+		
+		RoomRequiredItem f32dr = new RoomRequiredItem(f32d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
+		f32dr.setAdjacentRoom(Action.ActionGoSouthwest, f3dr);
+		f32dr.setAdjacentRoom(Action.ActionGoWest, mineRoom3);
+		
+		Room complexW = new Room(compWD, compWSD);
+		Room complex = new Room(compD, compSD);
+		Room complexE = new Room(compED, compESD);
+		complex.setAdjacentRoom(Action.ActionGoWest, complexW);
+		complex.setAdjacentRoom(Action.ActionGoEast, complexE);
+		complexW.setAdjacentRoom(Action.ActionGoSouth, f11dr);
+		complexW.setAdjacentRoom(Action.ActionGoSoutheast, mineRoom2);
+		complex.setAdjacentRoom(Action.ActionGoSouth, mineRoom2);
+		complexE.setAdjacentRoom(Action.ActionGoSouth, f32dr);
+		complexE.setAdjacentRoom(Action.ActionGoSouthwest, mineRoom2);
+
+		Room compEntrance = new Room(compEntranceD, compEntranceSD);
+		compEntrance.setAdjacentRoom(Action.ActionGoWest, complexE);
+
+		Room booth = new Room(boothD, boothSD);
+		booth.setAdjacentRoom(Action.ActionGoSouth, compEntrance);
+		Item guard = Item.ItemGuard1;
+		guard.setInstalledItem(Item.ItemKey);
+		guard.setRelatedRoom(booth);
+		booth.putItem(guard);
+		return complexE;
 	}
 }

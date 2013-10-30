@@ -73,6 +73,10 @@ public class Game {
 							if(this.player.dropItem(a.directObject())){
 								System.out.println("Dropped");
 							}
+							if(this.player.currentRoom instanceof RoomRequiredItem) {
+								RoomRequiredItem r = (RoomRequiredItem)this.player.currentRoom;
+								r.playerDidDropRequiredItem();
+							}
 							break;
 						case ActionThrow:
 							if(this.player.dropItem(a.directObject())) {
@@ -103,7 +107,7 @@ public class Game {
 							
 							Item directObject = a.directObject();
 							if(directObject == Item.ItemElevatorButton) {
-								((RoomElevator)directObject.getElevator()).call(this.player.currentRoom);
+								((RoomElevator)directObject.getRelatedRoom()).call(this.player.currentRoom);
 							}
 							else if(directObject.toString().equals("Elevator Button")){
 								RoomElevator e = (RoomElevator)this.player.currentRoom;
@@ -132,7 +136,7 @@ public class Game {
 								if(this.player.currentRoom().hasItem(directObject)) {
 									directObject.push();
 									// set room to not obscured
-									directObject.getPassage().setObscured(false);
+									((RoomObscured)directObject.getRelatedRoom()).setObscured(false);
 								}
 								else {
 									System.out.println("I don't see that here");
@@ -148,9 +152,15 @@ public class Game {
 							}
 							break;
 						case ActionEat:
-							if(!a.directObject().defaults().get("isEdible") && (this.player.currentRoom().hasItem(a.directObject()) || this.player.hasItem(a.directObject()))) {
-								System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
-								this.player.die();
+							if(this.player.currentRoom().hasItem(a.directObject()) || this.player.hasItem(a.directObject())) {
+
+								if(a.directObject().defaults().get("isEdible")) {
+									a.directObject().eat();
+								}
+								else {
+									System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
+									this.player.die();
+								}
 							}
 							else {
 								System.out.println("I don't see that here");
@@ -164,6 +174,12 @@ public class Game {
 							else {
 									System.out.println("You can not use this item as a disguise.");
 							}
+							break;
+						case ActionKill:
+							if(a.directObject().defaults().get("isKillable")) {
+								a.directObject().kill();
+							}
+							
 							break;
 					}
 					break;
@@ -266,6 +282,22 @@ public class Game {
 	}
 	private void move(Action a) {
 	
+		if(this.player.currentRoom instanceof RoomRequiredItem) {
+			RoomRequiredItem room = (RoomRequiredItem)this.player.currentRoom;
+			
+			if(room.shouldDieForAction(a)) {
+				System.out.println(room.deathMessage());
+				this.player.die();
+			}
+		}
+
+
+
+
+
+
+
+
 		// test if room is dark
 		if(this.player.currentRoom instanceof RoomDark) {
 			if(((RoomDark)this.player.currentRoom).isDark() && ((RoomDark)this.player.currentRoom).willDieInDirection(a) && !this.player.hasItem(Item.ItemFlashLight)) {

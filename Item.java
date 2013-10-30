@@ -26,6 +26,8 @@ public enum Item {
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
 	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
 	ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}),
+	ItemArmor("armor", "body armor", new String[]{"armor"}),
+	ItemGuard1("guard", "sleeping guard", new String[]{"guard", "henchman"}),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases) {
@@ -86,6 +88,12 @@ public enum Item {
 				this.defaults = genericDefaults();
 				defaults.put("isDisguise", true);
 				break;
+			case "guard":
+				this.defaults = genericDefaults();
+				defaults.put("isKillable", true);
+				defaults.put("canBePickedUp", false);
+				defaults.put("permitsInstalledItems", true);
+				break;
 			case "unknown":
 				this.defaults = genericDefaults();
 				break;
@@ -105,6 +113,7 @@ public enum Item {
 		defaults.put("canBePushed", false);
 		defaults.put("isEdible", false);
 		defaults.put("isDisguise", false);
+		defaults.put("isKillable", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {
@@ -148,7 +157,14 @@ public enum Item {
 		// }
 	}
 	public void eat() {
-		System.out.println("yummy");
+		switch(this) {
+			case ItemGuard1:
+				System.out.println("You kneel down on the ground, and move your open mouth toward the guard's dead body, but then remember you are not a cannibal.");
+				break;
+			default:
+				System.out.println("yummy");
+				break;
+		}
 	}
 	public void push() {
 		if(this.defaults.get("canBePushed")) {
@@ -187,7 +203,7 @@ public enum Item {
 				case ItemParachute:
 
 					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
-					this.sky.breakFall();
+					((RoomSky)this.relatedRoom).breakFall();
 					break;
 				default:
 					System.out.println("I don't know how to start that item");
@@ -196,6 +212,22 @@ public enum Item {
 		}
 		else {
 			System.out.println("I don't understand what that means");
+		}
+	}
+	public void kill() {
+		switch(this) {
+			case ItemGuard1:
+				System.out.println("The guard is now dead.");
+				this.detailDescription = "dead guard";
+				this.defaults.put("isEdible", true);
+				if(this.installedItem != null) {
+					this.relatedRoom.putItem(this.installedItem);
+					System.out.println("It looks like the guard dropped something");
+				}
+				break;
+			default:
+				System.out.println("This item cannot be killed");
+				break;
 		}
 	}
 	public boolean hasItemInstalled() {
@@ -210,6 +242,7 @@ public enum Item {
 	public void setCanBePickedUp(boolean permission) {
 		this.defaults.put("canBePickedUp", permission);
 	}
+/*
 	public void setElevator(RoomElevator elevator) {
 		this.elevator = elevator;
 	}
@@ -227,6 +260,13 @@ public enum Item {
 	}
 	public RoomObscured getPassage() {
 		return this.passage;
+	}
+*/
+	public void setRelatedRoom(Room room) {
+		this.relatedRoom = room;
+	}
+	public Room getRelatedRoom() {
+		return this.relatedRoom;
 	}
 	public boolean isVisible() {
 		return this.defaults.get("isVisible");
@@ -262,9 +302,12 @@ public enum Item {
 	private String detailDescription;
 	private String[] aliases;
 	private Item installedItem;
+/*
 	private Room elevator; // to be associated with a button
 	private RoomObscured passage; // to be associated with a passage
 	private RoomSky sky;
+*/
+	private Room relatedRoom;
 
 	// item attributes
 	private String destroyMessage;

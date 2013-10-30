@@ -2,16 +2,39 @@ import java.util.LinkedList;
 
 public class RoomRequiredItem extends Room {
 
+	public RoomRequiredItem(String d, String dd, Item requiredItem) {
+		this(d, dd, null, null, requiredItem);
+	}
 	public RoomRequiredItem(String d, String dd, String w, String ws, Item requiredItem) {
-
 		super(d, dd);
 		this.warningDescription = w;
 		this.warningShortDescription = ws;
 		this.requiredItem = requiredItem;
-		this.diesOnExit = true;
+		this.safeDirections = new LinkedList<Action>();
+		this.roomWasVisitedInDanger = false;
+		this.diesOnItemDiscard = false;
+		this.diesOnEntry = false;
 	}
-	public void setDiesOnExit(boolean b) {
-		this.diesOnExit = b;
+	public void playerDidDropRequiredItem() {
+		if(this.diesOnItemDiscard) {
+			System.out.println(this.deathMessage);
+			this.player.die();
+		}
+		else {
+			this.player.look();
+		}
+	}
+	public void setPlayerDiesOnItemDiscard(boolean b) {
+		this.diesOnItemDiscard = b;
+	}
+	public void setPlayerDiesOnEntry(boolean b) {
+		this.diesOnEntry = b;
+	}
+	public boolean diesOnEntry() {
+		return this.diesOnEntry;
+	}
+	public boolean shouldDieForAction(Action a) {
+		return !this.safeDirections.contains(a) && !this.player.hasItem(this.requiredItem);
 	}
 	public void setDeathMessage(String s) {
 		this.deathMessage = s;
@@ -21,9 +44,6 @@ public class RoomRequiredItem extends Room {
 	}
 	public Item requiredItem() {
 		return this.requiredItem;
-	}
-	public boolean willDieInDirection(Action dir) {
-		return !this.safeDirections.contains(dir) && this.diesOnExit;
 	}
 	public void setSafeDirection(Action direction) {
 		this.safeDirections.add(direction);
@@ -44,17 +64,19 @@ public class RoomRequiredItem extends Room {
 			return s;
 		}
 		else {
-			String s = this.roomWasVisited ? this.warningShortDescription : this.warningDescription;
-			this.roomWasVisited = true;
+			String s = this.roomWasVisitedInDanger ? this.warningShortDescription : this.warningDescription;
+			this.roomWasVisitedInDanger = true;
 			return s;
 		}
 	}
 	protected Item requiredItem;
-	protected boolean diesOnExit;
+	protected boolean diesOnItemDiscard;
+	protected boolean diesOnEntry;
 	protected String deathMessage;
 	protected LinkedList<Action> safeDirections;
 	String warningDescription;
 	String warningShortDescription;
+	protected boolean roomWasVisitedInDanger;
 /*
 	protected String[] warnings;
 	protected int warning;

@@ -22,9 +22,8 @@ public class RoomSky extends Room {
 						
 					}
 				}
-				System.out.println("You hit the ground");
 				if(RoomSky.shouldDie()) {
-
+					System.out.println("Splat.");
 					p.die();
 				}
 				else {
