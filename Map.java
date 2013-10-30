@@ -232,7 +232,7 @@ public class Map {
 		String skyDescription = "You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.";
 		String skyShortDescription = "Skydiving";
 
-		String landingDescription = "You are in a meadow, surrounded by waist high brush on all sides. In the distance, you can see the top secret complex to the North.";
+		String landingDescription = "You are in a meadow, surrounded by shoulder high brush on all sides. In the distance, you can see the top secret complex to the North.";
 		String landingShortDescription = "Landing site.";
 
 		String warning = "You are likely to be seen by a sniper";
@@ -266,6 +266,12 @@ public class Map {
 		String compEntranceD = "The complex entrance is now in sight. There is a sleeping guard in the entrance booth. He may need to be taken care of...";
 		String compEntranceSD = "Complex Entrance Exterior.";
 
+		String compFrontD= "You are almost at the entrance booth. There is an electrical junction box and power meter to the west.";
+		String compFrontSD= "Complex Entrance front.";
+
+		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it. There is a keycard reader attached.";
+		String compElectricSD= "Junction Box";
+
 		String boothD = "You are inside the operator's booth.";
 		String boothSD = "Operator Booth";
 
@@ -290,12 +296,15 @@ public class Map {
 
 		RoomRequiredItem f1dr = new RoomRequiredItem(f1d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
 		f1dr.setAdjacentRoom(Action.ActionGoSoutheast, approach);
+		f1dr.setDeathMessage(deathMessage);
 
 		RoomRequiredItem f2dr = new RoomRequiredItem(f2d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
 		f2dr.setAdjacentRoom(Action.ActionGoSouth, approach);
+		f2dr.setDeathMessage(deathMessage);
 
 		RoomRequiredItem f3dr = new RoomRequiredItem(f3d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
 		f3dr.setAdjacentRoom(Action.ActionGoSouthwest, approach);
+		f3dr.setDeathMessage(deathMessage);
 		f2dr.setAdjacentRoom(Action.ActionGoWest, f1dr);
 		f2dr.setAdjacentRoom(Action.ActionGoEast, f3dr);
 
@@ -324,14 +333,16 @@ public class Map {
 		RoomRequiredItem f11dr = new RoomRequiredItem(f11d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
 		f11dr.setAdjacentRoom(Action.ActionGoSoutheast, f1dr);
 		f11dr.setAdjacentRoom(Action.ActionGoEast, mineRoom1);
+		f11dr.setDeathMessage(deathMessage);
 		
 		RoomRequiredItem f32dr = new RoomRequiredItem(f32d, fShort, warning, shortWarning, Item.ItemGhillieSuit);
 		f32dr.setAdjacentRoom(Action.ActionGoSouthwest, f3dr);
 		f32dr.setAdjacentRoom(Action.ActionGoWest, mineRoom3);
+		f32dr.setDeathMessage(deathMessage);
 		
-		Room complexW = new Room(compWD, compWSD);
-		Room complex = new Room(compD, compSD);
-		Room complexE = new Room(compED, compESD);
+		RoomRequiredItem complexW = new RoomRequiredItem(compWD, compWSD, warning, shortWarning, Item.ItemGhillieSuit);
+		RoomRequiredItem complex = new RoomRequiredItem(compD, compSD, warning, shortWarning, Item.ItemGhillieSuit);
+		RoomRequiredItem complexE = new RoomRequiredItem(compED, compESD, warning, shortWarning, Item.ItemGhillieSuit);
 		complex.setAdjacentRoom(Action.ActionGoWest, complexW);
 		complex.setAdjacentRoom(Action.ActionGoEast, complexE);
 		complexW.setAdjacentRoom(Action.ActionGoSouth, f11dr);
@@ -339,14 +350,29 @@ public class Map {
 		complex.setAdjacentRoom(Action.ActionGoSouth, mineRoom2);
 		complexE.setAdjacentRoom(Action.ActionGoSouth, f32dr);
 		complexE.setAdjacentRoom(Action.ActionGoSouthwest, mineRoom2);
+		complex.setDeathMessage(deathMessage);
+		complexE.setDeathMessage(deathMessage);
+		complexW.setDeathMessage(deathMessage);
+		complexE.putItem(Item.ItemGhillieSuit);
 
-		Room compEntrance = new Room(compEntranceD, compEntranceSD);
+		RoomRequiredItem compEntrance = new RoomRequiredItem(compEntranceD, compEntranceSD, warning, shortWarning, Item.ItemGhillieSuit);
 		compEntrance.setAdjacentRoom(Action.ActionGoWest, complexE);
+		compEntrance.setDeathMessage(deathMessage);
+
+		RoomRequiredItem compFront = new RoomRequiredItem(compFrontD, compFrontSD, warning, shortWarning, Item.ItemGhillieSuit);
+		compFront.setAdjacentRoom(Action.ActionGoSouth, compEntrance);
+		compFront.setDeathMessage(deathMessage);
+		
+		RoomRequiredItem compElectric = new RoomRequiredItem(compElectricD, compElectricSD, warning, shortWarning, Item.ItemGhillieSuit);
+		compElectric.setAdjacentRoom(Action.ActionGoEast, compFront);
+		compElectric.setDeathMessage(deathMessage);
+		// add junction box
+		compElectric.putItem(Item.ItemCardReader);
 
 		Room booth = new Room(boothD, boothSD);
-		booth.setAdjacentRoom(Action.ActionGoSouth, compEntrance);
+		booth.setAdjacentRoom(Action.ActionGoSouth, compFront);
 		Item guard = Item.ItemGuard1;
-		guard.setInstalledItem(Item.ItemKey);
+		guard.setInstalledItem(Item.ItemKeyCard);
 		guard.setRelatedRoom(booth);
 		booth.putItem(guard);
 		return complexE;

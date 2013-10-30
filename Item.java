@@ -20,7 +20,9 @@ public enum Item {
 	ItemElevatorFloor4Button("Elevator Button", "Floor 4 Button", new String[]{"4"}),
 
 	ItemKey    ("key",    "silver key",    new String[]{"key"}),
+	ItemKeyCard("keycard","keycard",       new String[]{"keycard", "smartcard", "card"}),
 	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}),
+	ItemCardReader("reader",  "keycard reader",   new String[]{"reader", "slider"}),
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
 	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
@@ -94,6 +96,11 @@ public enum Item {
 				defaults.put("canBePickedUp", false);
 				defaults.put("permitsInstalledItems", true);
 				break;
+			case "reader":
+				this.defaults = genericDefaults();
+				defaults.put("permitsInstalledItems", true);
+				defaults.put("canBePickedUp", false);
+				break;
 			case "unknown":
 				this.defaults = genericDefaults();
 				break;
@@ -130,12 +137,38 @@ public enum Item {
 	}
 	public boolean setInstalledItem(Item item) {
 		if(this.defaults.get("permitsInstalledItems")) {
-			this.installedItem = item;
+			switch(this) {
+				case ItemCardReader: {
+					if(item == Item.ItemKeyCard) {
+						System.out.println("Authenticating.");
+						for(int i=0; i < 3; i++) {
+							System.out.println("...");
+							try {
+								Thread.sleep(1000);
+							} catch(Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						System.out.println("Authentication Complete.");
+						this.installedItem = item;
+					}	
+					break;
+				}
+				case ItemGuard1: {
+					if(item == Item.ItemKeyCard) {
+						this.installedItem = item;
+					}		
+					else {
+						System.out.println("You cannot put an item into this " + this);
+					}
+				}	
+				default:
+					this.installedItem = item;
+					break;
+			}
 			return true;
 		}
-		else {
-			System.out.println("You cannot put an item into this " + this);
-		}
+		System.out.println("You cannot put an item into this " + this);
 		return false;
 	}
 	public Item removeInstalledItem() {
