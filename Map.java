@@ -8,14 +8,14 @@ public class Map {
 
 		Room mid1 = new Room("There is a fork", "Fork");
 		Room mid2 = new Room("Ferocious bear", "bear");
-		Room end = new RoomLockable("You are inside of a building", "Building interior", true, Item.ItemKey);
+		Room end = new RoomLockable("You are inside of a building", "Building interior", true, Item.getInstance("key"));
 		
 		end.setAdjacentRoom(Action.ActionGoNortheast, mid1);
 		
 		LinkedList<Item> startItems = new LinkedList<Item>();
-		startItems.add(Item.ItemBrick);
-		startItems.add(Item.ItemKey);
-		startItems.add(Item.ItemLock);
+		startItems.add(Item.getInstance("brick"));
+		startItems.add(Item.getInstance("key"));
+		startItems.add(Item.getInstance("lock"));
 		
 		Room start = new Room("There is a tree, with a building to the West. There is a lock on the door.", "Tree" );
 		start.setAdjacentRoom(Action.ActionGoNorth, mid1);
@@ -24,6 +24,7 @@ public class Map {
 		start.putItems(startItems);
 		return start;
 	}
+/*
 	public static Room njit() {
 
 		String hallwayDesription = "You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door";
@@ -250,4 +251,5 @@ public class Map {
 		house.setAdjacentRoom(Action.ActionGoSouth, houseFront);
 		return plane;
 	}
+*/
 }

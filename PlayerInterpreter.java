@@ -44,15 +44,7 @@ public class PlayerInterpreter {
 					if(string.length > 1) {
 
 						String d = string[1];
-						Item item = null;
-						for(Item i : Item.values()) {
-							for(String alias : i.getAliases()) {
-								if(d.compareTo(alias) == 0) {
-									item = i;
-									break;
-								}
-							}
-						}
+						Item item = Item.getInstance(d);
 						if(item == null) {
 							return Action.ActionError;
 						}
@@ -73,15 +65,7 @@ public class PlayerInterpreter {
 					if(string.length > 1) {
 
 						String d = string[1];
-						Item item = null;
-						for(Item i : Item.values()) {
-							for(String alias : i.getAliases()) {
-								if(d.compareTo(alias) == 0) {
-									item = i;
-									break;
-								}
-							}
-						}
+						Item item = Item.getInstance(d);
 						// item is the direct object of the action
 						action.setDirectObject(item);
 						
@@ -91,13 +75,7 @@ public class PlayerInterpreter {
 								
 								if(string.length > 3) {
 									String io = string[3];
-									Item indob = null;
-									for(Item i2 : Item.values()) {
-										if(io.compareTo(i2.toString()) == 0) {
-											indob = i2;
-											break;
-										}
-									}
+									Item indob = Item.getInstance(io);
 									action.setIndirectObject(indob);	
 									return action;
 								}

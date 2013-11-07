@@ -99,7 +99,6 @@ public enum Action {
 	private Item indirectObject;
 };
 enum Type {
-
 	TYPE_DIRECTIONAL,
 	TYPE_HASDIRECTOBJECT,
 	TYPE_HASINDIRECTOBJECT,

@@ -67,20 +67,19 @@ public class Room implements Comparable {
 		if(item == null) {
 			return null;
 		}
-		else if(this.items.contains(item)) {
-			
-			if(item.canBePickedUp()) {
-				this.items.remove(item);
-				return item;
-			}
-			else {
-				System.out.println("You cannot pick up this item");
-			}
-		}
 		else {
 			System.out.println("I don't see that here.");
 		}
-		return Item.ItemUnknown;
+		return Item.getInstance("unknown");
+	}
+	public Item remove(Item item) {
+		if(this.items.contains(item)) {
+			if(item instanceof Acquirable){
+				this.items.remove(item);
+				return item;
+			}
+		}
+		return null;
 	}
 	public boolean hasItem(Item item) {
 		return this.items.contains(item);
@@ -94,7 +93,7 @@ public class Room implements Comparable {
 	public String visibleItems() {
 		String s = "";
 		for(Item item : this.items) {
-			if(item.isVisible()) {
+			if(item instanceof Visible && ((Visible)item).isVisible()) {
 				s += "\nThere is a " + item.detailDescription() + " here.";
 			}
 		}

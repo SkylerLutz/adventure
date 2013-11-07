@@ -1,0 +1,4 @@
+interface Installable {
+	
+	// marker
+}

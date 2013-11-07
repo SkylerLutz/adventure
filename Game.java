@@ -15,8 +15,8 @@ public class Game {
 	
 		// Parse room from file
 		//Room startingRoom = Map.njit();
-		//Room startingRoom = Map.level1();
-		Room startingRoom = Map.skydiving();
+		Room startingRoom = Map.level1();
+		//Room startingRoom = Map.skydiving();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -39,76 +39,136 @@ public class Game {
 			System.out.print(">>> ");
 			input = this.scanner.nextLine();
 			Action a = this.interpreter.interpretString(input);
-			switch(a.type()){
+			switch(a.type()) {
 				case TYPE_DIRECTIONAL:
 					move(a);
 					break;
 				case TYPE_HASDIRECTOBJECT:
 					switch(a) {
-
-						case ActionPickUp:
-							this.player.pickup(a.directObject());
-							break;
-						case ActionBreak:
-							Item item = a.directObject();
-							if(this.player.drop(item) == null) {
-								this.player.currentRoom.takeItem(item);
+						case ActionPickUp: {
+							//this.player.pickup(a.directObject());
+							Item o = a.directObject();
+							if(this.player.currentRoom.hasItem(o)) {
+								if(o instanceof Acquirable) {
+									//pickup
+									this.player.currentRoom.remove(o);
+									this.player.pickup(o);
+									System.out.println("Taken.");
+								}
+								else {
+									System.out.println("You cannot pick up this item.");
+								}
 							}
-							Item destroyed = item.destroy();
-							this.player.currentRoom.putItem(destroyed);
-							break;
-						case ActionInspect:
-							
-							Item itemToInspect = a.directObject();
-							if(this.player.hasItem(itemToInspect) || this.player.currentRoom.hasItem(itemToInspect)) {
-								System.out.println(itemToInspect.toDetailString());
+							else if(this.player.hasItem(o)) {
+								System.out.println("You already have that item in your inventory.");
 							}
 							else {
 								System.out.println("I don't see that here.");
 							}
-
 							break;
-						case ActionDrop:
-							
-							if(this.player.dropItem(a.directObject())){
-								System.out.println("Dropped");
-							}
-							break;
-						case ActionThrow:
-							if(this.player.dropItem(a.directObject())) {
-								System.out.println("Thrown");
-							}
-							break;
-						case ActionShake:
-							this.player.die();
-							break;
-						case ActionEnable:
-							
-							Item enabledItem = a.directObject();
-							if(this.player.currentRoom.hasItem(enabledItem)) {
-								if(this.player.currentRoom instanceof RoomDark) {
-									((RoomDark)this.player.currentRoom).setDark(false);
+						}
+						case ActionBreak: {
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Destroyable) {
+									((Destroyable)item).destroy();
+									System.out.println("It has shattered into a million pieces.");
 								}
-								enabledItem.start();
-							}
-							else if(this.player.hasItem(enabledItem)) {
-
-								enabledItem.start();
+								else {
+									System.out.println("You cannot break this item.");
+								}
 							}
 							else {
-								System.out.println("You don't have that item in your inventory");
+								System.out.println("I don't see that here.");
 							}
 							break;
-						case ActionPush:
-							
-							Item directObject = a.directObject();
+						}
+						case ActionInspect: {
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Inspectable) {
+									((Inspectable)item).inspect();
+								}
+								else {
+									System.out.println("You cannot inspect this item.");
+								}
+							}
+							else {
+								System.out.println("I don't see that here.");
+							}
+							break;
+						}
+						case ActionDrop: {
+							Item item = a.directObject();
+							if(this.player.hasItem(item)) {
+								if(item instanceof Droppable) {
+									((Droppable)item).drop();
+									System.out.println("Dropped.");
+								}
+								else {
+									System.out.println("You cannot drop this item.");
+								}
+							}
+							else {
+								System.out.println("You don't have that item to drop.");
+							}
+							break;
+						}
+						case ActionThrow: {
+							Item item = a.directObject();
+							if(this.player.hasItem(item)) {
+								if(item instanceof Chuckable) {
+									((Chuckable)item).chuck();
+									System.out.println("Thrown.");
+								}
+								else {
+									System.out.println("You cannot throw this item.");
+								}
+							}
+							else {
+								System.out.println("You don't have that item to throw.");
+							}
+							break;
+						}
+						case ActionShake: {
+							this.player.die();
+							break;
+						}
+						case ActionEnable: {
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Startable) {
+									((Startable)item).start();
+								}
+								else {
+									System.out.println("I don't know how to do that.");
+								}
+							}
+							else {
+								System.out.println("I don't see that here.");
+							}
+							break;
+						}
+						case ActionPush: {
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Pushable) {
+									((Pushable)item).push();
+								}
+								else {
+									System.out.println("Nothing happens.");
+								}
+							}
+							else {
+								System.out.println("I don't see that here.");
+							}
+							/*
 							if(directObject == Item.ItemElevatorButton) {
 								((RoomElevator)directObject.getElevator()).call(this.player.currentRoom);
 							}
 							else if(directObject.toString().equals("Elevator Button")){
 								RoomElevator e = (RoomElevator)this.player.currentRoom;
 								e.call(Integer.parseInt(directObject.getAliases()[0])-1);
-							/*
 								for(int i=0; i < 3; i++) {
 									System.out.println("...");
 									try {
@@ -118,14 +178,11 @@ public class Game {
 									}
 								}
 								System.out.println("Ding");
-							*/
 								// TODO : add support for restricted floors
-								/*
 								if(floor is restricted) {
 									"this floor is restricted"
 									"the doors do not open"
 								}
-								*/
 								this.player.look();
 							}
 							else if(directObject == Item.ItemFridge){
@@ -146,22 +203,29 @@ public class Game {
 									System.out.println("I don't see that here");
 								}
 							}
+							*/
 							break;
-						case ActionEat:
-							if(!a.directObject().defaults().get("isEdible") && (this.player.currentRoom().hasItem(a.directObject()) || this.player.hasItem(a.directObject()))) {
-								System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
-								this.player.die();
+						}
+						case ActionEat: {
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Edible) {
+									((Edible)item).eat();
+								}
+								else {
+									System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
+									this.player.die();
+								}
 							}
 							else {
-								System.out.println("I don't see that here");
+								System.out.println("I don't see that here.");
 							}
 							break;
+						}
 					}
-					break;
 				case TYPE_HASINDIRECTOBJECT:
 					switch(a) {
-	
-						case ActionPut:
+						case ActionPut: {
 							Item itemToPut = a.directObject();
 							Item itemToBePutInto = a.indirectObject();
 							if(!this.player.hasItem(itemToPut)) {
@@ -172,11 +236,14 @@ public class Game {
 								System.out.println("That object doesn't exist in this room.");
 								break;
 							}
-							else if(!itemToBePutInto.canInstallItems()) {
+							else if(!(itemToBePutInto instanceof Hostable) || !(itemToPut instanceof Installable)) {
 								System.out.println("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
 							}
 							else {
+								this.player.drop(itemToPut);
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
+								System.out.println("Done");
+							/*
 								if(itemToBePutInto == Item.ItemLock) {
 									// this restricts me to one locked adjacent room at a time
 									
@@ -190,22 +257,34 @@ public class Game {
 									}
 								}	
 								System.out.println("Done");
+							*/
 							}
 							break;
-						case ActionTake: 
+						}
+						case ActionTake: {
 							Item contents = a.directObject();
 							Item container = a.indirectObject();
-							container.setInstalledItem(null);
-							this.player.pick(contents);
-							System.out.println("Removed");
+							if(!this.player.currentRoom.hasItem(container)) {
+								System.out.println("I don't see that here.");
+							}
+							else if(!(container instanceof Hostable)) {
+								System.out.println("You can't have an item inside that.");
+							}		
+							else {
+								if(((Hostable)container).installedItem() == contents) {
+									((Hostable)container).uninstall(contents);
+									this.player.pickup(contents);
+								}	
+								else {
+									System.out.println("That item is not inside this " + container);
+								}
+							}
 							break;
 						}
-					break;
-				case TYPE_HASNOOBJECT:
+					}
+				case TYPE_HASNOOBJECT: {
 					switch(a) {
-	
 						case ActionLook:
-
 							this.player.look();
 							break;
 						case ActionDig:
@@ -243,11 +322,12 @@ public class Game {
 							break;	
 					}
 					break;
+					}
 				default:
 					System.out.println("I don't understand that");
 					break; 
+				}
 			}
-		}
 		}catch(Exception n) {
 			System.out.println("I don't understand that (exception caught)");
 			start();
@@ -259,7 +339,7 @@ public class Game {
 	
 		// test if room is dark
 		if(this.player.currentRoom instanceof RoomDark) {
-			if(((RoomDark)this.player.currentRoom).isDark() && ((RoomDark)this.player.currentRoom).willDieInDirection(a) && !this.player.hasItem(Item.ItemFlashLight)) {
+			if(((RoomDark)this.player.currentRoom).isDark() && ((RoomDark)this.player.currentRoom).willDieInDirection(a) && !this.player.hasItem(Item.getInstance("flashlight"))) {
 				System.out.println("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock");
 				this.player.die();
 			}

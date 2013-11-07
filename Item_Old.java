@@ -1,61 +1,6 @@
-import java.util.LinkedList;
-
-public class Item {
-
-	public Item(String d, String sd, String[] a) {
-		this.description = d;
-		this.detailDescription = sd;
-		this.aliases = a;
-	}
-	private static void initSharedInstances() {
-		
-		sharedInstances = new LinkedList<Item>();
-		sharedInstances.add(new ItemShovel("shovel", "metal shovel",  new String[]{"shovel"}));
-		sharedInstances.add(new ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}));
-		sharedInstances.add(new ItemFood    ("food",   "food",          new String[]{"food"}));
-		sharedInstances.add(new ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}));
-		sharedInstances.add(new ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}));
-		sharedInstances.add(new ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}));
-		sharedInstances.add(new ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}));
-		sharedInstances.add(new ItemRMS("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}));
-		sharedInstances.add(new ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}));
-		sharedInstances.add(new ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}));
-		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
-	}
-	public static Item getInstance(String s) {
-		if(sharedInstances == null) {
-			initSharedInstances();
-		}
-		for(Item i : sharedInstances) {
-			for(String a : i.getAliases()) {
-				if(s.equals(a)) {
-					return i;
-				}
-			}
-		}
-		return null;
-	}
-	public String[] getAliases() {
-		return this.aliases;
-	}
-	public String toString() {
-		return this.description;
-	}
-	public String detailDescription() {
-		return this.detailDescription;
-	}
-	public void setDescription(String s) {
-		this.description = s;
-	}
-	public void setDetailDescription(String s) {
-		this.detailDescription = s;
-	}
-	private String description;
-	private String detailDescription;
-	private String[] aliases;
-	private static LinkedList<Item> sharedInstances;
-}
 /*
+import java.util.HashMap;
+
 public enum Item {
 
 	ItemShovel  ("shovel", "metal shovel",  new String[]{"shovel"}),
@@ -308,6 +253,9 @@ public enum Item {
 		}
 		return this.detailDescription + s;
 	}
+	private String description;
+	private String detailDescription;
+	private String[] aliases;
 	private Item installedItem;
 	private Room elevator; // to be associated with a button
 	private RoomObscured passage; // to be associated with a passage
@@ -316,6 +264,6 @@ public enum Item {
 	// item attributes
 	private String destroyMessage;
 	private boolean wasPushed;
-	private HashMap<String, Boolean> defaults = null;
+	private HashMap<String, Boolean> defaults;
 }
 */

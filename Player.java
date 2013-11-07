@@ -35,6 +35,9 @@ public class Player {
 	}
 	public boolean pickup(Item item){ 
 
+		this.pick(item);
+		return true;
+/*
 		Item takenItem = this.currentRoom.takeItem(item);
 		if (takenItem == null) {
 			System.out.println("I don't see that here");
@@ -46,6 +49,7 @@ public class Player {
 		this.pick(takenItem);
 		System.out.println("Taken.");
 		return true;
+*/
 	}
 	public void pick(Item item) {
 		this.items.add(item);
@@ -56,18 +60,9 @@ public class Player {
 	public LinkedList<Item> getItems() {
 		return this.items;
 	}
-	public boolean putItemInItem(Item direct, Item indirect) {
+	public void putItemInItem(Item direct, Item indirect) {
 		
-		if(drop(direct) == null) {
-			return false;
-		}
-		if(indirect.setInstalledItem(direct)){
-			//System.out.println(direct + " installed");
-			return true;
-		}
-		else {
-			return false;
-		}
+		((Hostable)indirect).install(direct);
 	}
 	public void move(Room room) {
 		

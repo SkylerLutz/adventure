@@ -32,10 +32,10 @@ public class RoomSky extends Room {
 					System.out.println("You land softly in the grass");
 					// transition to field
 					p.move(r);
-					Item i = Item.ItemParachute;
+					Item i = Item.getInstance("parachute");
 					p.dropItem(i);
 					i.setDetailDescription("used parachute");
-					i.setCanBePickedUp(false);
+					//i.setCanBePickedUp(false);
 					System.out.print(">>> ");
 					
 				}		

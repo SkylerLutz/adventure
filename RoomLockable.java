@@ -9,7 +9,7 @@ public class RoomLockable extends Room {
 	}
 	public RoomLockable(String description, String shortDescription) {
 		// unlocked by default
-		this(description, shortDescription, false, Item.ItemUnknown);
+		this(description, shortDescription, false, Item.getInstance("unknown"));
 	}
 	public boolean isLocked() {
 		return this.locked;
