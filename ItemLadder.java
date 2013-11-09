@@ -1,4 +1,4 @@
-public class ItemLadder extends Item implements Visible {
+public class ItemLadder extends Item implements Holdable, Visible {
 
 	public ItemLadder(String s, String sd, String[] a) {
 		super(s, sd, a);

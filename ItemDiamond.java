@@ -1,4 +1,4 @@
-public class ItemDiamond extends Item implements Installable, Visible {
+public class ItemDiamond extends Item implements Holdable, Installable, Visible {
 
 	public ItemDiamond(String s, String sd, String[] a) {
 		super(s, sd, a);

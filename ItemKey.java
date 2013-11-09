@@ -1,4 +1,4 @@
-public class ItemKey extends Item implements Acquirable, Visible{
+public class ItemKey extends Item implements Holdable, Installable, Visible{
 
 	public ItemKey(String s, String sd, String[] a) {
 		super(s, sd, a);

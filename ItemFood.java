@@ -1,4 +1,4 @@
-public class ItemFood extends Item implements Edible, Visible{
+public class ItemFood extends Item implements Edible, Holdable, Visible{
 
 	public ItemFood(String s, String sd, String[] a) {
 		super(s, sd, a);

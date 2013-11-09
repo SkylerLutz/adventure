@@ -14,8 +14,8 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		//Room startingRoom = Map.njit();
-		Room startingRoom = Map.level1();
+		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.level1();
 		//Room startingRoom = Map.skydiving();
 		
 		this.scanner = new Scanner(System.in);
@@ -49,8 +49,9 @@ public class Game {
 							//this.player.pickup(a.directObject());
 							Item o = a.directObject();
 							if(this.player.currentRoom.hasItem(o)) {
-								if(o instanceof Acquirable) {
+								if(o instanceof Holdable) {
 									//pickup
+									//((Holdable)o).pickup();
 									this.player.currentRoom.remove(o);
 									this.player.pickup(o);
 									System.out.println("Taken.");
@@ -72,7 +73,18 @@ public class Game {
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Destroyable) {
 									((Destroyable)item).destroy();
-									System.out.println("It has shattered into a million pieces.");
+									item.setDescription("broken " + item.toString());
+									item.setDetailDescription("broken " + item.detailDescription());
+									if(((Destroyable)item).disappears()) {
+										this.player.drop(item);
+										this.player.currentRoom.remove(item);
+									}
+
+									if(item instanceof Hostable) {
+										this.player.currentRoom.putItem(((Hostable)item).installedItem());
+										((Hostable)item).uninstall(((Hostable)item).installedItem());
+									}
+									System.out.println("Smashed.");
 								}
 								else {
 									System.out.println("You cannot break this item.");
@@ -101,8 +113,10 @@ public class Game {
 						case ActionDrop: {
 							Item item = a.directObject();
 							if(this.player.hasItem(item)) {
-								if(item instanceof Droppable) {
-									((Droppable)item).drop();
+								if(item instanceof Holdable) {
+									//((Holdable)item).drop();
+									this.player.drop(item);
+									this.player.currentRoom.putItem(item);
 									System.out.println("Dropped.");
 								}
 								else {
@@ -119,6 +133,8 @@ public class Game {
 							if(this.player.hasItem(item)) {
 								if(item instanceof Chuckable) {
 									((Chuckable)item).chuck();
+									this.player.drop(item);
+									this.player.currentRoom.putItem(item);
 									System.out.println("Thrown.");
 								}
 								else {
@@ -154,6 +170,13 @@ public class Game {
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Pushable) {
 									((Pushable)item).push();
+									System.out.println("Pushed.");
+									if(item.relatedRoom() instanceof RoomElevator) { // player is next to an elevator
+										((RoomElevator)item.relatedRoom()).call(this.player.currentRoom);
+									}
+									else if(this.player.currentRoom instanceof RoomElevator) { // player is in an elevator
+										((RoomElevator)this.player.currentRoom).call(Integer.parseInt(item.getAliases()[0])-1);
+									}
 								}
 								else {
 									System.out.println("Nothing happens.");
@@ -162,48 +185,6 @@ public class Game {
 							else {
 								System.out.println("I don't see that here.");
 							}
-							/*
-							if(directObject == Item.ItemElevatorButton) {
-								((RoomElevator)directObject.getElevator()).call(this.player.currentRoom);
-							}
-							else if(directObject.toString().equals("Elevator Button")){
-								RoomElevator e = (RoomElevator)this.player.currentRoom;
-								e.call(Integer.parseInt(directObject.getAliases()[0])-1);
-								for(int i=0; i < 3; i++) {
-									System.out.println("...");
-									try {
-										Thread.sleep(1000);
-									} catch(Exception e1) {
-										e1.printStackTrace();
-									}
-								}
-								System.out.println("Ding");
-								// TODO : add support for restricted floors
-								if(floor is restricted) {
-									"this floor is restricted"
-									"the doors do not open"
-								}
-								this.player.look();
-							}
-							else if(directObject == Item.ItemFridge){
-								if(this.player.currentRoom().hasItem(directObject)) {
-									directObject.push();
-									// set room to not obscured
-									directObject.getPassage().setObscured(false);
-								}
-								else {
-									System.out.println("I don't see that here");
-								}
-							}
-							else {
-								if(this.player.currentRoom().hasItem(directObject)) {
-									directObject.push();
-								}
-								else {
-									System.out.println("I don't see that here");
-								}
-							}
-							*/
 							break;
 						}
 						case ActionEat: {
@@ -329,7 +310,7 @@ public class Game {
 				}
 			}
 		}catch(Exception n) {
-			System.out.println("I don't understand that (exception caught)");
+			System.out.println("I don't understand that \n\nException: \n" + n);
 			start();
 		}
 

@@ -1,11 +1,22 @@
-public class ItemShovel extends Item implements Acquirable, Destroyable, Droppable, Edible, Inspectable, Visible {
+public class ItemShovel extends Item implements Chuckable, Destroyable, Edible, Holdable, Inspectable, Visible {
 	
 	public ItemShovel(String d, String sd, String[] a) {
 		super(d, sd, a);
 	}
+	public void chuck() {
 
+	}
+	public void setDestroyMessage(String s) {
+		this.destroyMessage = s;
+	}	
 	public void destroy() {
 		System.out.println("Shattered into a million pieces");
+	}
+	public void setDisappears(boolean b) {
+		this.disappears = b;
+	}
+	public boolean disappears() {
+		return this.disappears;
 	}
 	public void take() {
 		System.out.println("Taken");
@@ -26,4 +37,6 @@ public class ItemShovel extends Item implements Acquirable, Destroyable, Droppab
 		this.visible = b;
 	}
 	protected boolean visible = true;
+	protected String destroyMessage = null;
+	protected boolean disappears;
 }

@@ -24,7 +24,6 @@ public class Map {
 		start.putItems(startItems);
 		return start;
 	}
-/*
 	public static Room njit() {
 
 		String hallwayDesription = "You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door";
@@ -54,7 +53,7 @@ public class Map {
 		String roofDescription = "You are on the roof. There is a police chopper circling overhead.\nYou can head back downstairs, or make a jump for it to the adjacent roof to the E.";
 		String roofShortDescription = "GITC Rooftop";
 
-		String dirtRoomDescription = "There is a pile of dirt here.";
+		String dirtRoomDescription = "Giant pile of dirt.";
 		String dirtRoomShortDescription = "Dirt pile";
 		String dirtRoomRevealMessage = "You have revealed a clay pot.";
 
@@ -101,13 +100,11 @@ public class Map {
 
 
 		Room hallway = new Room(hallwayDesription, hallwayShortDescription);
-		hallway.putItem(Item.ItemLock);
-
 		Room hallway2 = new Room(hallway2Desription, hallway2ShortDescription);
 		Room hallway1 = new Room(hallway1Desription, hallway1ShortDescription);
 
 		Room conference = new Room(conferenceRoomDescription, conferenceRoomShortDescription);
-		RoomLockable stairwell = new RoomLockable(stairwellDescription, stairwellShortDescription, true, Item.ItemKey);
+		RoomLockable stairwell = new RoomLockable(stairwellDescription, stairwellShortDescription, true, Item.getInstance("key"));
 		Room stairwell3 = new Room(stairwell3Description, stairwell3ShortDescription);
 		stairwell3.setAdjacentRoom(Action.ActionGoUp, stairwell);
 		Room stairwell2 = new Room(stairwell2Description, stairwell2ShortDescription);
@@ -115,8 +112,11 @@ public class Map {
 		stairwell2.setAdjacentRoom(Action.ActionGoWest, hallway2);
 		Room stairwell1 = new Room(stairwell1Description, stairwell1ShortDescription);
 		stairwell1.setAdjacentRoom(Action.ActionGoUp, stairwell2);
-		stairwell1.setAdjacentRoom(Action.ActionGoWest, hallway1);
+		stairwell1.setAdjacentRoom(Action.ActionGoEast, hallway1);
 		
+		Item lock = Item.getInstance("lock");
+		lock.setRelatedRoom(stairwell);
+		hallway.putItem(lock);
 
 		Room roof = new Room(roofDescription, roofShortDescription);
 		roof.setAdjacentRoomTransitionMessage("You miss the roof and fall through the floor. Since everyone is using their headphones, nobody seems to notice.", Action.ActionGoEast);
@@ -124,41 +124,42 @@ public class Map {
 
 		RoomExcavatable dirt = new RoomExcavatable(dirtRoomDescription, dirtRoomShortDescription, dirtRoomRevealMessage);
 		LinkedList<Item> revealableItems = new LinkedList<Item>();
-		Item i = Item.ItemClayPot;
-		i.setInstalledItem(Item.ItemDiamond);
-		i.setInstalledItemVisible(false);
+		ItemClayPot i = (ItemClayPot)Item.getInstance("pot");
+		i.install(Item.getInstance("diamond"));
 		i.setDestroyMessage("You revealed a beautiful diamond!");
+		i.setDisappears(true);
 		revealableItems.add(i);
 		dirt.setRevealableItems(revealableItems);
 
 
 		RoomElevator elevator = new RoomElevator(elevatorDescription, elevatorShortDescription);
-		elevator.putItem(Item.ItemElevatorFloor1Button);
-		elevator.putItem(Item.ItemElevatorFloor2Button);
-		elevator.putItem(Item.ItemElevatorFloor3Button);
-		elevator.putItem(Item.ItemElevatorFloor4Button);
+		elevator.putItem(Item.getInstance("1"));
+		elevator.putItem(Item.getInstance("2"));
+		elevator.putItem(Item.getInstance("3"));
+		elevator.putItem(Item.getInstance("4"));
 		
 		
-		Room floor1 = new Room(floor1Description, floor1ShortDescription ); 
-		Item b1 = Item.ItemElevatorButton;
-		b1.setElevator(elevator);
+		Room floor1 = new Room(floor1Description, floor1ShortDescription); 
+		Item b1 = Item.getInstance("button");
+		b1.setRelatedRoom(elevator);
 		floor1.putItem(b1);
 		floor1.setAdjacentRoom(Action.ActionGoSouth, hallway1);
 
 		Room floor2 = new Room(floor2Description, floor2ShortDescription); 
-		Item b2 = Item.ItemElevatorButton;
-		b2.setElevator(elevator);
+		Item b2 = Item.getInstance("button");
+		b2.setRelatedRoom(elevator);
 		floor2.putItem(b2);
 		floor2.setAdjacentRoom(Action.ActionGoSouth, hallway2);
 
 		Room floor3 = new Room(floor3Description, floor3ShortDescription); 
-		Item b3 = Item.ItemElevatorButton;
-		b3.setElevator(elevator);
+		Item b3 = Item.getInstance("button");
+		b3.setRelatedRoom(elevator);
 		floor3.putItem(b3);
+		// restricted floor
 
 		Room floor4 = new Room(floor4Description, floor4ShortDescription); 
-		Item b4 = Item.ItemElevatorButton;
-		b4.setElevator(elevator);
+		Item b4 = Item.getInstance("button");
+		b4.setRelatedRoom(elevator);
 		floor4.putItem(b4);
 		floor4.setAdjacentRoom(Action.ActionGoSouth, dirt);
 
@@ -170,9 +171,9 @@ public class Map {
 
 		ArrayList<String> descriptions = new ArrayList<String>();
 		descriptions.add("Inside Elevator -- floor 1.");
-		descriptions.add("Inside elevator -- floor 2");
-		descriptions.add("Inside elevator -- floor 3");
-		descriptions.add("Inside elevator -- floor 4");
+		descriptions.add("Inside Elevator -- floor 2");
+		descriptions.add("Inside Elevator -- floor 3");
+		descriptions.add("Inside Elevator -- floor 4");
 		
 		elevator.setFloors(descriptions, list, Action.ActionGoEast, 1);
 		ArrayList<Integer> restrictedFloors = new ArrayList<Integer>();
@@ -182,7 +183,7 @@ public class Map {
 
 		Room gitcExterior = new Room(gitcExteriorDescription, gitcExteriorShortDescription);
 		gitcExterior.setAdjacentRoom(Action.ActionGoNorth, hallway1);
-		gitcExterior.putItem(Item.ItemGold);
+		gitcExterior.putItem(Item.getInstance("gold"));
 
 
 		Room bathroom = new Room(bathroomDescription, bathroomShortDescription);
@@ -191,11 +192,11 @@ public class Map {
 		hallway.setAdjacentRoom(Action.ActionGoNorth, bathroom);
 		hallway.setAdjacentRoom(Action.ActionGoNortheast, dirt);
 
-		bathroom.putItem(Item.ItemGrafitti);
+		bathroom.putItem(Item.getInstance("grafitti"));
 		
-		Item fridge = Item.ItemFridge;
+		Item fridge = Item.getInstance("fridge");
 		RoomObscured passage = new RoomObscured(passageDescription ,passageShortDescription, fridge);
-		fridge.setPassage(passage);
+		fridge.setRelatedRoom(passage);
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
 		corridor.setSafeDirection(Action.ActionGoWest);
@@ -204,18 +205,18 @@ public class Map {
 		Room waterslide = new Room(waterslideDescription, waterslideShortDescription);
 		waterslide.setAdjacentRoomTransitionMessageWithDelay("Wee!!", Action.ActionGoDown, 1000);
 
-		waterslide.setAdjacentRoom(Action.ActionGoDown, floor1);
+		waterslide.setOneWayAdjacentRoom(Action.ActionGoDown, floor1);
 		waterslide.setAdjacentRoom(Action.ActionGoWest, corridor);
 		passage.setAdjacentRoom(Action.ActionGoEast, corridor);
 
 		LinkedList<Item> items = new LinkedList<Item>();
 		//items.add(Item.ItemLightSwitch);
-		items.add(Item.ItemFlashLight);
-		items.add(Item.ItemKey);
-		items.add(Item.ItemShovel);
-		items.add(Item.ItemStatue);
-		items.add(Item.ItemMicrowave);
-		items.add(Item.ItemFridge);
+		items.add(Item.getInstance("flashlight"));
+		items.add(Item.getInstance("key"));
+		items.add(Item.getInstance("shovel"));
+		items.add(Item.getInstance("statue"));
+		items.add(Item.getInstance("microwave"));
+		items.add(Item.getInstance("fridge"));
 		RoomDark acm = new RoomDark(acmDescription, acmShortDescription, acmDarkDescription, acmDarkShortDescription, false);
 		acm.putItems(items);
 		acm.setAdjacentRoom(Action.ActionGoNorth, hallway);
@@ -225,6 +226,7 @@ public class Map {
 		return acm;
 		
 	}
+/*
 	public static Room skydiving() {
 
 		Room plane = new Room("You are on a top secret mission. Your objective is to parachute into the complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.", "Military Airplane");

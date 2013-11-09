@@ -6,6 +6,7 @@ public class Item {
 		this.description = d;
 		this.detailDescription = sd;
 		this.aliases = a;
+		this.relatedRoom = null;
 	}
 	private static void initSharedInstances() {
 		
@@ -14,12 +15,22 @@ public class Item {
 		sharedInstances.add(new ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}));
 		sharedInstances.add(new ItemFood    ("food",   "food",          new String[]{"food"}));
 		sharedInstances.add(new ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}));
+		sharedInstances.add(new ItemKey ("key", "gold key", new String[]{"key"}));
+		sharedInstances.add(new ItemLock  ("lock", "gold lock", new String[]{"lock"}));
 		sharedInstances.add(new ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}));
 		sharedInstances.add(new ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}));
 		sharedInstances.add(new ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}));
 		sharedInstances.add(new ItemRMS("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}));
 		sharedInstances.add(new ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}));
 		sharedInstances.add(new ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}));
+		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight", "light"}));
+
+		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
+		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
+		sharedInstances.add(new ItemButton ("Floor 2 Button", "Elevator Floor 2 Button", new String[]{"2"}));
+		sharedInstances.add(new ItemButton ("Floor 3 Button", "Elevator Floor 3 Button", new String[]{"3"}));
+		sharedInstances.add(new ItemButton ("Floor 4 Button", "Elevator Floor 4 Button", new String[]{"4"}));
+
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
 	}
 	public static Item getInstance(String s) {
@@ -34,6 +45,12 @@ public class Item {
 			}
 		}
 		return null;
+	}
+	public Room relatedRoom() {
+		return this.relatedRoom;
+	}	
+	public void setRelatedRoom(Room r) {
+		this.relatedRoom = r;
 	}
 	public String[] getAliases() {
 		return this.aliases;
@@ -50,10 +67,11 @@ public class Item {
 	public void setDetailDescription(String s) {
 		this.detailDescription = s;
 	}
-	private String description;
-	private String detailDescription;
-	private String[] aliases;
-	private static LinkedList<Item> sharedInstances;
+	protected String description;
+	protected String detailDescription;
+	protected String[] aliases;
+	protected static LinkedList<Item> sharedInstances;
+	protected Room relatedRoom;
 }
 /*
 public enum Item {

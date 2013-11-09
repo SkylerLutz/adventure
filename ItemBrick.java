@@ -1,4 +1,4 @@
-public class ItemBrick extends Item implements Acquirable, Visible{
+public class ItemBrick extends Item implements Holdable, Visible{
 
 	public ItemBrick(String s, String sd, String[] a) {
 		super(s, sd, a);

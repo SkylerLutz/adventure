@@ -1,7 +1,10 @@
-public class ItemRMS extends Item implements Holdable, Visible{
+public class ItemButton extends Item implements Pushable, Visible {
 
-	public ItemRMS(String s, String sd, String[] a) {
+	public ItemButton(String s, String sd, String[] a) {
 		super(s, sd, a);
+	}
+	public void push() {
+
 	}
 	public boolean isVisible() {
 		return visible;

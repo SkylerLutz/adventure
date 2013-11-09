@@ -74,7 +74,7 @@ public class Room implements Comparable {
 	}
 	public Item remove(Item item) {
 		if(this.items.contains(item)) {
-			if(item instanceof Acquirable){
+			if(item instanceof Holdable){
 				this.items.remove(item);
 				return item;
 			}
@@ -82,6 +82,7 @@ public class Room implements Comparable {
 		return null;
 	}
 	public boolean hasItem(Item item) {
+		if(item == null) return false;
 		return this.items.contains(item);
 	}
 	public void setPlayer(Player p) {

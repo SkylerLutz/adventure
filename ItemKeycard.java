@@ -1,4 +1,4 @@
-public class ItemKeycard extends Item implements Acquirable, Visible{
+public class ItemKeycard extends Item implements Holdable, Visible{
 
 	public ItemKeycard(String s, String sd, String[] a) {
 		super(s, sd, a);

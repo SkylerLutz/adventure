@@ -1,0 +1,4 @@
+interface Holdable {
+
+	//marker
+}

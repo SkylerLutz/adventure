@@ -45,9 +45,7 @@ public class PlayerInterpreter {
 
 						String d = string[1];
 						Item item = Item.getInstance(d);
-						if(item == null) {
-							return Action.ActionError;
-						}
+						//
 						// item is the direct object of the action
 						action.setDirectObject(item);
 						return action;

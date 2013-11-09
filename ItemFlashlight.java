@@ -1,4 +1,4 @@
-public class ItemFlashlight extends Item implements Acquirable, Installable, Visible {
+public class ItemFlashlight extends Item implements Holdable, Installable, Visible {
 
 	public ItemFlashlight(String s, String sd, String[] a) {
 		super(s, sd, a);
