@@ -8,13 +8,12 @@ public class Player {
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
 		this.items = items;
-		this.MAX_HEALTH = 100;
-		this.health = this.MAX_HEALTH;
 		this.disguise = null;
 
 		//this.currentRoom = currentRoom;
-		//this.currentRoom.player = this;
-		move(currentRoom);
+		this.currentRoom = currentRoom;
+		this.currentRoom.player = this;
+		look();
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {
@@ -38,19 +37,6 @@ public class Player {
 
 		this.pick(item);
 		return true;
-/*
-		Item takenItem = this.currentRoom.takeItem(item);
-		if (takenItem == null) {
-			System.out.println("I don't see that here");
-			return false;
-		}
-		else if(takenItem == Item.ItemUnknown) {
-			return false;
-		}
-		this.pick(takenItem);
-		System.out.println("Taken.");
-		return true;
-*/
 	}
 	public void pick(Item item) {
 		this.items.add(item);
@@ -62,7 +48,6 @@ public class Player {
 		return this.items;
 	}
 	public void putItemInItem(Item direct, Item indirect) {
-		
 		((Hostable)indirect).install(direct);
 	}
 	public void wearDisguise(Item disguise) {
@@ -71,61 +56,101 @@ public class Player {
 	public Item disguise() {
 		return this.disguise;
 	}
-	public void move(Room room) {
-
-		room.setPlayer(this);
-		if(this.currentRoom != null && room.compareTo(this.currentRoom) != 0) { 
-			Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
-			HashMap<Action, String> messages = this.currentRoom.transitionMessages();
-			String message = messages.get(directionOfTravel);
-			int delay = this.currentRoom.transitionDelay();
-			if(message != null) {
-				if(delay != 0) {
-					for(int i=0; i < 3; i++) { 
-						System.out.println("...");
-						try{
-							Thread.sleep(delay);
-						}
-						catch(Exception e1) {
-							// pass
-						}
-					}
-				}
-				System.out.println(message);
+	public void move(Action a) {
+	
+		if(this.currentRoom instanceof RoomRequiredItem) {
+			RoomRequiredItem room = (RoomRequiredItem)this.currentRoom;
+			
+			if(room.shouldDieForAction(a)) {
+				System.out.println(room.deathMessage());
+				this.die();
 			}
 		}
-		if(room instanceof RoomRequiredItem) {
-			RoomRequiredItem r = (RoomRequiredItem)room;
-			if(r.diesOnEntry()) {
-				System.out.println(r.deathMessage());
+		else if(this.currentRoom instanceof RoomDark) {
+			RoomDark room = (RoomDark)this.currentRoom;
+			if(room.isDark() && room.willDieInDirection(a) && !this.hasItem(Item.getInstance("flashlight"))) {
+				System.out.println(room.deathMessage());
 				this.die();
 			}
 		}
 
-		this.currentRoom = room;
-		System.out.println(this.currentRoom.description());
+		if(this.currentRoom.canMoveToRoomInDirection(a)) {
+			Room nextRoom = this.currentRoom.getRoomForDirection(a);
+			// test if requires key
+			if(nextRoom instanceof RoomLockable) {
+				RoomLockable lockedRoom = (RoomLockable)nextRoom;
+				if(lockedRoom.isLocked()) {
+					if(lockedRoom.causesDeath()) {
+						System.out.println(lockedRoom.deathMessage());
+						this.die();
+					}
+					System.out.println("This door is locked. You must unlock it.");
+					return;
+				}
+			}
+			else if(nextRoom instanceof RoomObscured) {
+				RoomObscured obscuredRoom = (RoomObscured)nextRoom;
+				if(obscuredRoom.isObscured()) {
+					System.out.println("You can't move that way");
+					return;
+				}
+			}
+			//this.move(nextRoom);
 
-		// TODO not sure if I want to leave this line in for the final release
-		System.out.println(this.currentRoom.visibleItems());
+			nextRoom.setPlayer(this);
+			if(this.currentRoom != null && nextRoom.compareTo(this.currentRoom) != 0) { 
+				Action directionOfTravel = this.currentRoom.getDirectionForRoom(nextRoom);
+				HashMap<Action, String> messages = this.currentRoom.transitionMessages();
+				String message = messages.get(directionOfTravel);
+				int delay = this.currentRoom.transitionDelay();
+				if(message != null) {
+					if(delay != 0) {
+						for(int i=0; i < 3; i++) { 
+							System.out.println("...");
+							try{
+								Thread.sleep(delay);
+							}
+							catch(Exception e1) {
+								// pass
+							}
+						}
+					}
+					System.out.println(message);
+				}
+			}
+			if(nextRoom instanceof RoomRequiredItem) {
+				RoomRequiredItem r = (RoomRequiredItem)nextRoom;
+				if(r.diesOnEntry()) {
+					System.out.println(r.deathMessage());
+					this.die();
+				}
+			}
+
+			this.currentRoom = nextRoom;
+			//System.out.println(this.currentRoom.description());
+			// TODO not sure if I want to leave this line in for the final release
+			//System.out.println(this.currentRoom.visibleItems());
+			look();
+
+			if(nextRoom instanceof RoomSky) {
+				RoomSky sky = (RoomSky)nextRoom;
+				sky.freefall();
+			}
+		}
+		else {
+			System.out.println("You can't move that way");
+		}
+
 		
 	}	
 	public Room currentRoom() {
 		return this.currentRoom;
 	}	
 	public void look() {
-		System.out.println(this.currentRoom);
-	}
-	public void injure(int damage) {
-		this.health-=damage;
-		if(this.health <= 0) {
-			die();
-		}
-	}
-	public void heal(int health) {
-		this.health+=health;
-		if(this.health > this.MAX_HEALTH){
-			this.health = this.MAX_HEALTH;
-		}
+		//System.out.println(this.currentRoom);
+		System.out.println(this.currentRoom.description());
+		// TODO not sure if I want to leave this line in for the final release
+		System.out.println(this.currentRoom.visibleItems());
 	}
 	public void die() {
 		System.out.println("You score 0 out of 90 possible points. You are dead.");
@@ -134,6 +159,4 @@ public class Player {
 	protected Item disguise;
 	protected LinkedList<Item> items;
 	protected Room currentRoom;
-	protected int health;
-	protected final int MAX_HEALTH;
 }	

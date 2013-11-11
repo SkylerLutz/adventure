@@ -32,7 +32,7 @@ public enum Action {
 	ActionPush(new String[]{"push","call"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 	ActionEat(new String[]{"eat","chew", "consume", "bite", "swallow"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 	ActionWear(new String[]{"wear"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionKill(new String[]{"kill", "murder", "asphixiate", "slaughter"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionKill(new String[]{"kill", "murder", "asphixiate", "slaughter", "strangle"}, Type.TYPE_HASDIRECTOBJECT),
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),

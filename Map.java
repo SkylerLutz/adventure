@@ -212,6 +212,7 @@ public class Map {
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
 		corridor.setSafeDirection(Action.ActionGoWest);
+		corridor.setDeathMessage("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock.");
 		corridor.setAdjacentRoomTransitionMessage("You proceed back toward the dim light of the dim torches", Action.ActionGoWest);
 		
 		Room waterslide = new Room(waterslideDescription, waterslideShortDescription);
@@ -233,6 +234,7 @@ public class Map {
 		acm.putItems(items);
 		acm.setAdjacentRoom(Action.ActionGoNorth, hallway);
 		acm.setAdjacentRoom(Action.ActionGoEast, passage);
+		acm.setDeathMessage("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock.");
 		
 		roof.setOneWayAdjacentRoom(Action.ActionGoEast, acm);
 		return acm;
@@ -290,6 +292,16 @@ public class Map {
 
 		String boothD = "You are inside the operator's booth.";
 		String boothSD = "Operator Booth";
+
+		String eBoothD = "You take cover behind the eastern-most concrete wall of the complex. There appears to be a service entrance to the North.";
+		String eBoothSD = "Eastern wall.";
+
+		String serviceD = "You are a few meters away from a service entrance, to the West. The lights are out, and you may proceed completely undetected";
+		String serviceSD = "Service entrance";
+		String serviceDD = "You are a few meters awway from a service entrance, to the West. There is a lookout spotlight overhead. The chances of being spotted are likely.";
+		String serviceDSD = "Service entrance";
+
+		String boxDestroy = "The wires short circuit and the complex lights go out. The guards appear to be on high alert.";
 
 
 
@@ -385,7 +397,7 @@ public class Map {
 
 		ItemJunctionBox box = (ItemJunctionBox)Item.getInstance("box");
 		box.setVisible(false);
-		box.setDestroyMessage("The wires short circuit and the complex lights go out. The guard appear to be on high alert.");
+		box.setDestroyMessage(boxDestroy);
 		Item reader = Item.getInstance("reader");
 		reader.setRelatedItem(box);
 		compElectric.putItem(box);
@@ -396,7 +408,17 @@ public class Map {
 		ItemGuard guard = (ItemGuard)Item.getInstance("guard");
 		guard.install(Item.getInstance("card"));
 		guard.setRelatedRoom(booth);
+		guard.setDeathMessage("You fight with the guard, as you attempt to strangle the life out of him. You can see his life flashing before his eyes. His eyes roll back and his tongue is ejected from his mouth. He is dead.");
 		booth.putItem(guard);
+
+		RoomRequiredItem eBooth = new RoomRequiredItem(eBoothD, eBoothSD, warning, shortWarning, Item.getInstance("suit"));
+		eBooth.setAdjacentRoom(Action.ActionGoWest, compFront);
+
+		RoomDark service = new RoomDark(serviceD, serviceSD, serviceDD, serviceDSD, true);
+		service.setAdjacentRoom(Action.ActionGoSouth, eBooth);
+		service.setSafeDirection(Action.ActionGoSouth);
+		service.setDeathMessage("As you take your first step, you suddenly become engulfed in a bright light. You look up and see a guard shining a serach light on you. He shoots you in the head.");
+		box.setRelatedRoom(service);
 		return complexE;
 	}
 }

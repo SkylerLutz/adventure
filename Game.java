@@ -368,63 +368,7 @@ public class Game {
 		System.out.println("Quitting game...");
 	}
 	private void move(Action a) {
-	
-		if(this.player.currentRoom instanceof RoomRequiredItem) {
-			RoomRequiredItem room = (RoomRequiredItem)this.player.currentRoom;
-			
-			if(room.shouldDieForAction(a)) {
-				System.out.println(room.deathMessage());
-				this.player.die();
-			}
-		}
-
-
-
-
-
-
-
-
-		// test if room is dark
-		if(this.player.currentRoom instanceof RoomDark) {
-			if(((RoomDark)this.player.currentRoom).isDark() && ((RoomDark)this.player.currentRoom).willDieInDirection(a) && !this.player.hasItem(Item.getInstance("flashlight"))) {
-				System.out.println("As you take your first step within the dark room, you trip on a mysterious object. You fall toward the floor, and hit your head against a large rock");
-				this.player.die();
-			}
-		}
-		if(this.player.currentRoom.canMoveToRoomInDirection(a)) {
-
-			Room nextRoom = this.player.currentRoom.getRoomForDirection(a);
-			// test if requires key
-			if(nextRoom instanceof RoomLockable) {
-
-				RoomLockable lockedRoom = (RoomLockable)nextRoom;
-				if(lockedRoom.isLocked()) {
-
-					if(lockedRoom.causesDeath()) {
-						System.out.println(lockedRoom.deathMessage());
-						this.player.die();
-					}
-					System.out.println("This door is locked. You must unlock it.");
-					return;
-				}
-			}
-			else if(nextRoom instanceof RoomObscured) {
-				RoomObscured obscuredRoom = (RoomObscured)nextRoom;
-				if(obscuredRoom.isObscured()) {
-					System.out.println("You can't move that way");
-					return;
-				}
-			}
-			this.player.move(nextRoom);
-			if(nextRoom instanceof RoomSky) {
-				RoomSky sky = (RoomSky)nextRoom;
-				sky.freefall();
-			}
-		}
-		else {
-			System.out.println("You can't move that way");
-		}
+		this.player.move(a);
 	}
 	private Item containerForItem(Item item) {
 		for(Item i : this.player.currentRoom.items) {

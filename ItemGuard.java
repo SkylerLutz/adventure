@@ -2,6 +2,7 @@ public class ItemGuard extends Item implements Hostable, Killable, Pushable, Vis
 
 	public ItemGuard(String s, String sd, String[] a) {
 		super(s, sd, a);
+		this.deathMessage = null;
 	}
 	public void push() {
 		
@@ -9,6 +10,7 @@ public class ItemGuard extends Item implements Hostable, Killable, Pushable, Vis
 	}
 	public void kill() {
 		if(!this.isDead) {
+			System.out.println(this.deathMessage);
 			System.out.println("It looks like he dropped something");
 			this.detailDescription = "dead guard";
 			this.relatedRoom.putItem(this.installedItem);
@@ -45,9 +47,16 @@ public class ItemGuard extends Item implements Hostable, Killable, Pushable, Vis
 	public void setVisible(boolean b) {
 		this.visible = b;
 	}
+	public String deathMessage() {
+		return this.deathMessage;
+	}	
+	public void setDeathMessage(String s) {
+		this.deathMessage = s;
+	}
 	protected boolean visible = true;
 	protected Item installedItem;
 	protected boolean disappears;
 	protected boolean canInstall = true;
 	protected boolean isDead = false;
+	protected String deathMessage;
 }

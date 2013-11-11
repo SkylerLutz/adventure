@@ -30,7 +30,7 @@ public class RoomSky extends Room {
 					// move to field
 					System.out.println("You land softly in the grass");
 					// transition to field
-					p.move(r);
+					p.move(Action.ActionGoDown);
 					Item i = Item.getInstance("parachute");
 					p.dropItem(i);
 					i.setDetailDescription("used parachute");

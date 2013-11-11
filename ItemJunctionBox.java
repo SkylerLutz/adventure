@@ -7,6 +7,7 @@ public class ItemJunctionBox extends Item implements Destroyable, Visible {
 		if(this.canBeDestroyed) {
 			System.out.println(this.destroyMessage);
 			this.canBeDestroyed = false;
+			((RoomDark)this.relatedRoom).setDark(false);
 		}
 		else {
 			System.out.println("You have already short circuited this junction box.");

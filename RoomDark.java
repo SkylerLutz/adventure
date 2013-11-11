@@ -15,6 +15,7 @@ public class RoomDark extends Room {
 		this.darkDescription = darkDescription;
 		this.darkShortDescription = darkShortDescription;
 		this.safeDirections = new LinkedList<Action>();
+		this.deathMessage = null;
 	}
 	public boolean isDark() {
 		return this.isDark;
@@ -27,6 +28,12 @@ public class RoomDark extends Room {
 	}
 	public boolean willDieInDirection(Action dir) {
 		return !this.safeDirections.contains(dir);
+	}
+	public String deathMessage() {
+		return this.deathMessage;
+	}	
+	public void setDeathMessage(String s) {
+		this.deathMessage = s;
 	}
 	public String toString() {
 
@@ -69,4 +76,5 @@ public class RoomDark extends Room {
 	protected String darkDescription;
 	protected String darkShortDescription;
 	protected boolean isDark;
+	protected String deathMessage;
 }
