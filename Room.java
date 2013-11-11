@@ -74,7 +74,7 @@ public class Room implements Comparable {
 	}
 	public Item remove(Item item) {
 		if(this.items.contains(item)) {
-			if(item instanceof Holdable){
+			if(item instanceof Holdable || item instanceof Wearable) {
 				this.items.remove(item);
 				return item;
 			}
@@ -83,6 +83,7 @@ public class Room implements Comparable {
 	}
 	public boolean hasItem(Item item) {
 		if(item == null) return false;
+		else if(!((Visible)item).isVisible()) return false;
 		return this.items.contains(item);
 	}
 	public void setPlayer(Player p) {

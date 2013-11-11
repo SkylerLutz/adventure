@@ -1,0 +1,4 @@
+interface Wearable {
+	
+	// marker
+}

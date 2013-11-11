@@ -32,7 +32,10 @@ public class RoomDark extends Room {
 
 		if(this.isDark) {
 			
+
 			if(this.player.hasItem(Item.getInstance("flashlight"))) {
+
+
 				return super.toString();
 			}
 			else {

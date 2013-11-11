@@ -10,6 +10,7 @@ public class Player {
 		this.items = items;
 		this.MAX_HEALTH = 100;
 		this.health = this.MAX_HEALTH;
+		this.disguise = null;
 
 		//this.currentRoom = currentRoom;
 		//this.currentRoom.player = this;
@@ -64,30 +65,13 @@ public class Player {
 		
 		((Hostable)indirect).install(direct);
 	}
+	public void wearDisguise(Item disguise) {
+		this.disguise = disguise;
+	}
+	public Item disguise() {
+		return this.disguise;
+	}
 	public void move(Room room) {
-		
-		/*
-		room.setPlayer(this);
-		if(this.currentRoom == null) {
-			this.currentRoom = room;
-		}
-
-		
-		// show transition message from old room to new room
-		
-		Action directionOfTravel = this.currentRoom.getDirectionForRoom(room);
-		HashMap<Action, String> messages = this.currentRoom.transitionMessages();
-		String message = messages.get(directionOfTravel);
-		if(message != null) {
-			System.out.println(message);
-		}
-
-		room.setPlayer(this);
-		this.currentRoom = room;
-		room.player = this;
-		
-		System.out.println(room.description());
-		*/
 
 		room.setPlayer(this);
 		if(this.currentRoom != null && room.compareTo(this.currentRoom) != 0) { 
@@ -108,6 +92,13 @@ public class Player {
 					}
 				}
 				System.out.println(message);
+			}
+		}
+		if(room instanceof RoomRequiredItem) {
+			RoomRequiredItem r = (RoomRequiredItem)room;
+			if(r.diesOnEntry()) {
+				System.out.println(r.deathMessage());
+				this.die();
 			}
 		}
 
@@ -140,6 +131,7 @@ public class Player {
 		System.out.println("You score 0 out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
+	protected Item disguise;
 	protected LinkedList<Item> items;
 	protected Room currentRoom;
 	protected int health;

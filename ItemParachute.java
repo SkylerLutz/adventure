@@ -1,6 +1,6 @@
-public class ItemKeycard extends Item implements Holdable, Installable, Visible{
+public class ItemParachute extends Item implements Visible {
 
-	public ItemKeycard(String s, String sd, String[] a) {
+	public ItemParachute(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
 	public boolean isVisible() {

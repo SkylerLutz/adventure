@@ -7,6 +7,7 @@ public class Item {
 		this.detailDescription = sd;
 		this.aliases = a;
 		this.relatedRoom = null;
+		this.relatedItem = null;
 	}
 	private static void initSharedInstances() {
 		
@@ -17,6 +18,8 @@ public class Item {
 		sharedInstances.add(new ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}));
 		sharedInstances.add(new ItemKey ("key", "gold key", new String[]{"key"}));
 		sharedInstances.add(new ItemLock  ("lock", "gold lock", new String[]{"lock"}));
+		sharedInstances.add(new ItemKeycard ("keycard", "plastic keycard", new String[]{"keycard", "card"}));
+		sharedInstances.add(new ItemKeycardReader ("keycard reader", "metal keycard reader", new String[]{"reader", "slot"}));
 		sharedInstances.add(new ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}));
 		sharedInstances.add(new ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}));
 		sharedInstances.add(new ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}));
@@ -24,6 +27,10 @@ public class Item {
 		sharedInstances.add(new ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}));
 		sharedInstances.add(new ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}));
 		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight", "light"}));
+		sharedInstances.add(new ItemGuard ("guard", "sleeping guard", new String[]{"guard", "henchman"}));
+		sharedInstances.add(new ItemParachute ("parachute", "packed parachute", new String[]{"chute", "parachute"}));
+		sharedInstances.add(new ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}));
+		sharedInstances.add(new ItemJunctionBox("box", "junction box", new String[]{"box", "junction", "meter", "electric", "electricity", "power"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -45,6 +52,12 @@ public class Item {
 			}
 		}
 		return null;
+	}
+	public Item relatedItem() {
+		return this.relatedItem;
+	}	
+	public void setRelatedItem(Item i) {
+		this.relatedItem = i;
 	}
 	public Room relatedRoom() {
 		return this.relatedRoom;
@@ -71,7 +84,8 @@ public class Item {
 	protected String detailDescription;
 	protected String[] aliases;
 	protected static LinkedList<Item> sharedInstances;
-	protected Room relatedRoom;
+	protected Room relatedRoom; // items can open rooms, call elevators, etc (e.g., an ItemButton instance)
+	protected Item relatedItem; // items can also affect other items, like setting other items breakable (like a junction box);
 }
 /*
 public enum Item {
@@ -94,11 +108,16 @@ public enum Item {
 	ItemElevatorFloor4Button("Elevator Button", "Floor 4 Button", new String[]{"4"}),
 
 	ItemKey    ("key",    "silver key",    new String[]{"key"}),
+	ItemKeyCard("keycard","keycard",       new String[]{"keycard", "smartcard", "card"}),
 	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}),
+	ItemCardReader("reader",  "keycard reader",   new String[]{"reader", "slider"}),
 	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
 	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
 	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
 	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
+	ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}),
+	ItemArmor("armor", "body armor", new String[]{"armor"}),
+	ItemGuard1("guard", "sleeping guard", new String[]{"guard", "henchman"}),
 	ItemUnknown;
 
 	Item(String description, String detailDescription, String[] aliases) {
@@ -155,6 +174,21 @@ public enum Item {
 				this.defaults.put("canBePickedUp", false);
 				defaults.put("canBeEnabled", true);
 				break;
+			case "camouflage":
+				this.defaults = genericDefaults();
+				defaults.put("isDisguise", true);
+				break;
+			case "guard":
+				this.defaults = genericDefaults();
+				defaults.put("isKillable", true);
+				defaults.put("canBePickedUp", false);
+				defaults.put("permitsInstalledItems", true);
+				break;
+			case "reader":
+				this.defaults = genericDefaults();
+				defaults.put("permitsInstalledItems", true);
+				defaults.put("canBePickedUp", false);
+				break;
 			case "unknown":
 				this.defaults = genericDefaults();
 				break;
@@ -173,6 +207,8 @@ public enum Item {
 		defaults.put("canBeEnabled", false);
 		defaults.put("canBePushed", false);
 		defaults.put("isEdible", false);
+		defaults.put("isDisguise", false);
+		defaults.put("isKillable", false);
 		return defaults;
 	}
 	public HashMap<String, Boolean> defaults() {
@@ -189,12 +225,38 @@ public enum Item {
 	}
 	public boolean setInstalledItem(Item item) {
 		if(this.defaults.get("permitsInstalledItems")) {
-			this.installedItem = item;
+			switch(this) {
+				case ItemCardReader: {
+					if(item == Item.ItemKeyCard) {
+						System.out.println("Authenticating.");
+						for(int i=0; i < 3; i++) {
+							System.out.println("...");
+							try {
+								Thread.sleep(1000);
+							} catch(Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						System.out.println("Authentication Complete.");
+						this.installedItem = item;
+					}	
+					break;
+				}
+				case ItemGuard1: {
+					if(item == Item.ItemKeyCard) {
+						this.installedItem = item;
+					}		
+					else {
+						System.out.println("You cannot put an item into this " + this);
+					}
+				}	
+				default:
+					this.installedItem = item;
+					break;
+			}
 			return true;
 		}
-		else {
-			System.out.println("You cannot put an item into this " + this);
-		}
+		System.out.println("You cannot put an item into this " + this);
 		return false;
 	}
 	public Item removeInstalledItem() {
@@ -216,7 +278,14 @@ public enum Item {
 		// }
 	}
 	public void eat() {
-		System.out.println("yummy");
+		switch(this) {
+			case ItemGuard1:
+				System.out.println("You kneel down on the ground, and move your open mouth toward the guard's dead body, but then remember you are not a cannibal.");
+				break;
+			default:
+				System.out.println("yummy");
+				break;
+		}
 	}
 	public void push() {
 		if(this.defaults.get("canBePushed")) {
@@ -255,7 +324,7 @@ public enum Item {
 				case ItemParachute:
 
 					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
-					this.sky.breakFall();
+					((RoomSky)this.relatedRoom).breakFall();
 					break;
 				default:
 					System.out.println("I don't know how to start that item");
@@ -264,6 +333,22 @@ public enum Item {
 		}
 		else {
 			System.out.println("I don't understand what that means");
+		}
+	}
+	public void kill() {
+		switch(this) {
+			case ItemGuard1:
+				System.out.println("The guard is now dead.");
+				this.detailDescription = "dead guard";
+				this.defaults.put("isEdible", true);
+				if(this.installedItem != null) {
+					this.relatedRoom.putItem(this.installedItem);
+					System.out.println("It looks like the guard dropped something");
+				}
+				break;
+			default:
+				System.out.println("This item cannot be killed");
+				break;
 		}
 	}
 	public boolean hasItemInstalled() {
@@ -295,6 +380,12 @@ public enum Item {
 	}
 	public RoomObscured getPassage() {
 		return this.passage;
+	}
+	public void setRelatedRoom(Room room) {
+		this.relatedRoom = room;
+	}
+	public Room getRelatedRoom() {
+		return this.relatedRoom;
 	}
 	public boolean isVisible() {
 		return this.defaults.get("isVisible");
@@ -330,6 +421,7 @@ public enum Item {
 	private Room elevator; // to be associated with a button
 	private RoomObscured passage; // to be associated with a passage
 	private RoomSky sky;
+	private Room relatedRoom;
 
 	// item attributes
 	private String destroyMessage;
