@@ -319,22 +319,23 @@ public class Map {
 
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
-		//landing.putItem(Item.getInstance("suit"));
+		Item suit = Item.getInstance("suit"); 
+		//landing.putItem(suit);
 
-		RoomRequiredItem approach= new RoomRequiredItem(approachDescription, approachShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem approach= new RoomRequiredItem(approachDescription, approachShort, warning, shortWarning, suit);
 		approach.setAdjacentRoom(Action.ActionGoSouth, landing);
 		approach.setSafeDirection(Action.ActionGoSouth);
 		approach.setDeathMessage(deathMessage);
 
-		RoomRequiredItem f1dr = new RoomRequiredItem(f1d, fShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem f1dr = new RoomRequiredItem(f1d, fShort, warning, shortWarning, suit);
 		f1dr.setAdjacentRoom(Action.ActionGoSoutheast, approach);
 		f1dr.setDeathMessage(deathMessage);
 
-		RoomRequiredItem f2dr = new RoomRequiredItem(f2d, fShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem f2dr = new RoomRequiredItem(f2d, fShort, warning, shortWarning, suit);
 		f2dr.setAdjacentRoom(Action.ActionGoSouth, approach);
 		f2dr.setDeathMessage(deathMessage);
 
-		RoomRequiredItem f3dr = new RoomRequiredItem(f3d, fShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem f3dr = new RoomRequiredItem(f3d, fShort, warning, shortWarning, suit);
 		f3dr.setAdjacentRoom(Action.ActionGoSouthwest, approach);
 		f3dr.setDeathMessage(deathMessage);
 		f2dr.setAdjacentRoom(Action.ActionGoWest, f1dr);
@@ -362,19 +363,19 @@ public class Map {
 		mineRoom2.setAdjacentRoom(Action.ActionGoWest, mineRoom1);
 		mineRoom2.setAdjacentRoom(Action.ActionGoEast, mineRoom3);
 
-		RoomRequiredItem f11dr = new RoomRequiredItem(f11d, fShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem f11dr = new RoomRequiredItem(f11d, fShort, warning, shortWarning, suit);
 		f11dr.setAdjacentRoom(Action.ActionGoSoutheast, f1dr);
 		f11dr.setAdjacentRoom(Action.ActionGoEast, mineRoom1);
 		f11dr.setDeathMessage(deathMessage);
 		
-		RoomRequiredItem f32dr = new RoomRequiredItem(f32d, fShort, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem f32dr = new RoomRequiredItem(f32d, fShort, warning, shortWarning, suit);
 		f32dr.setAdjacentRoom(Action.ActionGoSouthwest, f3dr);
 		f32dr.setAdjacentRoom(Action.ActionGoWest, mineRoom3);
 		f32dr.setDeathMessage(deathMessage);
 		
-		RoomRequiredItem complexW = new RoomRequiredItem(compWD, compWSD, warning, shortWarning, Item.getInstance("suit"));
-		RoomRequiredItem complex = new RoomRequiredItem(compD, compSD, warning, shortWarning, Item.getInstance("suit"));
-		RoomRequiredItem complexE = new RoomRequiredItem(compED, compESD, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem complexW = new RoomRequiredItem(compWD, compWSD, warning, shortWarning, suit);
+		RoomRequiredItem complex = new RoomRequiredItem(compD, compSD, warning, shortWarning, suit);
+		RoomRequiredItem complexE = new RoomRequiredItem(compED, compESD, warning, shortWarning, suit);
 		complex.setAdjacentRoom(Action.ActionGoWest, complexW);
 		complex.setAdjacentRoom(Action.ActionGoEast, complexE);
 		complexW.setAdjacentRoom(Action.ActionGoSouth, f11dr);
@@ -385,17 +386,17 @@ public class Map {
 		complex.setDeathMessage(deathMessage);
 		complexE.setDeathMessage(deathMessage);
 		complexW.setDeathMessage(deathMessage);
-		complexE.putItem(Item.getInstance("suit"));
+		complexE.putItem(suit);
 
-		RoomRequiredItem compEntrance = new RoomRequiredItem(compEntranceD, compEntranceSD, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem compEntrance = new RoomRequiredItem(compEntranceD, compEntranceSD, warning, shortWarning, suit);
 		compEntrance.setAdjacentRoom(Action.ActionGoWest, complexE);
 		compEntrance.setDeathMessage(deathMessage);
 
-		RoomRequiredItem compFront = new RoomRequiredItem(compFrontD, compFrontSD, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem compFront = new RoomRequiredItem(compFrontD, compFrontSD, warning, shortWarning, suit);
 		compFront.setAdjacentRoom(Action.ActionGoSouth, compEntrance);
 		compFront.setDeathMessage(deathMessage);
 		
-		RoomRequiredItem compElectric = new RoomRequiredItem(compElectricD, compElectricSD, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem compElectric = new RoomRequiredItem(compElectricD, compElectricSD, warning, shortWarning, suit);
 		compElectric.setAdjacentRoom(Action.ActionGoEast, compFront);
 		compElectric.setDeathMessage(deathMessage);
 
@@ -415,7 +416,7 @@ public class Map {
 		guard.setDeathMessage("You fight with the guard, as you attempt to strangle the life out of him. You can see his life flashing before his eyes. His eyes roll back and his tongue is ejected from his mouth. He is dead.");
 		booth.putItem(guard);
 
-		RoomRequiredItem eBooth = new RoomRequiredItem(eBoothD, eBoothSD, warning, shortWarning, Item.getInstance("suit"));
+		RoomRequiredItem eBooth = new RoomRequiredItem(eBoothD, eBoothSD, warning, shortWarning, suit);
 		eBooth.setAdjacentRoom(Action.ActionGoWest, compFront);
 
 		RoomDark serviceE = new RoomDark(serviceED, serviceESD, serviceEDD, serviceEDSD, true);
