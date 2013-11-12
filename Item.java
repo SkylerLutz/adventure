@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 
-public class Item {
+public class Item implements Visible {
 
 	public Item(String d, String sd, String[] a) {
 		this.description = d;
@@ -80,6 +80,13 @@ public class Item {
 	public void setDetailDescription(String s) {
 		this.detailDescription = s;
 	}
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean b) {
+		this.visible = b;
+	}
+	protected boolean visible = true;
 	protected String description;
 	protected String detailDescription;
 	protected String[] aliases;

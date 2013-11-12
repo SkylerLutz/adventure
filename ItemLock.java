@@ -1,4 +1,4 @@
-public class ItemLock extends Item implements Hostable, Visible{
+public class ItemLock extends Item implements Hostable {
 
 	public ItemLock(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -25,13 +25,6 @@ public class ItemLock extends Item implements Hostable, Visible{
 	public Item installedItem() {
 		return this.installedItem;
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 	protected Item installedItem;
 	protected boolean disappears;
 }

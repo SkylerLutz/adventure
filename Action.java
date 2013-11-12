@@ -6,7 +6,6 @@ public enum Action {
 	ActionJump(new String[]{"jump"}, Type.TYPE_HASNOOBJECT),
 	ActionViewItems(new String[]{"inventory", "items", "i"}, Type.TYPE_HASNOOBJECT),
 	ActionSuicide(new String[]{"suicide", "die"}, Type.TYPE_HASNOOBJECT),
-	ActionPass(new String[]{"pass"}, Type.TYPE_HASNOOBJECT),
 	ActionHelp(new String[]{"help", "h"}, Type.TYPE_HASNOOBJECT),
 
 // Directional
@@ -40,7 +39,8 @@ public enum Action {
 
 // Misc
 	ActionUnknown(new String[]{}, Type.TYPE_UNKNOWN),
-	ActionError(new String[]{}, Type.TYPE_UNKNOWN);
+	ActionError(new String[]{}, Type.TYPE_UNKNOWN),
+	ActionPass(new String[]{"pass", "\n"}, Type.TYPE_UNKNOWN);
 
 // Constructors
 	Action(String[] aliases, Type type) {

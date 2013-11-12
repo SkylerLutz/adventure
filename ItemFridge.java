@@ -1,4 +1,4 @@
-public class ItemFridge extends Item implements Pushable, Visible {
+public class ItemFridge extends Item implements Pushable{
 
 	public ItemFridge(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -9,11 +9,4 @@ public class ItemFridge extends Item implements Pushable, Visible {
 			((RoomObscured)this.relatedRoom).setObscured(false);
 		}
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 }

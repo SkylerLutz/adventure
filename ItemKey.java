@@ -1,13 +1,6 @@
-public class ItemKey extends Item implements Holdable, Installable, Visible{
+public class ItemKey extends Item implements Holdable, Installable {
 
 	public ItemKey(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 }

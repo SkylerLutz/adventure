@@ -1,4 +1,4 @@
-public class ItemKeycardReader extends Item implements Hostable, Visible{
+public class ItemKeycardReader extends Item implements Hostable {
 
 	public ItemKeycardReader(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -33,12 +33,5 @@ public class ItemKeycardReader extends Item implements Hostable, Visible{
 	public Item installedItem() {
 		return this.installedItem;
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 	protected Item installedItem;
 }

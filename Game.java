@@ -332,22 +332,19 @@ public class Game {
 						case ActionViewItems: 
 							LinkedList<Item> items = this.player.getItems();
 							if(this.player.disguise() != null) {
-								System.out.println("You are wearing a " + this.player.disguise() + " disguise");
+								System.out.println("You are wearing a " + this.player.disguise() + ".");
 							}
 							if (items.size() == 0) {
-								System.out.println("You don't have any items");
+								System.out.println("You don't have any items.");
 							}
 							else {
 								for(Item item : this.player.getItems()) {
-									System.out.println("You have a " + item.detailDescription());
+									System.out.println("You have a " + item.detailDescription() + ".");
 								}
 							}
 							break;
 						case ActionSuicide:
 							this.player.die();
-							break;
-						case ActionPass:
-							// intentionally blank
 							break;
 						case ActionHelp:
 							help();
@@ -355,6 +352,23 @@ public class Game {
 					}
 					break;
 					}
+				case TYPE_UNKNOWN: {
+					switch(a) {
+						case ActionPass: {
+							// intentionally blank
+							break;
+						}
+						case ActionError: {
+							System.out.println("I don't understand that.");
+							break;
+						}
+						case ActionUnknown: {
+							System.out.println("I don't understand that.");
+							break;
+						}
+					}
+					break;
+				}
 				default:
 					System.out.println("I don't understand that");
 					break; 

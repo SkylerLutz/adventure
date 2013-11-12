@@ -1,4 +1,4 @@
-public class ItemJunctionBox extends Item implements Destroyable, Visible {
+public class ItemJunctionBox extends Item implements Destroyable {
 
 	public ItemJunctionBox(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -22,13 +22,6 @@ public class ItemJunctionBox extends Item implements Destroyable, Visible {
 	public void setDisappears(boolean b) {
 		this.disappears = b;
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 	protected boolean canBeDestroyed = true;
 	protected boolean disappears;
 	protected String destroyMessage;

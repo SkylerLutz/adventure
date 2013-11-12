@@ -1,4 +1,4 @@
-public class ItemGuard extends Item implements Hostable, Killable, Pushable, Visible {
+public class ItemGuard extends Item implements Hostable, Killable, Pushable {
 
 	public ItemGuard(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -41,19 +41,12 @@ public class ItemGuard extends Item implements Hostable, Killable, Pushable, Vis
 	public Item installedItem() {
 		return this.installedItem;
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
 	public String deathMessage() {
 		return this.deathMessage;
 	}	
 	public void setDeathMessage(String s) {
 		this.deathMessage = s;
 	}
-	protected boolean visible = true;
 	protected Item installedItem;
 	protected boolean disappears;
 	protected boolean canInstall = true;

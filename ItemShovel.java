@@ -1,4 +1,4 @@
-public class ItemShovel extends Item implements Chuckable, Destroyable, Edible, Holdable, Inspectable, Visible {
+public class ItemShovel extends Item implements Chuckable, Destroyable, Edible, Holdable, Inspectable {
 	
 	public ItemShovel(String d, String sd, String[] a) {
 		super(d, sd, a);
@@ -30,13 +30,6 @@ public class ItemShovel extends Item implements Chuckable, Destroyable, Edible, 
 	public void drop() {
 		System.out.println("plop");
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 	protected String destroyMessage = null;
 	protected boolean disappears;
 }

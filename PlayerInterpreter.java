@@ -4,12 +4,15 @@ public class PlayerInterpreter {
 
 	public Action interpretString(String string) {
 
+		if(string.equals("")) {
+			return Action.ActionPass;
+		}
 		return action(string.toLowerCase().split(" "));
 	}
-	public Action action(String[] string) throws ArrayIndexOutOfBoundsException {
+	private Action action(String[] string) throws ArrayIndexOutOfBoundsException {
 		
 		if(string == null || string.length == 0) {
-			return Action.ActionUnknown;
+			return Action.ActionPass;
 		}
 		if(string[0].compareTo("go") == 0 || string[0].compareTo("travel") == 0 || string[0].compareTo("proceed") == 0){
 			String[] command = Arrays.copyOfRange(string, 1, string.length);
@@ -33,7 +36,7 @@ public class PlayerInterpreter {
 				}
 			}
 			if(action == null) {
-				return Action.ActionUnknown;
+				return Action.ActionError;
 			}
 			switch(action.type()) {
 				case TYPE_DIRECTIONAL:
@@ -52,7 +55,7 @@ public class PlayerInterpreter {
 					}
 					else {
 						System.out.println("You must supply a direct object");
-						return Action.ActionError;
+						return Action.ActionPass;
 					}
 				case TYPE_HASINDIRECTOBJECT:
 				
@@ -83,7 +86,7 @@ public class PlayerInterpreter {
 								}
 							}
 							else {
-								return Action.ActionUnknown;
+								return Action.ActionPass;
 							}
 						}
 						
@@ -96,13 +99,13 @@ public class PlayerInterpreter {
 				case TYPE_HASNOOBJECT:
 					return action;
 				case TYPE_UNKNOWN:
-					return Action.ActionUnknown;
+					return Action.ActionError;
 				default:
 					System.out.println("Unknown type");
 					break;
 			}
 		}
 		
-		return Action.ActionUnknown;
+		return Action.ActionPass;
 	}
 }

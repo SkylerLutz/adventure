@@ -32,7 +32,7 @@ public class RoomSky extends Room {
 					// transition to field
 					p.move(Action.ActionGoDown);
 					Item i = Item.getInstance("parachute");
-					p.dropItem(i);
+					//p.dropItem(i);
 					i.setDetailDescription("used parachute");
 					//i.setCanBePickedUp(false);
 					System.out.print(">>> ");
@@ -44,6 +44,7 @@ public class RoomSky extends Room {
 	}
 	public void breakFall() {
 		shouldDie = false;
+		System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
 	}
 	public static boolean shouldDie() {
 		return shouldDie;

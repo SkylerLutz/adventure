@@ -1,13 +1,9 @@
-public class ItemParachute extends Item implements Visible {
+public class ItemParachute extends Item implements Startable, Wearable {
 
 	public ItemParachute(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
-	public boolean isVisible() {
-		return visible;
+	public void start() {
+		((RoomSky)this.relatedRoom).breakFall();
 	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
-	protected boolean visible = true;
 }

@@ -296,12 +296,16 @@ public class Map {
 		String eBoothD = "You take cover behind the eastern-most concrete wall of the complex. There appears to be a service entrance to the North.";
 		String eBoothSD = "Eastern wall.";
 
-		String serviceD = "You are a few meters away from a service entrance, to the West. The lights are out, and you may proceed completely undetected";
-		String serviceSD = "Service entrance";
-		String serviceDD = "You are a few meters awway from a service entrance, to the West. There is a lookout spotlight overhead. The chances of being spotted are likely.";
-		String serviceDSD = "Service entrance";
+		String serviceED = "You are a few meters away from a service entrance, to the West. The door is slightly cracked open. The lights are out, and you may proceed completely undetected.";
+		String serviceESD = "Service entrance";
+		String serviceEDD = "You are a few meters awway from a service entrance, to the West. There is a lookout spotlight overhead. The chances of being spotted are likely.";
+		String serviceEDSD = "Service entrance.";
 
 		String boxDestroy = "The wires short circuit and the complex lights go out. The guards appear to be on high alert.";
+
+		String serviceD = "You are inside the complex. The room has no lights, except for a dim emergency light above the loading area. The security cameras have been disabled.";
+		String serviceSD = "Service area.";
+		
 
 
 
@@ -315,7 +319,7 @@ public class Map {
 
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
-		landing.putItem(Item.getInstance("ghilliesuit"));
+		//landing.putItem(Item.getInstance("suit"));
 
 		RoomRequiredItem approach= new RoomRequiredItem(approachDescription, approachShort, warning, shortWarning, Item.getInstance("suit"));
 		approach.setAdjacentRoom(Action.ActionGoSouth, landing);
@@ -414,11 +418,15 @@ public class Map {
 		RoomRequiredItem eBooth = new RoomRequiredItem(eBoothD, eBoothSD, warning, shortWarning, Item.getInstance("suit"));
 		eBooth.setAdjacentRoom(Action.ActionGoWest, compFront);
 
-		RoomDark service = new RoomDark(serviceD, serviceSD, serviceDD, serviceDSD, true);
-		service.setAdjacentRoom(Action.ActionGoSouth, eBooth);
-		service.setSafeDirection(Action.ActionGoSouth);
-		service.setDeathMessage("As you take your first step, you suddenly become engulfed in a bright light. You look up and see a guard shining a serach light on you. He shoots you in the head.");
-		box.setRelatedRoom(service);
-		return complexE;
+		RoomDark serviceE = new RoomDark(serviceED, serviceESD, serviceEDD, serviceEDSD, true);
+		serviceE.setAdjacentRoom(Action.ActionGoSouth, eBooth);
+		serviceE.setSafeDirection(Action.ActionGoSouth);
+		serviceE.setDeathMessage("As you take your first step, you suddenly become engulfed in a bright light. You look up and see a guard shining a serach light on you. He shoots you in the head.");
+		box.setRelatedRoom(serviceE);
+
+		Room service = new Room(serviceD, serviceSD);
+		service.setAdjacentRoom(Action.ActionGoEast, serviceE);
+		//return complexE;
+		return plane;
 	}
 }

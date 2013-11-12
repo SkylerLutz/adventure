@@ -13,7 +13,10 @@ public class Player {
 		//this.currentRoom = currentRoom;
 		this.currentRoom = currentRoom;
 		this.currentRoom.player = this;
-		look();
+		//look();
+			System.out.println(this.currentRoom.description());
+			// TODO not sure if I want to leave this line in for the final release
+			System.out.println(this.currentRoom.visibleItems());
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {
@@ -42,6 +45,7 @@ public class Player {
 		this.items.add(item);
 	}
 	public boolean hasItem(Item item) {
+		if(this.disguise == item) return true;
 		return this.items.contains(item);
 	}
 	public LinkedList<Item> getItems() {
@@ -51,6 +55,9 @@ public class Player {
 		((Hostable)indirect).install(direct);
 	}
 	public void wearDisguise(Item disguise) {
+		if(this.disguise != null) {
+			this.currentRoom.putItem(this.disguise);
+		}
 		this.disguise = disguise;
 	}
 	public Item disguise() {
@@ -127,10 +134,9 @@ public class Player {
 			}
 
 			this.currentRoom = nextRoom;
-			//System.out.println(this.currentRoom.description());
+			System.out.println(this.currentRoom.description());
 			// TODO not sure if I want to leave this line in for the final release
-			//System.out.println(this.currentRoom.visibleItems());
-			look();
+			System.out.println(this.currentRoom.visibleItems());
 
 			if(nextRoom instanceof RoomSky) {
 				RoomSky sky = (RoomSky)nextRoom;
@@ -147,13 +153,10 @@ public class Player {
 		return this.currentRoom;
 	}	
 	public void look() {
-		//System.out.println(this.currentRoom);
-		System.out.println(this.currentRoom.description());
-		// TODO not sure if I want to leave this line in for the final release
-		System.out.println(this.currentRoom.visibleItems());
+		System.out.println(this.currentRoom);
 	}
 	public void die() {
-		System.out.println("You score 0 out of 90 possible points. You are dead.");
+		System.out.println("You scored 0 out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
 	protected Item disguise;

@@ -1,4 +1,4 @@
-public class ItemClayPot extends Item implements Destroyable, Holdable, Hostable, Visible {
+public class ItemClayPot extends Item implements Destroyable, Holdable, Hostable {
 
 	public ItemClayPot(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -34,15 +34,7 @@ public class ItemClayPot extends Item implements Destroyable, Holdable, Hostable
 	public Item installedItem() {
 		return this.installedItem;
 	}
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean b) {
-		this.visible = b;
-	}
 	protected String destroyMessage;
-
-	protected boolean visible = true;
 	protected Item installedItem;
 	protected boolean disappears;
 }
