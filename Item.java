@@ -39,6 +39,8 @@ public class Item implements Visible {
 		sharedInstances.add(new ItemButton ("Floor 4 Button", "Elevator Floor 4 Button", new String[]{"4"}));
 
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
+
+		checkUniqueAliases();
 	}
 	public static Item getInstance(String s) {
 		if(sharedInstances == null) {
@@ -52,6 +54,22 @@ public class Item implements Visible {
 			}
 		}
 		return null;
+	}
+	private static void checkUniqueAliases() {
+		for(Item item : sharedInstances) {
+			for(Item i : sharedInstances) {
+				if(item == i) {
+					continue;
+				}
+				for(String string : item.getAliases()) {
+					for(String s : i.getAliases()) {
+						if(string.equals(s)) {
+							System.out.println("Warning: alias conflict between " + item + " and " + i);
+						}
+					}
+				}
+			}
+		}
 	}
 	public Item relatedItem() {
 		return this.relatedItem;
