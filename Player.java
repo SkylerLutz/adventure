@@ -13,10 +13,10 @@ public class Player {
 		//this.currentRoom = currentRoom;
 		this.currentRoom = currentRoom;
 		this.currentRoom.player = this;
-		//look();
-			System.out.println(this.currentRoom.description());
-			// TODO not sure if I want to leave this line in for the final release
-			System.out.println(this.currentRoom.visibleItems());
+
+		System.out.println(this.currentRoom.description());
+		// TODO not sure if I want to leave this line in for the final release
+		System.out.println(this.currentRoom.visibleItems());
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {

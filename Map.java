@@ -316,6 +316,7 @@ public class Map {
 		Item chute = Item.getInstance("parachute");
 		chute.setRelatedRoom(sky);
 		plane.putItem(chute);
+		plane.putItem(Item.getInstance("watch"));
 
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);

@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 
-public class Item implements Visible {
+public class Item implements Inspectable, Visible {
 
 	public Item(String d, String sd, String[] a) {
 		this.description = d;
@@ -29,6 +29,7 @@ public class Item implements Visible {
 		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight", "light"}));
 		sharedInstances.add(new ItemGuard ("guard", "sleeping guard", new String[]{"guard", "henchman"}));
 		sharedInstances.add(new ItemParachute ("parachute", "packed parachute", new String[]{"chute", "parachute"}));
+		sharedInstances.add(new ItemWatch ("watch", "smart watch", new String[]{"watch"}));
 		sharedInstances.add(new ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}));
 		sharedInstances.add(new ItemJunctionBox("box", "junction box", new String[]{"box", "junction", "meter", "electric", "electricity", "power"}));
 
@@ -98,12 +99,17 @@ public class Item implements Visible {
 	public void setDetailDescription(String s) {
 		this.detailDescription = s;
 	}
+// Visible
 	public boolean isVisible() {
 		return visible;
 	}
 	public void setVisible(boolean b) {
 		this.visible = b;
 	}
+// Inspectable
+ 	public void inspect() {
+		System.out.println("It appears to be a " + this + ".");
+ 	}
 	protected boolean visible = true;
 	protected String description;
 	protected String detailDescription;
