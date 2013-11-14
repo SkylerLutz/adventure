@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Map {
 
@@ -249,6 +252,7 @@ public class Map {
 
 		String skyDescription = "You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.";
 		String skyShortDescription = "Skydiving";
+		String skyLanding = "You land softly in the grass.";
 
 		String landingDescription = "You are in a meadow, surrounded by shoulder high brush on all sides. In the distance, you can see the top secret complex to the North.";
 		String landingShortDescription = "Landing site.";
@@ -312,11 +316,36 @@ public class Map {
 		Room plane = new Room(planeDescription, planeShortDescription);
 		
 		RoomSky sky = new RoomSky(skyDescription, skyShortDescription, 5);
+		sky.setLandMessage(skyLanding);
+		
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
 		Item chute = Item.getInstance("parachute");
 		chute.setRelatedRoom(sky);
 		plane.putItem(chute);
-		plane.putItem(Item.getInstance("watch"));
+		ItemWatch watch = (ItemWatch)Item.getInstance("watch");
+		ItemWatchMenu main = new ItemWatchMenu("CIA SmartWatch V3.2.6.");
+
+		String watchtext = "";
+		try {
+			File f = new File("commissioner.txt");
+			Scanner scan = new Scanner(f);
+			while(scan.hasNextLine()) {
+				watchtext = watchtext + scan.nextLine() + "\n";
+			}
+		}
+		catch(FileNotFoundException e) {
+			// pass
+		}
+		main.setText(watchtext);
+		ItemWatchMenu sub1 = new ItemWatchMenu("Objectives");
+		sub1.setText(" * Steal dossier on Amrid Al-Asad.\n * Get the hell out of there!");
+		ItemWatchMenu sub2 = new ItemWatchMenu("About the author");
+		sub2.setText("This game was written by Skyler Lutz. Feel free to contribute to this game at www.github.com/SkylerLutz/adventure.git.");
+		main.add(sub1);
+		main.add(sub2);
+		watch.setMenu(main);
+	
+		plane.putItem(watch);
 
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
@@ -404,8 +433,9 @@ public class Map {
 		ItemJunctionBox box = (ItemJunctionBox)Item.getInstance("box");
 		box.setVisible(false);
 		box.setDestroyMessage(boxDestroy);
-		Item reader = Item.getInstance("reader");
+		ItemKeycardReader reader = (ItemKeycardReader)Item.getInstance("reader");
 		reader.setRelatedItem(box);
+		reader.setInstallMessage("Authentication Complete.\nThe junction box door swings open");
 		compElectric.putItem(box);
 		compElectric.putItem(reader);
 

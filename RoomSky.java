@@ -3,12 +3,14 @@ public class RoomSky extends Room {
 	public RoomSky(String description, String shortDescription, int duration) {
 		super(description, shortDescription);
 		this.duration = duration;
+		this.landMessage = null;
 	}
 	public void freefall() {
 
 		final int dur = this.duration;
 		final Player p = this.player;
 		final Room r = this.getRoomForDirection(Action.ActionGoDown);
+		final String landMessage = this.landMessage;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				for(int i=0; i < dur; i++) {
@@ -28,7 +30,9 @@ public class RoomSky extends Room {
 				}
 				else {
 					// move to field
-					System.out.println("You land softly in the grass");
+					if(landMessage != null) {
+						System.out.println(landMessage);
+					}
 					// transition to field
 					p.move(Action.ActionGoDown);
 					Item i = Item.getInstance("parachute");
@@ -49,6 +53,10 @@ public class RoomSky extends Room {
 	public static boolean shouldDie() {
 		return shouldDie;
 	}
+	public void setLandMessage(String s) {
+		this.landMessage = s;
+	}
 	protected int duration; // in seconds
 	protected static boolean shouldDie = true;
+	protected String landMessage;
 }

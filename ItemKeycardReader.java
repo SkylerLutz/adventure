@@ -2,6 +2,7 @@ public class ItemKeycardReader extends Item implements Hostable {
 
 	public ItemKeycardReader(String s, String sd, String[] a) {
 		super(s, sd, a);
+		this.installMessage = null;
 	}
 	public void install(Item item) {
 		this.installedItem = item;
@@ -14,8 +15,9 @@ public class ItemKeycardReader extends Item implements Hostable {
 				e1.printStackTrace();
 			}
 		}
-		System.out.println("Authentication Complete.");
-		System.out.println("The junction box door swings open.");
+		if(this.installMessage != null) {
+			System.out.println(this.installMessage);
+		}
 		((Visible)this.relatedItem).setVisible(true);
 	}
 	public boolean uninstall(Item i) {
@@ -33,5 +35,9 @@ public class ItemKeycardReader extends Item implements Hostable {
 	public Item installedItem() {
 		return this.installedItem;
 	}
+	public void setInstallMessage(String s) {
+		this.installMessage = s;
+	}
 	protected Item installedItem;
+	protected String installMessage;
 }

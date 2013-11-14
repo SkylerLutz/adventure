@@ -19,7 +19,7 @@ public class RoomElevator extends Room {
 	}
 	public void call(int index) { // call to a specific floor. Will set adjacent room
 		if(this.restrictedFloors.contains(index)) {
-			System.out.println("You push the button, but nothing happens. Perhaps this floor is off-limits to students.");
+			System.out.println("You push the button, but nothing happens. Perhaps this floor is off-limits.");
 			return;
 		}
 		else if(index == currentFloor) {
