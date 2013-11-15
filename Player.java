@@ -5,6 +5,7 @@ public class Player {
 
 	public Player(Room currentRoom) {
 		this(currentRoom, new LinkedList<Item>());
+		this.score = 0;
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
 		this.items = items;
@@ -156,10 +157,14 @@ public class Player {
 	public void look() {
 		Game.print(this.currentRoom.toString());
 	}
+	public void score(Valuable object) {
+		this.score+=object.value();
+	}
 	public void die() {
-		Game.print("You scored 0 out of 90 possible points. You are dead.");
+		Game.print("You scored " + this.score + " out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
+	protected int score;
 	protected Item disguise;
 	protected LinkedList<Item> items;
 	protected Room currentRoom;

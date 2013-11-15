@@ -198,7 +198,9 @@ public class Map {
 
 		Room gitcExterior = new Room(gitcExteriorDescription, gitcExteriorShortDescription);
 		gitcExterior.setAdjacentRoom(Action.ActionGoNorth, hallway1);
-		gitcExterior.putItem(Item.getInstance("gold"));
+		ItemGold gold = (ItemGold)Item.getInstance("gold");
+		gold.setValue(10);
+		gitcExterior.putItem(gold);
 
 
 		Room bathroom = new Room(bathroomDescription, bathroomShortDescription);
@@ -231,7 +233,9 @@ public class Map {
 		items.add(Item.getInstance("key"));
 		items.add(Item.getInstance("shovel"));
 		ItemRMS wax = (ItemRMS)Item.getInstance("rms");
-		wax.setMeltItem(Item.getInstance("diamond"));
+		ItemDiamond diamond = (ItemDiamond)Item.getInstance("diamond");
+		diamond.setValue(10);
+		wax.setMeltItem(diamond);
 		items.add(wax);
 		items.add(Item.getInstance("microwave"));
 		items.add(Item.getInstance("fridge"));
