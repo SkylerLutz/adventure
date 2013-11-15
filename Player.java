@@ -158,7 +158,9 @@ public class Player {
 		Game.print(this.currentRoom.toString());
 	}
 	public void score(Valuable object) {
-		this.score+=object.value();
+		int score = object.value();
+		Game.print("You scored " + score + " points.");
+		this.score+=score;
 	}
 	public void die() {
 		Game.print("You scored " + this.score + " out of 90 possible points. You are dead.");
