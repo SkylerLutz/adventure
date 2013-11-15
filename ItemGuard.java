@@ -6,18 +6,18 @@ public class ItemGuard extends Item implements Hostable, Killable, Pushable {
 	}
 	public void push() {
 		
-		System.out.println("you've been spotted!");
+		Game.print("you've been spotted!");
 	}
 	public void kill() {
 		if(!this.isDead) {
-			System.out.println(this.deathMessage);
-			System.out.println("It looks like he dropped something");
+			Game.print(this.deathMessage);
+			Game.print("It looks like he dropped something");
 			this.detailDescription = "dead guard";
 			this.relatedRoom.putItem(this.installedItem);
 			this.isDead = true;
 		}
 		else {
-			System.out.println("The guard has already perished.");
+			Game.print("The guard has already perished.");
 		}
 	}
 	public void install(Item i) {

@@ -14,7 +14,7 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		//Room startingRoom = Map.level1();
+		//Room startingRoom = Map.njit();
 		Room startingRoom = Map.mission();
 		
 		this.scanner = new Scanner(System.in);
@@ -47,28 +47,27 @@ public class Game {
 						case ActionPickUp: {
 							Item o = a.directObject();
 							Item container = null;
-						System.out.println(o);
 							if(this.player.currentRoom.hasItem(o)) {
 								if(o instanceof Holdable) {
-									System.out.println("Taken.");
+									Game.print("Taken.");
 									this.player.currentRoom.remove(o);
 									this.player.pickup(o);
 								}
 								else {
-									System.out.println("You cannot pick up this item.");
+									Game.print("You cannot pick up this item.");
 								}
 							}
 							else if((container = containerForItem(o)) != null) {
 								
-								System.out.println("Taken.");
+								Game.print("Taken.");
 								((Hostable)container).uninstall(o);
 								this.player.pickup(o);
 							}
 							else if(this.player.hasItem(o)) {
-								System.out.println("You already have that item in your inventory.");
+								Game.print("You already have that item in your inventory.");
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -76,7 +75,7 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Destroyable) {
-									System.out.println("Smashed.");
+									Game.print("Smashed.");
 									((Destroyable)item).destroy();
 									item.setDescription("broken " + item.toString());
 									item.setDetailDescription("broken " + item.detailDescription());
@@ -91,11 +90,11 @@ public class Game {
 									}
 								}
 								else {
-									System.out.println("You cannot break this item.");
+									Game.print("You cannot break this item.");
 								}
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -106,11 +105,11 @@ public class Game {
 									((Inspectable)item).inspect();
 								}
 								else {
-									System.out.println("You cannot inspect this item.");
+									Game.print("You cannot inspect this item.");
 								}
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -118,16 +117,16 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.hasItem(item)) {
 								if(item instanceof Holdable) {
-									System.out.println("Dropped.");
+									Game.print("Dropped.");
 									this.player.drop(item);
 									this.player.currentRoom.putItem(item);
 								}
 								else {
-									System.out.println("You cannot drop this item.");
+									Game.print("You cannot drop this item.");
 								}
 							}
 							else {
-								System.out.println("You don't have that item to drop.");
+								Game.print("You don't have that item to drop.");
 							}
 							if(this.player.currentRoom instanceof RoomRequiredItem) {
 								RoomRequiredItem r = (RoomRequiredItem)this.player.currentRoom;
@@ -139,17 +138,17 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.hasItem(item)) {
 								if(item instanceof Chuckable) {
-									System.out.println("Thrown.");
+									Game.print("Thrown.");
 									((Chuckable)item).chuck();
 									this.player.drop(item);
 									this.player.currentRoom.putItem(item);
 								}
 								else {
-									System.out.println("You cannot throw this item.");
+									Game.print("You cannot throw this item.");
 								}
 							}
 							else {
-								System.out.println("You don't have that item to throw.");
+								Game.print("You don't have that item to throw.");
 							}
 							break;
 						}
@@ -161,15 +160,15 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Startable) {
-									System.out.println("Done.");
+									Game.print("Done.");
 									((Startable)item).start();
 								}
 								else {
-									System.out.println("I don't know how to do that.");
+									Game.print("I don't know how to do that.");
 								}
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 
@@ -178,7 +177,7 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Pushable) {
-									System.out.println("Pushed.");
+									Game.print("Pushed.");
 									((Pushable)item).push();
 									if(item.relatedRoom() instanceof RoomElevator) { // player is next to an elevator
 										((RoomElevator)item.relatedRoom()).call(this.player.currentRoom);
@@ -190,11 +189,11 @@ public class Game {
 
 								}
 								else {
-									System.out.println("Nothing happens.");
+									Game.print("Nothing happens.");
 								}
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -205,7 +204,7 @@ public class Game {
 									((Edible)item).eat();
 								}
 								else {
-									System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
+									Game.print("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
 									this.player.die();
 								}
 							}
@@ -219,19 +218,19 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.currentRoom.hasItem(item)) {
 								if(item instanceof Wearable) {
-									System.out.println("Worn.");
+									Game.print("Worn.");
 									this.player.currentRoom.remove(item);
 									this.player.wearDisguise(item);
 								}
 								else {
-									System.out.println("You can not wear this item.");
+									Game.print("You can not wear this item.");
 								}
 							}
 							else if(this.player.disguise() == item) {
-								System.out.println("You are already wearing that.");
+								Game.print("You are already wearing that.");
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -242,11 +241,11 @@ public class Game {
 									((Killable)item).kill();
 								}
 								else {
-									System.out.println("You cannot kill this.");
+									Game.print("You cannot kill this.");
 								}
 							}
 							else {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							break;
 						}
@@ -258,18 +257,18 @@ public class Game {
 							Item itemToPut = a.directObject();
 							Item itemToBePutInto = a.indirectObject();
 							if(!this.player.hasItem(itemToPut)) {
-								System.out.println("You don't have that object in your inventory.");
+								Game.print("You don't have that object in your inventory.");
 								break;
 							}
 							else if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
-								System.out.println("That object doesn't exist in this room.");
+								Game.print("That object doesn't exist in this room.");
 								break;
 							}
 							else if(!(itemToBePutInto instanceof Hostable) || !(itemToPut instanceof Installable)) {
-								System.out.println("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
+								Game.print("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
 							}
 							else {
-								System.out.println("Done");
+								Game.print("Done");
 								this.player.drop(itemToPut);
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
 							/*
@@ -285,7 +284,7 @@ public class Game {
 										}
 									}
 								}	
-								System.out.println("Done");
+								Game.print("Done");
 							*/
 							}
 							break;
@@ -294,19 +293,19 @@ public class Game {
 							Item contents = a.directObject();
 							Item container = a.indirectObject();
 							if(!this.player.currentRoom.hasItem(container)) {
-								System.out.println("I don't see that here.");
+								Game.print("I don't see that here.");
 							}
 							else if(!(container instanceof Hostable)) {
-								System.out.println("You can't have an item inside that.");
+								Game.print("You can't have an item inside that.");
 							}		
 							else {
 								if(((Hostable)container).installedItem() == contents) {
 									((Hostable)container).uninstall(contents);
 									this.player.pickup(contents);
-									System.out.println("Taken.");
+									Game.print("Taken.");
 								}	
 								else {
-									System.out.println("That item is not inside this " + container);
+									Game.print("That item is not inside this " + container);
 								}
 							}
 							break;
@@ -323,7 +322,7 @@ public class Game {
 								curr.dig();
 							}
 							else {
-								System.out.println("You are not allowed to dig here");
+								Game.print("You are not allowed to dig here");
 							}
 
 							break;
@@ -333,14 +332,14 @@ public class Game {
 						case ActionViewItems: 
 							LinkedList<Item> items = this.player.getItems();
 							if(this.player.disguise() != null) {
-								System.out.println("You are wearing a " + this.player.disguise() + ".");
+								Game.print("You are wearing a " + this.player.disguise() + ".");
 							}
 							if (items.size() == 0) {
-								System.out.println("You don't have any items.");
+								Game.print("You don't have any items.");
 							}
 							else {
 								for(Item item : this.player.getItems()) {
-									System.out.println("You have a " + item.detailDescription() + ".");
+									Game.print("You have a " + item.detailDescription() + ".");
 								}
 							}
 							break;
@@ -360,27 +359,27 @@ public class Game {
 							break;
 						}
 						case ActionError: {
-							System.out.println("I don't understand that.");
+							Game.print("I don't understand that.");
 							break;
 						}
 						case ActionUnknown: {
-							System.out.println("I don't understand that.");
+							Game.print("I don't understand that.");
 							break;
 						}
 					}
 					break;
 				}
 				default:
-					System.out.println("I don't understand that");
+					Game.print("I don't understand that");
 					break; 
 				}
 			}
 		}catch(Exception n) {
-			System.out.println("I don't understand that \n\nException: \n" + n);
+			Game.print("I don't understand that \n\nException: \n" + n);
 			start();
 		}
 
-		System.out.println("Quitting game...");
+		Game.print("Quitting game...");
 	}
 	private void move(Action a) {
 		this.player.move(a);
@@ -397,10 +396,40 @@ public class Game {
 	}
 	private void help() {
 
-		System.out.println(" -- Text RPG Help Menu -- ");
+		Game.print(" -- Text RPG Help Menu -- ");
 		
-		System.out.println("To view your current items: type \"inventory\"");
-		System.out.println("To travel in a direction like north, type \"Go North\"");
-		System.out.println("You can inspect an inspectable item by typing \"Inspect <item>\"");
+		Game.print("To view your current items: type \"inventory\"");
+		Game.print("To travel in a direction like north, type \"Go North\"");
+		Game.print("You can inspect an inspectable item by typing \"Inspect <item>\"");
+	}
+	public static void print(String s) {
+		for(String line : s.split("\n")) {
+			int c = 0;
+			for(String word : line.split(" ")) {
+				System.out.print(word + " ");
+				c += word.length();
+				if(c > 80) {
+					System.out.println();
+					c = 0;
+				}
+			}
+			System.out.println();
+		}
+
+/*
+		String[] a = s.split("\n");
+		int line = 0;
+		for(String x : a) { 
+			for(String y : x.split(" ")) {
+				System.out.print(y + " ");
+				line+=y.length();
+				if(line > 80) {
+					System.out.println();
+					line = 0;
+				}
+			}
+		}
+		System.out.println();
+*/
 	}
 }

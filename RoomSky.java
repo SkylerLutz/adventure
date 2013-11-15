@@ -4,6 +4,7 @@ public class RoomSky extends Room {
 		super(description, shortDescription);
 		this.duration = duration;
 		this.landMessage = null;
+		this.fallBrokenMessage = null;
 	}
 	public void freefall() {
 
@@ -15,8 +16,9 @@ public class RoomSky extends Room {
 			public void run() {
 				for(int i=0; i < dur; i++) {
 
+					System.out.println("\n");
 					try {
-						System.out.println("\n" + (dur-i)*1000 + " thousand feet.");
+						System.out.println((dur-i)*1000 + " thousand feet.");
 						System.out.print(">>> ");
 						Thread.sleep(2500 + (RoomSky.shouldDie() ? 0 : 1000));
 					}
@@ -25,13 +27,13 @@ public class RoomSky extends Room {
 					}
 				}
 				if(RoomSky.shouldDie()) {
-					System.out.println("Splat.");
+					Game.print("Splat.");
 					p.die();
 				}
 				else {
 					// move to field
 					if(landMessage != null) {
-						System.out.println(landMessage);
+						Game.print(landMessage);
 					}
 					// transition to field
 					p.move(Action.ActionGoDown);
@@ -48,7 +50,7 @@ public class RoomSky extends Room {
 	}
 	public void breakFall() {
 		shouldDie = false;
-		System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
+		Game.print(this.fallBrokenMessage);
 	}
 	public static boolean shouldDie() {
 		return shouldDie;
@@ -56,7 +58,11 @@ public class RoomSky extends Room {
 	public void setLandMessage(String s) {
 		this.landMessage = s;
 	}
+	public void setFallBrokenMessage(String s) {
+		this.fallBrokenMessage = s;
+	}
 	protected int duration; // in seconds
 	protected static boolean shouldDie = true;
 	protected String landMessage;
+	protected String fallBrokenMessage;
 }

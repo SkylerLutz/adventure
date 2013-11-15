@@ -14,9 +14,9 @@ public class Player {
 		this.currentRoom = currentRoom;
 		this.currentRoom.player = this;
 
-		System.out.println(this.currentRoom.description());
+		Game.print(this.currentRoom.description());
 		// TODO not sure if I want to leave this line in for the final release
-		System.out.println(this.currentRoom.visibleItems());
+		Game.print(this.currentRoom.visibleItems());
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {
@@ -30,7 +30,7 @@ public class Player {
 
 		Item dropped = drop(item);
 		if (dropped == null) {
-			System.out.println("You don't have this item to drop");
+			Game.print("You don't have this item to drop");
 			return false;
 		}
 		this.currentRoom.putItem(dropped);
@@ -70,14 +70,14 @@ public class Player {
 			RoomRequiredItem room = (RoomRequiredItem)this.currentRoom;
 			
 			if(room.shouldDieForAction(a)) {
-				System.out.println(room.deathMessage());
+				Game.print(room.deathMessage());
 				this.die();
 			}
 		}
 		else if(this.currentRoom instanceof RoomDark) {
 			RoomDark room = (RoomDark)this.currentRoom;
 			if(room.isDark() && room.willDieInDirection(a) && !this.hasItem(Item.getInstance("flashlight"))) {
-				System.out.println(room.deathMessage());
+				Game.print(room.deathMessage());
 				this.die();
 			}
 		}
@@ -89,17 +89,17 @@ public class Player {
 				RoomLockable lockedRoom = (RoomLockable)nextRoom;
 				if(lockedRoom.isLocked()) {
 					if(lockedRoom.causesDeath()) {
-						System.out.println(lockedRoom.deathMessage());
+						Game.print(lockedRoom.deathMessage());
 						this.die();
 					}
-					System.out.println("This door is locked. You must unlock it.");
+					Game.print("This door is locked. You must unlock it.");
 					return;
 				}
 			}
 			else if(nextRoom instanceof RoomObscured) {
 				RoomObscured obscuredRoom = (RoomObscured)nextRoom;
 				if(obscuredRoom.isObscured()) {
-					System.out.println("You can't move that way");
+					Game.print("You can't move that way");
 					return;
 				}
 			}
@@ -114,7 +114,7 @@ public class Player {
 				if(message != null) {
 					if(delay != 0) {
 						for(int i=0; i < 3; i++) { 
-							System.out.println("...");
+							Game.print("...");
 							try{
 								Thread.sleep(delay);
 							}
@@ -123,21 +123,24 @@ public class Player {
 							}
 						}
 					}
-					System.out.println(message);
+					Game.print(message);
 				}
 			}
 			if(nextRoom instanceof RoomRequiredItem) {
 				RoomRequiredItem r = (RoomRequiredItem)nextRoom;
 				if(r.diesOnEntry()) {
-					System.out.println(r.deathMessage());
+					Game.print(r.deathMessage());
 					this.die();
 				}
 			}
 
 			this.currentRoom = nextRoom;
-			System.out.println(this.currentRoom.description());
+			//Game.print(this.currentRoom.description());
 			// TODO not sure if I want to leave this line in for the final release
-			System.out.println(this.currentRoom.visibleItems());
+			//Game.print(this.currentRoom.visibleItems());
+			Game.print(this.currentRoom.description());
+			// TODO not sure if I want to leave this line in for the final release
+			Game.print(this.currentRoom.visibleItems());
 
 			if(nextRoom instanceof RoomSky) {
 				RoomSky sky = (RoomSky)nextRoom;
@@ -145,7 +148,7 @@ public class Player {
 			}
 		}
 		else {
-			System.out.println("You can't move that way");
+			Game.print("You can't move that way");
 		}
 
 		
@@ -154,10 +157,10 @@ public class Player {
 		return this.currentRoom;
 	}	
 	public void look() {
-		System.out.println(this.currentRoom);
+		Game.print(this.currentRoom.toString());
 	}
 	public void die() {
-		System.out.println("You scored 0 out of 90 possible points. You are dead.");
+		Game.print("You scored 0 out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
 	protected Item disguise;

@@ -4,6 +4,6 @@ public class ItemFood extends Item implements Edible, Holdable {
 		super(s, sd, a);
 	}
 	public void eat() {
-		System.out.println("Yummy");
+		Game.print("Yummy");
 	}		
 }

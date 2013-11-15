@@ -5,6 +5,6 @@ public class ItemMicrowave extends Item implements Startable {
 	}
 
 	public void start() {
-		System.out.println("Beep beep beep");
+		Game.print("Beep beep beep");
 	}
 }

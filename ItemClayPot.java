@@ -8,7 +8,7 @@ public class ItemClayPot extends Item implements Destroyable, Holdable, Hostable
 		this.destroyMessage = s;
 	}
 	public void destroy() {
-		System.out.println(destroyMessage);
+		Game.print(destroyMessage);
 	}
 	public void setDisappears(boolean b) {
 		this.disappears = b;

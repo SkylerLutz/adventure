@@ -68,7 +68,7 @@ public class Room implements Comparable {
 			return null;
 		}
 		else {
-			System.out.println("I don't see that here.");
+			Game.print("I don't see that here.");
 		}
 		return Item.getInstance("unknown");
 	}

@@ -120,7 +120,7 @@ public enum Item {
 			return true;
 		}
 		else {
-			System.out.println("You cannot put an item into this " + this);
+			Game.print("You cannot put an item into this " + this);
 		}
 		return false;
 	}
@@ -139,11 +139,11 @@ public enum Item {
 
 		return i;
 		// else {
-		//	System.out.println("You cannot break this item.");
+		//	Game.print("You cannot break this item.");
 		// }
 	}
 	public void eat() {
-		System.out.println("yummy");
+		Game.print("yummy");
 	}
 	public void push() {
 		if(this.defaults.get("canBePushed")) {
@@ -151,46 +151,46 @@ public enum Item {
 		}
 		switch(this) {
 			case ItemFridge: 
-				System.out.println("You revealed a secret passage to the east!");
+				Game.print("You revealed a secret passage to the east!");
 				break;
 			default:
-				System.out.println("You cannot push this item");
+				Game.print("You cannot push this item");
 		}
 	}
 	public void start() {
 		if(this.defaults.get("canBeEnabled")) {
 			switch(this) {
 				case ItemLightSwitch:
-					System.out.println("The room is lit");
+					Game.print("The room is lit");
 					break;
 				case ItemMicrowave:
 					for(int i=0; i < 3; i++) {
-						System.out.println("...");
+						Game.print("...");
 						try {
 							Thread.sleep(1000);
 						} catch(Exception e1) {
 							e1.printStackTrace();
 						}
 					}
-					System.out.println("Beep beep beep");
+					Game.print("Beep beep beep");
 					if(this.installedItem == Item.ItemStatue) {
-						System.out.println("You melted Richard Stallman!");
+						Game.print("You melted Richard Stallman!");
 						this.installedItem = Item.ItemDiamond;
 					}
 						
 					break;
 				case ItemParachute:
 
-					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
+					Game.print("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
 					this.sky.breakFall();
 					break;
 				default:
-					System.out.println("I don't know how to start that item");
+					Game.print("I don't know how to start that item");
 					break;	
 			}
 		}
 		else {
-			System.out.println("I don't understand what that means");
+			Game.print("I don't understand what that means");
 		}
 	}
 	public boolean hasItemInstalled() {
@@ -234,7 +234,7 @@ public enum Item {
 	}
 	public void showDestroyMessage() {
 		if(destroyMessage != null) {
-			System.out.println(destroyMessage);
+			Game.print(destroyMessage);
 		}
 	}
 	public String[] getAliases() {

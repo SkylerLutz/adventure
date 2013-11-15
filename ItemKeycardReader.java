@@ -8,7 +8,7 @@ public class ItemKeycardReader extends Item implements Hostable {
 		this.installedItem = item;
 
 		for(int i=0; i < 3; i++) {
-			System.out.println("...");
+			Game.print("...");
 			try {
 				Thread.sleep(1000);
 			} catch(Exception e1) {
@@ -16,7 +16,7 @@ public class ItemKeycardReader extends Item implements Hostable {
 			}
 		}
 		if(this.installMessage != null) {
-			System.out.println(this.installMessage);
+			Game.print(this.installMessage);
 		}
 		((Visible)this.relatedItem).setVisible(true);
 	}

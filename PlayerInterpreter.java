@@ -54,7 +54,7 @@ public class PlayerInterpreter {
 						return action;
 					}
 					else {
-						System.out.println("You must supply a direct object");
+						Game.print("You must supply a direct object");
 						return Action.ActionPass;
 					}
 				case TYPE_HASINDIRECTOBJECT:
@@ -81,7 +81,7 @@ public class PlayerInterpreter {
 									return action;
 								}
 								else {
-									System.out.println("You must supply an indirect object");
+									Game.print("You must supply an indirect object");
 									return Action.ActionError;
 								}
 							}
@@ -92,7 +92,7 @@ public class PlayerInterpreter {
 						
 					}
 					else {
-						System.out.println("You must supply a direct object");
+						Game.print("You must supply a direct object");
 						return Action.ActionError;
 					}
 					break;
@@ -101,7 +101,7 @@ public class PlayerInterpreter {
 				case TYPE_UNKNOWN:
 					return Action.ActionError;
 				default:
-					System.out.println("Unknown type");
+					Game.print("Unknown type");
 					break;
 			}
 		}

@@ -5,12 +5,12 @@ public class ItemJunctionBox extends Item implements Destroyable {
 	}
 	public void destroy() {
 		if(this.canBeDestroyed) {
-			System.out.println(this.destroyMessage);
+			Game.print(this.destroyMessage);
 			this.canBeDestroyed = false;
 			((RoomDark)this.relatedRoom).setDark(false);
 		}
 		else {
-			System.out.println("You have already short circuited this junction box.");
+			Game.print("You have already short circuited this junction box.");
 		}
 	}
 	public boolean disappears() { 

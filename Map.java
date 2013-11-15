@@ -253,6 +253,7 @@ public class Map {
 		String skyDescription = "You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.";
 		String skyShortDescription = "Skydiving";
 		String skyLanding = "You land softly in the grass.";
+		String broken = "You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.";
 
 		String landingDescription = "You are in a meadow, surrounded by shoulder high brush on all sides. In the distance, you can see the top secret complex to the North.";
 		String landingShortDescription = "Landing site.";
@@ -317,6 +318,7 @@ public class Map {
 		
 		RoomSky sky = new RoomSky(skyDescription, skyShortDescription, 5);
 		sky.setLandMessage(skyLanding);
+		sky.setFallBrokenMessage(broken);
 		
 		plane.setOneWayAdjacentRoom(Action.ActionGoDown, sky);
 		Item chute = Item.getInstance("parachute");

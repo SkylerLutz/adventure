@@ -65,7 +65,7 @@ public class Item implements Inspectable, Visible {
 				for(String string : item.getAliases()) {
 					for(String s : i.getAliases()) {
 						if(string.equals(s)) {
-							System.out.println("Warning: alias conflict between " + item + " and " + i);
+							Game.print("Warning: alias conflict between " + item + " and " + i);
 						}
 					}
 				}
@@ -108,7 +108,7 @@ public class Item implements Inspectable, Visible {
 	}
 // Inspectable
  	public void inspect() {
-		System.out.println("It appears to be a " + this + ".");
+		Game.print("It appears to be a " + this + ".");
  	}
 	protected boolean visible = true;
 	protected String description;
@@ -259,16 +259,16 @@ public enum Item {
 			switch(this) {
 				case ItemCardReader: {
 					if(item == Item.ItemKeyCard) {
-						System.out.println("Authenticating.");
+						Game.print("Authenticating.");
 						for(int i=0; i < 3; i++) {
-							System.out.println("...");
+							Game.print("...");
 							try {
 								Thread.sleep(1000);
 							} catch(Exception e1) {
 								e1.printStackTrace();
 							}
 						}
-						System.out.println("Authentication Complete.");
+						Game.print("Authentication Complete.");
 						this.installedItem = item;
 					}	
 					break;
@@ -278,7 +278,7 @@ public enum Item {
 						this.installedItem = item;
 					}		
 					else {
-						System.out.println("You cannot put an item into this " + this);
+						Game.print("You cannot put an item into this " + this);
 					}
 				}	
 				default:
@@ -287,7 +287,7 @@ public enum Item {
 			}
 			return true;
 		}
-		System.out.println("You cannot put an item into this " + this);
+		Game.print("You cannot put an item into this " + this);
 		return false;
 	}
 	public Item removeInstalledItem() {
@@ -305,16 +305,16 @@ public enum Item {
 
 		return i;
 		// else {
-		//	System.out.println("You cannot break this item.");
+		//	Game.print("You cannot break this item.");
 		// }
 	}
 	public void eat() {
 		switch(this) {
 			case ItemGuard1:
-				System.out.println("You kneel down on the ground, and move your open mouth toward the guard's dead body, but then remember you are not a cannibal.");
+				Game.print("You kneel down on the ground, and move your open mouth toward the guard's dead body, but then remember you are not a cannibal.");
 				break;
 			default:
-				System.out.println("yummy");
+				Game.print("yummy");
 				break;
 		}
 	}
@@ -324,61 +324,61 @@ public enum Item {
 		}
 		switch(this) {
 			case ItemFridge: 
-				System.out.println("You revealed a secret passage to the east!");
+				Game.print("You revealed a secret passage to the east!");
 				break;
 			default:
-				System.out.println("You cannot push this item");
+				Game.print("You cannot push this item");
 		}
 	}
 	public void start() {
 		if(this.defaults.get("canBeEnabled")) {
 			switch(this) {
 				case ItemLightSwitch:
-					System.out.println("The room is lit");
+					Game.print("The room is lit");
 					break;
 				case ItemMicrowave:
 					for(int i=0; i < 3; i++) {
-						System.out.println("...");
+						Game.print("...");
 						try {
 							Thread.sleep(1000);
 						} catch(Exception e1) {
 							e1.printStackTrace();
 						}
 					}
-					System.out.println("Beep beep beep");
+					Game.print("Beep beep beep");
 					if(this.installedItem == Item.ItemStatue) {
-						System.out.println("You melted Richard Stallman!");
+						Game.print("You melted Richard Stallman!");
 						this.installedItem = Item.ItemDiamond;
 					}
 						
 					break;
 				case ItemParachute:
 
-					System.out.println("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
+					Game.print("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
 					((RoomSky)this.relatedRoom).breakFall();
 					break;
 				default:
-					System.out.println("I don't know how to start that item");
+					Game.print("I don't know how to start that item");
 					break;	
 			}
 		}
 		else {
-			System.out.println("I don't understand what that means");
+			Game.print("I don't understand what that means");
 		}
 	}
 	public void kill() {
 		switch(this) {
 			case ItemGuard1:
-				System.out.println("The guard is now dead.");
+				Game.print("The guard is now dead.");
 				this.detailDescription = "dead guard";
 				this.defaults.put("isEdible", true);
 				if(this.installedItem != null) {
 					this.relatedRoom.putItem(this.installedItem);
-					System.out.println("It looks like the guard dropped something");
+					Game.print("It looks like the guard dropped something");
 				}
 				break;
 			default:
-				System.out.println("This item cannot be killed");
+				Game.print("This item cannot be killed");
 				break;
 		}
 	}
@@ -429,7 +429,7 @@ public enum Item {
 	}
 	public void showDestroyMessage() {
 		if(destroyMessage != null) {
-			System.out.println(destroyMessage);
+			Game.print(destroyMessage);
 		}
 	}
 	public String[] getAliases() {

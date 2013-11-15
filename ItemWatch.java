@@ -13,22 +13,22 @@ public class ItemWatch extends Item implements Holdable {
 		Scanner s = new Scanner(System.in);
 		String input = "";
 /*
-		System.out.println("\nCIA SmartWatch v3.2.2\n");
+		Game.print("\nCIA SmartWatch v3.2.2\n");
 		sleep(800);
-		System.out.println("Authenticating via retina scan...");
+		Game.print("Authenticating via retina scan...");
 		for(int i=0; i < 3; i++) { 
 			sleep(800);
-			System.out.println("...");
+			Game.print("...");
 		}
 		sleep(800);
-		System.out.println("Retina scan complete. A hologram appears.");
+		Game.print("Retina scan complete. A hologram appears.");
 		sleep(800);
 */
 		int n = 0;
 		out:
 		while(true) {
 			ItemWatchMenu menu = this.stack.peek();
-			System.out.println(menu);
+			System.out.println(menu.toString());
 			while(true) {
 				System.out.print("$ ");
 				input = s.nextLine();
@@ -40,7 +40,7 @@ public class ItemWatch extends Item implements Holdable {
 						while(this.stack.size() > 1) stack.pop();
 						break out;
 					}
-					System.out.println("Invalid selection.");
+					Game.print("Invalid selection.");
 					continue;
 				}
 				if(n == menu.count()) {
@@ -52,7 +52,7 @@ public class ItemWatch extends Item implements Holdable {
 					}
 				}
 				else if (n > menu.count()) {
-					System.out.println("Invalid selection.");
+					Game.print("Invalid selection.");
 					continue;
 				}
 				else {
@@ -61,7 +61,7 @@ public class ItemWatch extends Item implements Holdable {
 				break;
 			}
 		}
-		System.out.println("You turn off the watch and lower your wrist.");
+		Game.print("You turn off the watch and lower your wrist.");
 	}
 	public void setMenu(ItemWatchMenu main) {
 		this.stack.push(main);
