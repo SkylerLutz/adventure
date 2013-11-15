@@ -14,8 +14,8 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		//Room startingRoom = Map.njit();
-		Room startingRoom = Map.mission();
+		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.mission();
 		
 		this.scanner = new Scanner(System.in);
 		this.interpreter = new PlayerInterpreter();
@@ -268,7 +268,7 @@ public class Game {
 								Game.print("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
 							}
 							else {
-								Game.print("Done");
+								Game.print("Done.");
 								this.player.drop(itemToPut);
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
 							/*
@@ -284,7 +284,7 @@ public class Game {
 										}
 									}
 								}	
-								Game.print("Done");
+								Game.print("Done.");
 							*/
 							}
 							break;
@@ -415,21 +415,5 @@ public class Game {
 			}
 			System.out.println();
 		}
-
-/*
-		String[] a = s.split("\n");
-		int line = 0;
-		for(String x : a) { 
-			for(String y : x.split(" ")) {
-				System.out.print(y + " ");
-				line+=y.length();
-				if(line > 80) {
-					System.out.println();
-					line = 0;
-				}
-			}
-		}
-		System.out.println();
-*/
 	}
 }

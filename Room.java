@@ -90,7 +90,7 @@ public class Room implements Comparable {
 		this.player = p;
 	}
 	public String toString() {
-		return this.description + visibleItems();
+		return this.description + "\n" + visibleItems();
 	}
 	public String visibleItems() {
 		String s = "";

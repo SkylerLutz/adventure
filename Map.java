@@ -230,7 +230,9 @@ public class Map {
 		items.add(Item.getInstance("flashlight"));
 		items.add(Item.getInstance("key"));
 		items.add(Item.getInstance("shovel"));
-		items.add(Item.getInstance("statue"));
+		ItemRMS wax = (ItemRMS)Item.getInstance("rms");
+		wax.setMeltItem(Item.getInstance("diamond"));
+		items.add(wax);
 		items.add(Item.getInstance("microwave"));
 		items.add(Item.getInstance("fridge"));
 		RoomDark acm = new RoomDark(acmDescription, acmShortDescription, acmDarkDescription, acmDarkShortDescription, false);
@@ -292,7 +294,7 @@ public class Map {
 		String compFrontD= "You are almost at the entrance booth. There is an electrical junction box and power meter to the west.";
 		String compFrontSD= "Complex Entrance front.";
 
-		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it. There is a keycard reader attached.";
+		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it.";
 		String compElectricSD= "Junction Box";
 
 		String boothD = "You are inside the operator's booth.";
@@ -352,7 +354,7 @@ public class Map {
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
 		Item suit = Item.getInstance("suit"); 
-		//landing.putItem(suit);
+		landing.putItem(suit);
 
 		RoomRequiredItem approach= new RoomRequiredItem(approachDescription, approachShort, warning, shortWarning, suit);
 		approach.setAdjacentRoom(Action.ActionGoSouth, landing);

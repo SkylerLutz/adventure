@@ -135,9 +135,6 @@ public class Player {
 			}
 
 			this.currentRoom = nextRoom;
-			//Game.print(this.currentRoom.description());
-			// TODO not sure if I want to leave this line in for the final release
-			//Game.print(this.currentRoom.visibleItems());
 			Game.print(this.currentRoom.description());
 			// TODO not sure if I want to leave this line in for the final release
 			Game.print(this.currentRoom.visibleItems());

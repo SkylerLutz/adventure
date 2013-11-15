@@ -12,7 +12,6 @@ public class ItemWatch extends Item implements Holdable {
 
 		Scanner s = new Scanner(System.in);
 		String input = "";
-/*
 		Game.print("\nCIA SmartWatch v3.2.2\n");
 		sleep(800);
 		Game.print("Authenticating via retina scan...");
@@ -23,7 +22,6 @@ public class ItemWatch extends Item implements Holdable {
 		sleep(800);
 		Game.print("Retina scan complete. A hologram appears.");
 		sleep(800);
-*/
 		int n = 0;
 		out:
 		while(true) {

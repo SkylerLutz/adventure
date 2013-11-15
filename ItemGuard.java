@@ -1,12 +1,8 @@
-public class ItemGuard extends Item implements Hostable, Killable, Pushable {
+public class ItemGuard extends Item implements Hostable, Killable {
 
 	public ItemGuard(String s, String sd, String[] a) {
 		super(s, sd, a);
 		this.deathMessage = null;
-	}
-	public void push() {
-		
-		Game.print("you've been spotted!");
 	}
 	public void kill() {
 		if(!this.isDead) {
