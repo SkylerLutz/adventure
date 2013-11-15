@@ -49,7 +49,7 @@ public class ItemWatch extends Item implements Holdable {
 						this.stack.pop();
 					}
 				}
-				else if (n > menu.count()) {
+				else if (n > menu.count() || n < 0) {
 					Game.print("Invalid selection.");
 					continue;
 				}

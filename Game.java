@@ -14,10 +14,12 @@ public class Game {
 	public Game(java.io.File save) {
 	
 		// Parse room from file
-		Room startingRoom = Map.njit();
+		//Room startingRoom = Map.njit();
 		//Room startingRoom = Map.mission();
-		
 		this.scanner = new Scanner(System.in);
+
+		Room startingRoom = chooseLevel();
+
 		this.interpreter = new PlayerInterpreter();
 		
 		// Parse inventory from file
@@ -29,7 +31,47 @@ public class Game {
 			this.player = new Player(startingRoom);
 		}
 	}
+	private Room chooseLevel() {
+		ItemWatchMenu menu = new ItemWatchMenu("Choose a level from the options to below: \n");
+		
+		ItemWatchMenu m1 = new ItemWatchMenu("Dunnet");
+		ItemWatchMenu m2 = new ItemWatchMenu("NJIT");
+		ItemWatchMenu m3 = new ItemWatchMenu("Spy Mission");
 
+		menu.add(m1);
+		menu.add(m2);
+		menu.add(m3);
+
+		Game.print(menu.toString());
+
+		int choice = 0;
+		while(true) {
+			System.out.print(">>> ");
+			String input = this.scanner.nextLine();
+			try {
+				choice = Integer.parseInt(input) - 1;
+			}
+			catch(Exception e) {
+				Game.print("Invalid selection.");
+				continue;
+			}
+			if(choice > menu.count() || choice < 0) {
+				Game.print("Invalid selection.");
+				continue;
+			}
+			switch(choice) {
+				case 0:
+					return Map.level1();
+				case 1:
+					return Map.njit();
+				case 2:
+					return Map.mission();
+				default:
+					Game.print("Invalid selection.");
+					continue;
+			}
+		}
+	}
 	public void start() throws NullPointerException {
 
 		try {

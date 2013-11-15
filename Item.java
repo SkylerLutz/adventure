@@ -8,6 +8,7 @@ public class Item implements Inspectable, Visible {
 		this.aliases = a;
 		this.relatedRoom = null;
 		this.relatedItem = null;
+		this.inspectMessage = null;
 	}
 	private static void initSharedInstances() {
 		
@@ -110,6 +111,9 @@ public class Item implements Inspectable, Visible {
  	public void inspect() {
 		Game.print("It appears to be a " + this + ".");
  	}
+	public void setInspectMessage(String s) {
+		this.inspectMessage = s;
+	}
 	protected boolean visible = true;
 	protected String description;
 	protected String detailDescription;
@@ -117,6 +121,7 @@ public class Item implements Inspectable, Visible {
 	protected static LinkedList<Item> sharedInstances;
 	protected Room relatedRoom; // items can open rooms, call elevators, etc (e.g., an ItemButton instance)
 	protected Item relatedItem; // items can also affect other items, like setting other items breakable (like a junction box);
+	protected String inspectMessage;
 }
 /*
 public enum Item {

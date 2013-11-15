@@ -33,7 +33,9 @@ public class ItemWatchMenu {
 		return this.menus.size();
 	}
 	public String toString() {
-		String top = this.title + "\n\n" + this.text + "\n\n";
+		String title = (this.title != null) ? this.title + "\n\n" : "";
+		String text  = (this.text  != null) ? this.text  + "\n\n" : "";
+		String top = title + text;
 		String list = "";
 		for(int i = 0; i < this.menus.size(); i++) {
 			ItemWatchMenu menu = this.menus.get(i);
