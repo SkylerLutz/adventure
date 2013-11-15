@@ -47,10 +47,9 @@ public class Game {
 						case ActionPickUp: {
 							Item o = a.directObject();
 							Item container = null;
+						System.out.println(o);
 							if(this.player.currentRoom.hasItem(o)) {
 								if(o instanceof Holdable) {
-									//pickup
-									//((Holdable)o).pickup();
 									System.out.println("Taken.");
 									this.player.currentRoom.remove(o);
 									this.player.pickup(o);

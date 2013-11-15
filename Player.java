@@ -45,6 +45,7 @@ public class Player {
 		this.items.add(item);
 	}
 	public boolean hasItem(Item item) {
+		if(item == null) return false;
 		if(this.disguise == item) return true;
 		return this.items.contains(item);
 	}
