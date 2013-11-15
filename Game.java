@@ -217,16 +217,18 @@ public class Game {
 
 						case ActionWear: {
 							Item item = a.directObject();
-							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+							if(this.player.currentRoom.hasItem(item)) {
 								if(item instanceof Wearable) {
 									System.out.println("Worn.");
 									this.player.currentRoom.remove(item);
-									this.player.drop(item);
 									this.player.wearDisguise(item);
 								}
 								else {
-									System.out.println("You can not use this item as a disguise.");
+									System.out.println("You can not wear this item.");
 								}
+							}
+							else if(this.player.disguise() == item) {
+								System.out.println("You are already wearing that.");
 							}
 							else {
 								System.out.println("I don't see that here.");
