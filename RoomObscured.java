@@ -4,6 +4,7 @@ public class RoomObscured extends Room {
 		super(description, shortDescription);
 		this.obscuringItem = obscuringItem;
 		this.isObscured = true;
+		this.obscureMessage = null;
 	}
 	public boolean isObscured() {
 		return this.isObscured;
@@ -11,6 +12,13 @@ public class RoomObscured extends Room {
 	public void setObscured(boolean obscured) {
 		this.isObscured = obscured;
 	}
+	public void setObscureMessage(String s) {
+		this.obscureMessage = s;
+	}
+	public String obscureMessage() {
+		return this.obscureMessage;
+	}
 	protected Item obscuringItem;
 	protected boolean isObscured;
+	protected String obscureMessage;
 }

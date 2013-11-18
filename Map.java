@@ -90,7 +90,7 @@ public class Map {
 		String waterslideDescription = "You have found the source of the running water! It is the waterslide that Ben Slepp promised! You can go down it if you want, but its destination is unknown";
 		String waterslideShortDescription = "Waterslide";
 
-		String acmDescription = "You are in the ACM office. It is filled with students";
+		String acmDescription = "You are in the ACM office. It is filled with students. There is a mysterious hole in the floor, with a sign next to it that says, \"Put valuables in here to score points!\".";
 		String acmShortDescription = "ACM Office";
 		String acmDarkDescription = "It is dark. Perhaps you can find a way to see...";
 		String acmDarkShortDescription = "Darkness";
@@ -213,6 +213,7 @@ public class Map {
 		
 		Item fridge = Item.getInstance("fridge");
 		RoomObscured passage = new RoomObscured(passageDescription ,passageShortDescription, fridge);
+		passage.setObscureMessage("You have revealed a secret passage to the east!");
 		fridge.setRelatedRoom(passage);
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
@@ -232,13 +233,15 @@ public class Map {
 		items.add(Item.getInstance("flashlight"));
 		items.add(Item.getInstance("key"));
 		items.add(Item.getInstance("shovel"));
+		items.add(Item.getInstance("hole"));
 		ItemRMS wax = (ItemRMS)Item.getInstance("rms");
 		ItemDiamond diamond = (ItemDiamond)Item.getInstance("diamond");
 		diamond.setValue(10);
 		wax.setMeltItem(diamond);
 		items.add(wax);
 		items.add(Item.getInstance("microwave"));
-		items.add(Item.getInstance("fridge"));
+		fridge.setInspectMessage("It appears to be leaking from the bottom. Perhaps you should get a better look.");
+		items.add(fridge);
 		RoomDark acm = new RoomDark(acmDescription, acmShortDescription, acmDarkDescription, acmDarkShortDescription, false);
 		acm.putItems(items);
 		acm.setAdjacentRoom(Action.ActionGoNorth, hallway);

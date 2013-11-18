@@ -55,6 +55,9 @@ public class Player {
 	}
 	public void putItemInItem(Item direct, Item indirect) {
 		((Hostable)indirect).install(direct);
+		if(indirect instanceof ItemMagicBox && direct instanceof Valuable) {
+			score((Valuable)direct);
+		}
 	}
 	public void wearDisguise(Item disguise) {
 		if(this.disguise != null) {
