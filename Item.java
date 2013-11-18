@@ -33,6 +33,7 @@ public class Item implements Inspectable, Visible {
 		sharedInstances.add(new ItemWatch ("watch", "smart watch", new String[]{"watch"}));
 		sharedInstances.add(new ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}));
 		sharedInstances.add(new ItemJunctionBox("box", "junction box", new String[]{"box", "junction", "meter", "electric", "electricity", "power"}));
+		sharedInstances.add(new ItemMagicBox("pit", "bottomless pit", new String[]{"pit", "hole"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -109,10 +110,15 @@ public class Item implements Inspectable, Visible {
 	}
 // Inspectable
  	public void inspect() {
-		Game.print("It appears to be a " + this + ".");
+		if(this.inspectMessage != null) {
+			Game.print(this.inspectMessage);
+		}
+		else {
+			Game.print("It appears to be a " + this + ".");
+		}
  	}
-	public void setInspectMessage(String s) {
-		this.inspectMessage = s;
+	public void setInspectMessage(String message) {
+		this.inspectMessage = message;
 	}
 	protected boolean visible = true;
 	protected String description;

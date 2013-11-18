@@ -5,6 +5,7 @@ public class Player {
 
 	public Player(Room currentRoom) {
 		this(currentRoom, new LinkedList<Item>());
+		this.score = 0;
 	}
 	public Player(Room currentRoom, LinkedList<Item> items) {
 		this.items = items;
@@ -54,6 +55,9 @@ public class Player {
 	}
 	public void putItemInItem(Item direct, Item indirect) {
 		((Hostable)indirect).install(direct);
+		if(indirect instanceof ItemMagicBox && direct instanceof Valuable) {
+			score((Valuable)direct);
+		}
 	}
 	public void wearDisguise(Item disguise) {
 		if(this.disguise != null) {
@@ -156,10 +160,16 @@ public class Player {
 	public void look() {
 		Game.print(this.currentRoom.toString());
 	}
+	public void score(Valuable object) {
+		int score = object.value();
+		Game.print("You scored " + score + " points.");
+		this.score+=score;
+	}
 	public void die() {
-		Game.print("You scored 0 out of 90 possible points. You are dead.");
+		Game.print("You scored " + this.score + " out of 90 possible points. You are dead.");
 		System.exit(0);
 	}
+	protected int score;
 	protected Item disguise;
 	protected LinkedList<Item> items;
 	protected Room currentRoom;

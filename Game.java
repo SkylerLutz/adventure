@@ -228,7 +228,6 @@ public class Game {
 										((RoomElevator)this.player.currentRoom).call(Integer.parseInt(item.getAliases()[0])-1);
 									}
 
-
 								}
 								else {
 									Game.print("Nothing happens.");
@@ -306,8 +305,11 @@ public class Game {
 								Game.print("That object doesn't exist in this room.");
 								break;
 							}
+							else if(itemToBePutInto instanceof ItemMagicBox && !(itemToPut instanceof Valuable)) {
+								Game.print("This item has no value--putting it in this " + itemToBePutInto + " will not score you any points.");
+							}
 							else if(!(itemToBePutInto instanceof Hostable) || !(itemToPut instanceof Installable)) {
-								Game.print("You cannot install a " + itemToPut + " into this " + itemToBePutInto);
+								Game.print("You cannot put a " + itemToPut + " into this " + itemToBePutInto);
 							}
 							else {
 								Game.print("Done.");
