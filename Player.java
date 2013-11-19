@@ -17,7 +17,7 @@ public class Player {
 
 		Game.print(this.currentRoom.description());
 		// TODO not sure if I want to leave this line in for the final release
-		Game.print(this.currentRoom.visibleItems());
+		//Game.print(this.currentRoom.visibleItems());
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {
@@ -141,7 +141,7 @@ public class Player {
 			this.currentRoom = nextRoom;
 			Game.print(this.currentRoom.description());
 			// TODO not sure if I want to leave this line in for the final release
-			Game.print(this.currentRoom.visibleItems());
+			//Game.print(this.currentRoom.visibleItems());
 
 			if(nextRoom instanceof RoomSky) {
 				RoomSky sky = (RoomSky)nextRoom;

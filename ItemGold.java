@@ -1,4 +1,4 @@
-public class ItemGold extends Item implements Holdable, Valuable {
+public class ItemGold extends Item implements Installable, Holdable, Valuable {
 
 	public ItemGold(String s, String sd, String[] a) {
 		super(s, sd, a);

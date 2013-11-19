@@ -102,9 +102,9 @@ public class Room implements Comparable {
 		return s;
 	}
 	public String description(){ 
-		String d = this.roomWasVisited ? this.shortDescription : this.description;
+		String d = this.roomWasVisited ? this.shortDescription : this.description + "\n" + visibleItems();
 		this.roomWasVisited = true;
-		return d;
+		return "\n" + d + "\n";
 	}
 	public String shortDescription() {
 		return this.shortDescription;
