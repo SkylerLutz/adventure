@@ -1,4 +1,6 @@
 import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class Item implements Inspectable, Visible {
 
@@ -129,345 +131,514 @@ public class Item implements Inspectable, Visible {
 	protected Item relatedItem; // items can also affect other items, like setting other items breakable (like a junction box);
 	protected String inspectMessage;
 }
-/*
-public enum Item {
 
-	ItemShovel  ("shovel", "metal shovel",  new String[]{"shovel"}),
-	ItemBrick   ("brick",  "clay brick",    new String[]{"brick"}),
-	ItemFood    ("food",   "food",          new String[]{"food"}),
-	ItemLadder  ("ladder", "wooden ladder", new String[]{"ladder"}),
-	ItemClayPot ("pot",    "clay pot", 	new String[]{"pot", "pottery"}),
-	ItemDiamond ("diamond", "white diamond", new String[]{"diamond", "jewel"}),
-	ItemGold    ("gold", "shiny gold bar", new String[]{"gold", "bar"}),
-	ItemStatue  ("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}),
-	ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}),
-	ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}),
+class ItemBrick extends Item implements Holdable{
 
-	ItemElevatorButton("elevator button", "elevator button", new String[]{"elevator"}),
-	ItemElevatorFloor1Button("Elevator Button", "Floor 1 Button", new String[]{"1"}),
-	ItemElevatorFloor2Button("Elevator Button", "Floor 2 Button", new String[]{"2"}),
-	ItemElevatorFloor3Button("Elevator Button", "Floor 3 Button", new String[]{"3"}),
-	ItemElevatorFloor4Button("Elevator Button", "Floor 4 Button", new String[]{"4"}),
+	public ItemBrick(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemButton extends Item implements Pushable {
 
-	ItemKey    ("key",    "silver key",    new String[]{"key"}),
-	ItemKeyCard("keycard","keycard",       new String[]{"keycard", "smartcard", "card"}),
-	ItemLock   ("lock",  "silver lock",   new String[]{"lock"}),
-	ItemCardReader("reader",  "keycard reader",   new String[]{"reader", "slider"}),
-	ItemGrafitti("grafitti", "contemporary grafitti. It says: The cake is a lie", new String[]{"grafitti"}),
-	ItemLightSwitch("lightswitch", "plastic lightswitch", new String[]{"lightswitch"}),
-	ItemFlashLight("flashlight", "battery operated flashlight", new String[]{"flashlight"}),
-	ItemParachute("parachute", "red and blue parachute", new String[]{"parachute", "chute"}),
-	ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}),
-	ItemArmor("armor", "body armor", new String[]{"armor"}),
-	ItemGuard1("guard", "sleeping guard", new String[]{"guard", "henchman"}),
-	ItemUnknown;
-
-	Item(String description, String detailDescription, String[] aliases) {
-		this.description = description;
-		this.detailDescription = detailDescription;
-		this.aliases = aliases;
-		this.installedItem = null;
-		this.destroyMessage = null;
-		this.wasPushed = false;
-		setDefaults();
-	}
-	Item() {
-		this("unknown item", "unknown item", new String[]{"unknown"});
-	}
-	private void setDefaults() {
-		switch(this.description) {
-			case "pot":
-				this.defaults = genericDefaults();
-				this.defaults.put("permitsInstalledItems", true);
-				this.defaults.put("installedItemsAreVisible", true);
-				this.defaults.put("canBeDestroyed", true);
-				break;
-			case "microwave":
-				this.defaults = genericDefaults();
-				this.defaults.put("canBePickedUp", false);
-				this.defaults.put("permitsInstalledItems", true);
-				this.defaults.put("installedItemsAreVisible", true);
-				defaults.put("canBeEnabled", true);
-				break;
-			case "fridge": 
-				this.defaults = genericDefaults();
-				this.defaults.put("canBePushed", true);
-				break;
-			case "Elevator Button": 
-				this.defaults = genericDefaults();
-				this.defaults.put("isVisible", false);
-				break;
-			case "lock":  
-				this.defaults = genericDefaults();
-				this.defaults.put("permitsInstalledItems", true);
-				break;
-			case "parachute":  
-				this.defaults = genericDefaults();
-				this.defaults.put("canBeEnabled", true);
-				break;
-			case "grafitti":
-				this.defaults = genericDefaults();
-				this.defaults.put("permitsInstalledItems", false);
-				this.defaults.put("canBePickedUp", false);
-				break;
-			case "lightswitch":
-				this.defaults = genericDefaults();
-				this.defaults.put("permitsInstalledItems", false);
-				this.defaults.put("canBePickedUp", false);
-				defaults.put("canBeEnabled", true);
-				break;
-			case "camouflage":
-				this.defaults = genericDefaults();
-				defaults.put("isDisguise", true);
-				break;
-			case "guard":
-				this.defaults = genericDefaults();
-				defaults.put("isKillable", true);
-				defaults.put("canBePickedUp", false);
-				defaults.put("permitsInstalledItems", true);
-				break;
-			case "reader":
-				this.defaults = genericDefaults();
-				defaults.put("permitsInstalledItems", true);
-				defaults.put("canBePickedUp", false);
-				break;
-			case "unknown":
-				this.defaults = genericDefaults();
-				break;
-			default:
-				this.defaults = genericDefaults();
-				break;
-		}
-	}
-	private static HashMap<String, Boolean> genericDefaults() {
-		HashMap<String, Boolean> defaults = new HashMap<String, Boolean>();
-		defaults.put("isVisible", true);
-		defaults.put("permitsInstalledItems", false);
-		defaults.put("canBePickedUp", true);
-		defaults.put("canBeDestroyed", false);
-		defaults.put("installedItemsAreVisible", false);
-		defaults.put("canBeEnabled", false);
-		defaults.put("canBePushed", false);
-		defaults.put("isEdible", false);
-		defaults.put("isDisguise", false);
-		defaults.put("isKillable", false);
-		return defaults;
-	}
-	public HashMap<String, Boolean> defaults() {
-		return this.defaults;
-	}
-	public void updateDefault(String key, Boolean value) {
-		this.defaults.put(key, value);
-	}
-	public String toString() {
-		return description;
-	}
-	public String toDetailString() {
-		return this.detailDescription;
-	}
-	public boolean setInstalledItem(Item item) {
-		if(this.defaults.get("permitsInstalledItems")) {
-			switch(this) {
-				case ItemCardReader: {
-					if(item == Item.ItemKeyCard) {
-						Game.print("Authenticating.");
-						for(int i=0; i < 3; i++) {
-							Game.print("...");
-							try {
-								Thread.sleep(1000);
-							} catch(Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-						Game.print("Authentication Complete.");
-						this.installedItem = item;
-					}	
-					break;
-				}
-				case ItemGuard1: {
-					if(item == Item.ItemKeyCard) {
-						this.installedItem = item;
-					}		
-					else {
-						Game.print("You cannot put an item into this " + this);
-					}
-				}	
-				default:
-					this.installedItem = item;
-					break;
-			}
-			return true;
-		}
-		Game.print("You cannot put an item into this " + this);
-		return false;
-	}
-	public Item removeInstalledItem() {
-		Item i = this.installedItem;
-		this.installedItem = null;
-		return i;
-	}
-	public void setInstalledItemVisible(boolean visible) {
-		this.defaults.put("installedItemsAreVisible", visible);
-	}
-	public Item destroy() {
-		// Todo if object is breakable
-		Item i = removeInstalledItem();
-		showDestroyMessage();
-
-		return i;
-		// else {
-		//	Game.print("You cannot break this item.");
-		// }
-	}
-	public void eat() {
-		switch(this) {
-			case ItemGuard1:
-				Game.print("You kneel down on the ground, and move your open mouth toward the guard's dead body, but then remember you are not a cannibal.");
-				break;
-			default:
-				Game.print("yummy");
-				break;
-		}
+	public ItemButton(String s, String sd, String[] a) {
+		super(s, sd, a);
 	}
 	public void push() {
-		if(this.defaults.get("canBePushed")) {
-			this.wasPushed = true;
-		}
-		switch(this) {
-			case ItemFridge: 
-				Game.print("You revealed a secret passage to the east!");
-				break;
-			default:
-				Game.print("You cannot push this item");
-		}
-	}
-	public void start() {
-		if(this.defaults.get("canBeEnabled")) {
-			switch(this) {
-				case ItemLightSwitch:
-					Game.print("The room is lit");
-					break;
-				case ItemMicrowave:
-					for(int i=0; i < 3; i++) {
-						Game.print("...");
-						try {
-							Thread.sleep(1000);
-						} catch(Exception e1) {
-							e1.printStackTrace();
-						}
-					}
-					Game.print("Beep beep beep");
-					if(this.installedItem == Item.ItemStatue) {
-						Game.print("You melted Richard Stallman!");
-						this.installedItem = Item.ItemDiamond;
-					}
-						
-					break;
-				case ItemParachute:
 
-					Game.print("You deploy your parachute, and your feelings of fear immediately turn into bliss. You admire the view from here, as you gracefully decend toward the soft brush field below.");
-					((RoomSky)this.relatedRoom).breakFall();
-					break;
-				default:
-					Game.print("I don't know how to start that item");
-					break;	
-			}
+	}
+}
+class ItemClayPot extends Item implements Destroyable, Holdable, Hostable {
+
+	public ItemClayPot(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.installedItem = null;
+	}
+	public void setDestroyMessage(String s) {
+		this.destroyMessage = s;
+	}
+	public void destroy() {
+		Game.print(destroyMessage);
+	}
+	public void setDisappears(boolean b) {
+		this.disappears = b;
+	}
+	public boolean disappears() {
+		return this.disappears;
+	}
+	public void install(Item i) {
+		this.installedItem = i;
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
 		}
 		else {
-			Game.print("I don't understand what that means");
+			return false;
 		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	protected String destroyMessage;
+	protected Item installedItem;
+	protected boolean disappears;
+}
+class ItemDiamond extends Item implements Holdable, Installable, Valuable {
+
+	public ItemDiamond(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public int value() {
+		return this.value;
+	}
+	public void setValue(int value) {
+		this.value = value;
+	}
+	protected int value;
+}
+class ItemFlashlight extends Item implements Holdable, Installable {
+
+	public ItemFlashlight(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemFood extends Item implements Edible, Holdable {
+
+	public ItemFood(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public void eat() {
+		Game.print("Yummy");
+	}		
+}
+class ItemFridge extends Item implements Pushable{
+
+	public ItemFridge(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.wasPushed = false;
+	}
+// Pushable
+	public void push() {
+		if(!this.wasPushed) {
+			if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
+				((RoomObscured)this.relatedRoom).setObscured(false);
+				Game.print(((RoomObscured)this.relatedRoom).obscureMessage());
+			}
+			this.wasPushed = true;
+		}
+	}
+	protected boolean wasPushed;
+}
+class ItemGhillieSuit extends Item implements Wearable {
+
+	public ItemGhillieSuit(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemGold extends Item implements Installable, Holdable, Valuable {
+
+	public ItemGold(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.value = 0;
+	}
+	
+	public int value() {
+		return this.value;
+	}
+	public void setValue(int value) {
+		this.value = value;
+	}
+	protected int value;
+}
+class ItemGuard extends Item implements Hostable, Killable {
+
+	public ItemGuard(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.deathMessage = null;
 	}
 	public void kill() {
-		switch(this) {
-			case ItemGuard1:
-				Game.print("The guard is now dead.");
-				this.detailDescription = "dead guard";
-				this.defaults.put("isEdible", true);
-				if(this.installedItem != null) {
-					this.relatedRoom.putItem(this.installedItem);
-					Game.print("It looks like the guard dropped something");
+		if(!this.isDead) {
+			Game.print(this.deathMessage);
+			Game.print("It looks like he dropped something");
+			this.detailDescription = "dead guard";
+			this.relatedRoom.putItem(this.installedItem);
+			this.isDead = true;
+		}
+		else {
+			Game.print("The guard has already perished.");
+		}
+	}
+	public void install(Item i) {
+		if(this.canInstall) {
+			this.installedItem = i;
+			this.canInstall = false;  // now the player cannot put the card back "in" the guard
+		}
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	public String deathMessage() {
+		return this.deathMessage;
+	}	
+	public void setDeathMessage(String s) {
+		this.deathMessage = s;
+	}
+	protected Item installedItem;
+	protected boolean disappears;
+	protected boolean canInstall = true;
+	protected boolean isDead = false;
+	protected String deathMessage;
+}
+class ItemJunctionBox extends Item implements Destroyable {
+
+	public ItemJunctionBox(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public void destroy() {
+		if(this.canBeDestroyed) {
+			Game.print(this.destroyMessage);
+			this.canBeDestroyed = false;
+			((RoomDark)this.relatedRoom).setDark(false);
+		}
+		else {
+			Game.print("You have already short circuited this junction box.");
+		}
+	}
+	public boolean disappears() { 
+		return false;
+	}
+	public void setDestroyMessage(String s) {
+		this.destroyMessage = s;
+	}
+	public void setDisappears(boolean b) {
+		this.disappears = b;
+	}
+	protected boolean canBeDestroyed = true;
+	protected boolean disappears;
+	protected String destroyMessage;
+}
+class ItemKey extends Item implements Holdable, Installable {
+
+	public ItemKey(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemKeycard extends Item implements Holdable, Installable {
+
+	public ItemKeycard(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemKeycardReader extends Item implements Hostable {
+
+	public ItemKeycardReader(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.installMessage = null;
+	}
+	public void install(Item item) {
+		this.installedItem = item;
+
+		for(int i=0; i < 3; i++) {
+			Game.print("...");
+			try {
+				Thread.sleep(1000);
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		if(this.installMessage != null) {
+			Game.print(this.installMessage);
+		}
+		((Visible)this.relatedItem).setVisible(true);
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	public void setInstallMessage(String s) {
+		this.installMessage = s;
+	}
+	protected Item installedItem;
+	protected String installMessage;
+}
+class ItemLadder extends Item implements Holdable {
+
+	public ItemLadder(String s, String sd, String[] a) {
+		super(s, sd, a);
+	} 
+}
+class ItemLock extends Item implements Hostable {
+
+	public ItemLock(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public void install(Item i) {
+		this.installedItem = i;
+
+		if(this.relatedRoom != null && this.relatedRoom instanceof RoomLockable) {
+			((RoomLockable)this.relatedRoom).unlock(this.installedItem);
+		}
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	protected Item installedItem;
+	protected boolean disappears;
+}
+class ItemMagicBox extends Item implements Hostable {
+
+	public ItemMagicBox(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+
+	public void install(Item i) {
+		//this.installedItem = i;
+		// items fall into black hole
+	}
+	public boolean uninstall(Item i) {
+		return false;
+	}
+	public Item installedItem() {
+		return null;
+	}
+}
+class ItemMicrowave extends Item implements Hostable, Startable {
+
+	public ItemMicrowave(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.installedItem = null;
+	}
+
+	public void start() {
+		
+		for(int i=0; i < 3; i++) {
+			Game.print("...");
+			try {
+				Thread.sleep(1000);
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		Game.print("Beep beep beep");
+		if(this.installedItem instanceof Meltable) {
+			Item item = ((Meltable)this.installedItem).meltItem();
+			Game.print("You melted the " + this.installedItem.detailDescription() + ", and it revealed a " + item.detailDescription() + "!");
+			this.installedItem = item;
+		}
+	}
+	public void install(Item i) {
+		this.installedItem = i;
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	protected Item installedItem;
+}
+class ItemParachute extends Item implements Startable, Wearable {
+
+	public ItemParachute(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public void start() {
+		((RoomSky)this.relatedRoom).breakFall();
+	}
+}
+class ItemRMS extends Item implements Installable, Holdable, Meltable {
+
+	public ItemRMS(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.meltItem = null;
+	}
+	public void setMeltItem(Item item) {
+		this.meltItem = item;
+	}	
+	public Item meltItem() {
+		return this.meltItem;
+	}
+	protected Item meltItem;
+}
+class ItemShovel extends Item implements Holdable {
+	
+	public ItemShovel(String d, String sd, String[] a) {
+		super(d, sd, a);
+	}
+}
+class ItemUnknown extends Item {
+
+	public ItemUnknown(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+
+class ItemWatch extends Item implements Holdable {
+	
+	public ItemWatch(String d, String sd, String[] a) {
+		super(d, sd, a);
+		this.stack = new Stack<ItemWatchMenu>();
+	}
+// Inspectable
+	public void inspect() {
+
+		Scanner s = new Scanner(System.in);
+		String input = "";
+		Game.print("\nCIA SmartWatch v3.2.2\n");
+		sleep(800);
+		Game.print("Authenticating via retina scan...");
+		for(int i=0; i < 3; i++) { 
+			sleep(800);
+			Game.print("...");
+		}
+		sleep(800);
+		Game.print("Retina scan complete. A hologram appears.");
+		sleep(800);
+		int n = 0;
+		out:
+		while(true) {
+			ItemWatchMenu menu = this.stack.peek();
+			System.out.println(menu.toString());
+			while(true) {
+				System.out.print("$ ");
+				input = s.nextLine();
+				try {
+					n = Integer.parseInt(input);
+				}
+				catch(Exception e) {
+					if(input.toLowerCase().equals("exit")) {
+						while(this.stack.size() > 1) stack.pop();
+						break out;
+					}
+					Game.print("Invalid selection.");
+					continue;
+				}
+				if(n == menu.count()) {
+					if(this.stack.size() == 1) {
+						break out;
+					}
+					else {
+						this.stack.pop();
+					}
+				}
+				else if (n > menu.count() || n < 0) {
+					Game.print("Invalid selection.");
+					continue;
+				}
+				else {
+					this.stack.push(menu.get(n-1));
 				}
 				break;
-			default:
-				Game.print("This item cannot be killed");
-				break;
+			}
+		}
+		Game.print("You turn off the watch and lower your wrist.");
+	}
+	public void setMenu(ItemWatchMenu main) {
+		this.stack.push(main);
+	}
+	private void sleep(int s) {
+		try{
+			Thread.sleep(s);
+		}
+		catch(Exception e1) {
+			// pass
 		}
 	}
-	public boolean hasItemInstalled() {
-		return this.installedItem != null;
-	}
-	public boolean canInstallItems() {
-		return this.defaults.get("permitsInstalledItems");
-	}
-	public void setCanInstallItems(boolean permission) {
-		this.defaults.put("permitsInstalledItems", permission);
-	}
-	public void setCanBePickedUp(boolean permission) {
-		this.defaults.put("canBePickedUp", permission);
-	}
-	public void setElevator(RoomElevator elevator) {
-		this.elevator = elevator;
-	}
-	public Room getElevator() {
-		return this.elevator;
-	}
-	public void setPassage(RoomObscured room) {
-		this.passage = room;
-	}
-	public void setSky(RoomSky sky) {
-		this.sky = sky;
-	}
-	public RoomSky getSky() {
-		return this.sky;
-	}
-	public RoomObscured getPassage() {
-		return this.passage;
-	}
-	public void setRelatedRoom(Room room) {
-		this.relatedRoom = room;
-	}
-	public Room getRelatedRoom() {
-		return this.relatedRoom;
-	}
-	public boolean isVisible() {
-		return this.defaults.get("isVisible");
-	}
-	public boolean canBePickedUp() {
-		return this.defaults.get("canBePickedUp");
-	}
-	public void setDestroyMessage(String message) {
-		this.destroyMessage = message;
-	}
-	public void showDestroyMessage() {
-		if(destroyMessage != null) {
-			Game.print(destroyMessage);
-		}
-	}
-	public String[] getAliases() {
-		return this.aliases;
-	}
-	public void setDescription(String d) {
-		this.description = d;
-	}
-	public void setDetailDescription(String dd) {
-		this.detailDescription = dd;
-	}
-	public String detailDescription() {
-		String s = "";
-		if(this.installedItem != null && this.defaults.get("installedItemsAreVisible")) {
-			s = ", with a " + this.installedItem.detailDescription() + " inside it";
-		}
-		return this.detailDescription + s;
-	}
-	private Item installedItem;
-	private Room elevator; // to be associated with a button
-	private RoomObscured passage; // to be associated with a passage
-	private RoomSky sky;
-	private Room relatedRoom;
-
-	// item attributes
-	private String destroyMessage;
-	private boolean wasPushed;
-	private HashMap<String, Boolean> defaults = null;
+	protected Stack<ItemWatchMenu> stack;
 }
-*/
+
+class ItemWatchMenu {
+
+	public ItemWatchMenu(String title) {
+
+		this.title = title;
+		this.text = null;
+		this.menus = new LinkedList<ItemWatchMenu>();
+
+		String prev = "Go Back.";
+		if(!this.title.equals(prev)) {
+			ItemWatchMenu exit = new ItemWatchMenu("Go Back.");
+			this.menus.add(exit);
+		}
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getTitle() {
+		return this.title;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public void add(ItemWatchMenu menu) {
+		this.menus.add(this.menus.size()-1, menu);
+	}
+	public ItemWatchMenu get(int i) {
+		return this.menus.get(i);
+	}
+	public int count() {
+		return this.menus.size();
+	}
+	public String toString() {
+		String title = (this.title != null) ? this.title + "\n\n" : "";
+		String text  = (this.text  != null) ? this.text  + "\n\n" : "";
+		String top = title + text;
+		String list = "";
+		for(int i = 0; i < this.menus.size(); i++) {
+			ItemWatchMenu menu = this.menus.get(i);
+			list+=(i+1) + "  " + menu.getTitle() + "\n";
+		}
+		return top + list;
+	}
+	protected String title;
+	protected String text;
+	protected LinkedList<ItemWatchMenu> menus;
+}
