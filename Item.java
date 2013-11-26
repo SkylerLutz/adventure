@@ -276,9 +276,9 @@ class ItemGrate extends Item implements Destroyable {
 }
 class ItemKey extends Item implements Holdable, Installable {
 
-	public void setDestroyMessage(String s);
-	public void setDisappears(boolean b);
-	public boolean disappears();
+	public ItemKey(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
 }
 class ItemGhillieSuit extends Item implements Wearable {
 
