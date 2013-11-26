@@ -195,7 +195,22 @@ public class Game {
 							break;
 						}
 						case ActionShake: {
-							this.player.die();
+				
+							Item item = a.directObject();
+							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
+								if(item instanceof Shakeable) {
+									((Shakeable)item).shake();
+									if(((Shakeable)item).deadly()) {
+										this.player.die();
+									}
+								}
+								else {
+									Game.print("I don't know how to do that.");
+								}
+							}
+							else {
+								Game.print("I don't see that here.");
+							}
 							break;
 						}
 						case ActionEnable: {
@@ -283,6 +298,21 @@ public class Game {
 								}
 								else {
 									Game.print("You cannot kill this.");
+								}
+							}
+							else {
+								Game.print("I don't see that here.");
+							}
+							break;
+						}
+						case ActionOpen: {
+							Item item = a.directObject();
+							if(this.player.hasItem(item) || this.player.currentRoom.hasItem(item)) {
+								if(item instanceof Openable) {
+									((Openable)item).open();
+								}
+								else {
+									Game.print("You cannot open this.");
 								}
 							}
 							else {
@@ -431,7 +461,7 @@ public class Game {
 	private Item containerForItem(Item item) {
 		for(Item i : this.player.currentRoom.items) {
 			if(i instanceof Hostable) {
-				if(item == ((Hostable)i).installedItem()) {
+				if(item == ((Hostable)i).installedItem() && item.isVisible()) {
 					return i;
 				}	
 			}

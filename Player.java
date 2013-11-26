@@ -96,7 +96,7 @@ public class Player {
 						Game.print(lockedRoom.deathMessage());
 						this.die();
 					}
-					Game.print("This door is locked. You must unlock it.");
+					Game.print("This door is locked.");
 					return;
 				}
 			}

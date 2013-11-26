@@ -36,6 +36,11 @@ public class Item implements Inspectable, Visible {
 		sharedInstances.add(new ItemGhillieSuit("camouflage", "Ghillie Suit", new String[]{"suit", "disguise", "ghillie", "camo", "camouflage"}));
 		sharedInstances.add(new ItemJunctionBox("box", "junction box", new String[]{"box", "junction", "meter", "electric", "electricity", "power"}));
 		sharedInstances.add(new ItemMagicBox("pit", "bottomless pit", new String[]{"pit", "hole"}));
+		sharedInstances.add(new ItemVendingMachine("machine", "vending machine with assorted candies and treats", new String[]{"machine", "vendor"}));
+		sharedInstances.add(new ItemSafe("safe", "bullet-proof safe", new String[]{"safe"}));
+		sharedInstances.add(new ItemFolder("folder", "manilla folder", new String[]{"folder"}));
+		sharedInstances.add(new ItemDocument("dossier", "top secret dossier on Amrid Al-Asad", new String[]{"document", "dossier"}));
+		sharedInstances.add(new ItemGrate("grate", "metal grate", new String[]{"grate", "vent"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -69,7 +74,7 @@ public class Item implements Inspectable, Visible {
 				for(String string : item.getAliases()) {
 					for(String s : i.getAliases()) {
 						if(string.equals(s)) {
-							Game.print("Warning: alias conflict between " + item + " and " + i);
+							System.err.println("Warning: alias conflict between " + item + " and " + i);
 						}
 					}
 				}
@@ -200,9 +205,21 @@ class ItemDiamond extends Item implements Holdable, Installable, Valuable {
 	}
 	protected int value;
 }
+class ItemDocument extends Item implements Holdable, Installable {
+
+	public ItemDocument(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
 class ItemFlashlight extends Item implements Holdable, Installable {
 
 	public ItemFlashlight(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemFolder extends Item {
+
+	public ItemFolder(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
 }
@@ -232,6 +249,36 @@ class ItemFridge extends Item implements Pushable{
 		}
 	}
 	protected boolean wasPushed;
+}
+class ItemGrate extends Item implements Destroyable {
+
+	public ItemGrate(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.destroyMessage = null;
+	}
+	public void destroy() {
+		// set obscured room unobscured
+		if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
+			((RoomObscured)this.relatedRoom).setObscured(false);
+		}
+	}
+	public boolean disappears() { 
+		return false;
+	}
+	public void setDestroyMessage(String s) {
+		this.destroyMessage = s;
+	}
+	public void setDisappears(boolean b) {
+		this.disappears = b;
+	}
+	protected boolean disappears;
+	protected String destroyMessage;
+}
+class ItemKey extends Item implements Holdable, Installable {
+
+	public void setDestroyMessage(String s);
+	public void setDisappears(boolean b);
+	public boolean disappears();
 }
 class ItemGhillieSuit extends Item implements Wearable {
 
@@ -508,6 +555,55 @@ class ItemRMS extends Item implements Installable, Holdable, Meltable {
 	}
 	protected Item meltItem;
 }
+class ItemSafe extends Item implements Hostable, Openable {
+	
+	public ItemSafe(String d, String sd, String[] a) {
+		super(d, sd, a);
+		this.installedItem = null;
+		this.pin = null;
+	}
+	public void setPIN(String pin) {
+		this.pin = pin;
+	}
+// Hostable
+	public void install(Item i) {
+		this.installedItem = i;
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+// Openable
+	public void open() {
+		Scanner s = new Scanner(System.in);
+		String input = "";
+		Game.print("Enter the four-digit PIN number.");
+		input = s.nextLine();
+		if(input.equals(this.pin)) {
+			this.installedItem.setVisible(true);
+			Game.print("The safe door swings open.");
+			if(this.installedItem != null) {
+				Game.print("You have revealed a " + this.installedItem.detailDescription() + ".");
+			}
+		}
+		else {
+			Game.print("Incorrect PIN.");
+		}
+	}
+	protected Item installedItem;
+	protected String pin;
+}
 class ItemShovel extends Item implements Holdable {
 	
 	public ItemShovel(String d, String sd, String[] a) {
@@ -520,7 +616,38 @@ class ItemUnknown extends Item {
 		super(s, sd, a);
 	}
 }
+class ItemVendingMachine extends Item implements Shakeable {
 
+	public ItemVendingMachine(String d, String sd, String[] a) {
+		super(d, sd, a);
+		this.count = 0;
+	}
+	public boolean deadly() {
+		if(this.count > 2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public void shake() {
+		switch(this.count) {
+			case 0:
+				Game.print("You shake the vending machine, and your favorite treat inches its way off the tray.");
+				break;
+			case 1:
+				Game.print("The treat begins to bend toward the will of gravity.");
+				break;
+			case 2:
+				Game.print("Just as the candy falls, the machine also falls over and crushes your body.");
+				break;
+			default:
+				break;
+		}
+		this.count++;
+	}
+	protected int count;
+}
 class ItemWatch extends Item implements Holdable {
 	
 	public ItemWatch(String d, String sd, String[] a) {

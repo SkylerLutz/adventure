@@ -2,6 +2,10 @@ interface Acquirable {
 	// marker
 }
 
+interface Burnable {
+	public void burn();
+}
+
 // I would call it throwable, but we all know I can't do that...
 interface Chuckable {
 	public void chuck();
@@ -51,8 +55,16 @@ interface Meltable {
 	public Item meltItem();
 }
 
+interface Openable {
+	public void open();
+}
 interface Pushable {
 	public void push();
+}
+
+interface Shakeable {
+	public void shake();
+	public boolean deadly();
 }
 
 interface Startable {

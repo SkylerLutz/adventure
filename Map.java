@@ -317,10 +317,68 @@ public class Map {
 
 		String boxDestroy = "The wires short circuit and the complex lights go out. The guards appear to be on high alert.";
 
-		String serviceD = "You are inside the complex. The room has no lights, except for a dim emergency light above the loading area. The security cameras have been disabled.";
+		String serviceD = "You are inside the complex. The room has no lights, except for a dim emergency light above the loading area. There is a door to the West.";
 		String serviceSD = "Service area.";
 		
 
+		String breakRoomD= "You are in the break room. It smells like day-old coffee in here.";
+		String breakRoomSD = "Break room.";
+
+		String hallD = "You are at the South end of a long hallway. There are doors to the East and West.";
+		String hallSD = "South end of long hallway.";
+
+		String nhallD = "You are at the North end of a long hallway. There are doors to the West and to the North.";
+		String nhallSD = "North end of long hallway.";
+
+		String centerD = "You are in the Command Center. You are surrounded by giant television screens. These must be running on backup power, since they are still on. You see yourself on one of the screens, and you wave to yourself. There is a room to the West.";
+		String centerSD = "Command Center.";
+
+		String cOfficeD = "You are in a room with no furniture. An air duct leads to the South, but it is being blocked by the metal grate cover.";
+		String cOfficeSD = "Furnitureless room.";
+
+		String duct1D = "It is difficlut to see.";
+		String duct1SD = "Air Duct.";
+
+		String duct2D = "";
+		String duct2SD = "Air Duct.";
+
+		String duct3D = "";
+		String duct3SD = "Air Duct.";
+
+		String duct4D = "";
+		String duct4SD = "Air Duct.";
+
+		String duct5D = "";
+		String duct5SD = "Air Duct.";
+
+		String duct6D = "";
+		String duct6SD = "Air Duct.";
+
+		String archivesD = "You are in the archives. There are many shelves to the East, all of which are several feet high. Al-Asad's file must be in here somewhere...";
+		String archivesSD = "Archives.";
+
+		String archivesAFD = "You are standing in front of shelves with documents on CIA suspects with last names A-F. Al-Asads folder is sitting on the shelf.";
+		String archivesAFSD = "CIA Suspects A-F.";
+
+		String archivesGMD = "You are standing in front of shelves with documents on CIA suspects with last names G-M.";
+		String archivesGMSD = "CIA Suspects G-M.";
+
+		String archivesNTD = "You are standing in front of shelves with documents on CIA suspects with last names N-T.";
+		String archivesNTSD = "CIA Suspects N-T.";
+
+		String archivesUZD = "You are standing in front of shelves with documents on CIA suspects with last names U-Z.";
+		String archivesUZSD = "CIA Suspects U-Z.";
+		
+		String archivesEndD = "You are in a reading area with tables and chairs. There are offices to the North, East, and South.";
+		String archivesEndSD = "Reading Area.";
+		
+		String officeD = "You are in an office. It seems that the occupant has only recently left, since his coffee mug is still steaming and their desk light is still on.";
+		String officeSD = "Office.";
+
+		String locked1D= "How the hell did you get in here?";
+		String locked1SD = "Type 'look'";
+		String locked2D = "How the hell did you get in here?";
+		String locked2SD = "Type 'look'";
 
 
 		Room plane = new Room(planeDescription, planeShortDescription);
@@ -356,7 +414,7 @@ public class Map {
 		main.add(sub2);
 		watch.setMenu(main);
 	
-		plane.putItem(watch);
+		//plane.putItem(watch);
 
 		Room landing = new Room(landingDescription, landingShortDescription);
 		sky.setOneWayAdjacentRoom(Action.ActionGoDown, landing);
@@ -469,7 +527,75 @@ public class Map {
 
 		Room service = new Room(serviceD, serviceSD);
 		service.setAdjacentRoom(Action.ActionGoEast, serviceE);
+
+
+		Room hall = new Room(hallD, hallSD);
+		hall.setAdjacentRoom(Action.ActionGoEast, service);
+
+		Room breakRoom = new Room(breakRoomD, breakRoomSD);
+		breakRoom.setAdjacentRoom(Action.ActionGoEast, hall);
+		breakRoom.putItem(Item.getInstance("machine"));
+
+
+		Room nhall = new Room(nhallD, nhallSD);
+		nhall.setAdjacentRoom(Action.ActionGoSouth, hall);
+		
+		Room center = new Room(centerD, centerSD);
+		center.setAdjacentRoom(Action.ActionGoEast, nhall);
+
+		Room cOffice = new Room(cOfficeD, cOfficeSD);
+		cOffice.setAdjacentRoom(Action.ActionGoEast, center);
+		Item grate = Item.getInstance("grate");
+		grate.setInspectMessage("It looks like there is something behind the grate.");
+		cOffice.putItem(grate);
+
+		RoomObscured duct1 = new RoomObscured(duct1D, duct1SD, grate);
+		duct1.setAdjacentRoom(Action.ActionGoNorth, cOffice);
+		grate.setRelatedRoom(duct1);
+
+		Room archives= new Room(archivesD, archivesSD);
+		archives.setAdjacentRoom(Action.ActionGoSouth, nhall);
+
+		Room archivesAF = new Room(archivesAFD, archivesAFSD);
+		archivesAF.setAdjacentRoom(Action.ActionGoWest, archives);
+		Item folder = Item.getInstance("folder");
+		folder.setInspectMessage("The folder is empty. The contents must have been removed.");
+		archivesAF.putItem(folder);
+
+		Room archivesGM = new Room(archivesGMD, archivesGMSD);
+		archivesGM.setAdjacentRoom(Action.ActionGoWest, archivesAF);
+
+		Room archivesNT = new Room(archivesNTD, archivesNTSD);
+		archivesNT.setAdjacentRoom(Action.ActionGoWest, archivesGM);
+
+		Room archivesUZ = new Room(archivesUZD, archivesUZSD);
+		archivesUZ.setAdjacentRoom(Action.ActionGoWest, archivesNT);
+
+		Room archivesEnd = new Room(archivesEndD, archivesEndSD);
+		archivesEnd.setAdjacentRoom(Action.ActionGoWest, archivesUZ);
+
+		RoomLockable locked1 = new RoomLockable(locked1D,locked1SD, true, null);
+		locked1.setAdjacentRoom(Action.ActionGoSouth, archivesEnd);
+		
+		RoomLockable locked2 = new RoomLockable(locked2D,locked2SD, true, null);
+		locked2.setAdjacentRoom(Action.ActionGoWest, archivesEnd);
+
+		Room office = new Room(officeD, officeSD);
+		office.setAdjacentRoom(Action.ActionGoNorth, archivesEnd);
+		ItemSafe safe = (ItemSafe)Item.getInstance("safe");
+		safe.setInspectMessage("This safe appears to require a 4 digit PIN number.");
+		safe.setPIN("9292");
+		Item document = Item.getInstance("document");
+		document.setVisible(false);
+		safe.install(document);
+		office.putItem(safe);
+
+		
+		
 		//return complexE;
-		return plane;
+		//return plane;
+		//return service;
+		nhall.putItem(Item.getInstance("watch"));
+		return nhall;
 	}
 }
