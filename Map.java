@@ -330,29 +330,62 @@ public class Map {
 		String nhallD = "You are at the North end of a long hallway. There are doors to the West and to the North.";
 		String nhallSD = "North end of long hallway.";
 
-		String centerD = "You are in the Command Center. You are surrounded by giant television screens. These must be running on backup power, since they are still on. You see yourself on one of the screens, and you wave to yourself. There is a room to the West.";
+		String centerD = "You are in the Command Center. You are surrounded by giant television screens. The backup power must have kicked in, since the TV's are on. You see yourself on one of the screens, and you wave to yourself. There is a room to the West.";
 		String centerSD = "Command Center.";
 
 		String cOfficeD = "You are in a room with no furniture. An air duct leads to the South, but it is being blocked by the metal grate cover.";
 		String cOfficeSD = "Furnitureless room.";
 
-		String duct1D = "It is difficlut to see.";
+		String duct1D = "The ducts appear to deviate in all directions.";
 		String duct1SD = "Air Duct.";
 
-		String duct2D = "";
+		String duct2D = "The ducts appear to deviate in all directions.";
 		String duct2SD = "Air Duct.";
 
-		String duct3D = "";
+		String duct3D = "The ducts appear to deviate in all directions.";
 		String duct3SD = "Air Duct.";
 
-		String duct4D = "";
+		String duct4D = "The ducts appear to deviate in all directions.";
 		String duct4SD = "Air Duct.";
 
-		String duct5D = "";
+		String duct5D = "The ducts appear to deviate in all directions.";
 		String duct5SD = "Air Duct.";
 
-		String duct6D = "";
+		String duct6D = "The ducts appear to deviate in all directions. There is a loud whirring noise to the West.";
 		String duct6SD = "Air Duct.";
+
+		String duct7D = "The whirring noise seems to be getting louder.";
+		String duct7SD = "Air Duct.";
+
+		String duct8D = "There is a hole in the shaft. You can drop down.";
+		String duct8SD = "Air Duct.";
+		String duct8WD = "The whirring noise is extremely loud.";
+		String duct8WSD = "Air Duct.";
+
+
+		String aliensHallD = "You are at the West end of a hallway. There are four large tubes, containing cryogenically frozen life forms. ";
+		String aliensHallSD = "West end of hallway.";
+
+		String aliensAD = "You admire the solace of the being in the tubes. Upon closer inspection, you realize it is of the likeness of Richard Stallman, the author of the famous emacs text editor. You notice he isn't wearing any shoes.";
+		String aliensASD = "Tube A.";
+
+		String aliensBD = "This one is of the likeness of Julian Assange, the infamous Wikileaks founder.";
+		String aliensBSD = "Tube B.";
+
+		String aliensCD = "This one is of the likeness of Barack Obama.";
+		String aliensCSD = "Tube C.";
+
+		String aliensDD = "This one is of the likeness of Walt Disney.";
+		String aliensDSD = "Tube D.";
+
+		String aliens2D = "You are at the East end of the long hallway. There is a room to the North.";
+		String aliens2SD = "East end of hallway.";
+
+		String teleED = "You are in a completely white room. There is a desk to your left, and a large machine in front of you with a steel podium.";
+		String teleESD = "White Room.";
+
+		String teleD = "You are inside a teleportation machine. There are various beeping noises coming from the electronics. There are several destination buttons on the wall.";
+		String teleSD = "Teleport Machine.";
 
 		String archivesD = "You are in the archives. There are many shelves to the East, all of which are several feet high. Al-Asad's file must be in here somewhere...";
 		String archivesSD = "Archives.";
@@ -548,10 +581,70 @@ public class Map {
 		Item grate = Item.getInstance("grate");
 		grate.setInspectMessage("It looks like there is something behind the grate.");
 		cOffice.putItem(grate);
+		cOffice.putItem(Item.getInstance("pole"));
+		
 
 		RoomObscured duct1 = new RoomObscured(duct1D, duct1SD, grate);
 		duct1.setAdjacentRoom(Action.ActionGoNorth, cOffice);
 		grate.setRelatedRoom(duct1);
+
+		Room duct2 = new Room(duct2D, duct2SD);
+		duct2.setAdjacentRoom(Action.ActionGoNorth, duct1);
+		
+		Room duct3 = new Room(duct3D, duct3SD);
+		duct3.setAdjacentRoom(Action.ActionGoEast, duct1);
+		
+		Room duct4 = new Room(duct4D, duct4SD);
+		duct4.setAdjacentRoom(Action.ActionGoWest, duct1);
+		
+		Room duct5 = new Room(duct5D, duct5SD);
+		duct5.setAdjacentRoom(Action.ActionGoNorth, duct2);
+		
+		Room duct6 = new Room(duct6D, duct6SD);
+		duct6.setAdjacentRoom(Action.ActionGoEast, duct5);
+		
+		Room duct7 = new Room(duct7D, duct7SD);
+		duct7.setAdjacentRoom(Action.ActionGoEast, duct6);
+		
+		
+		RoomLockable duct8 = new RoomLockable(duct8D, duct8SD, true, Item.getInstance("pole"));
+		duct8.setAdjacentRoom(Action.ActionGoEast, duct7);
+		duct8.setCausesDeath(true, "You are chopped up into a million bite-size pieces by a ventilation fan.");
+		duct8.setUnlockMessage("You broke the fan. The ventilation shaft appears to continue behind it.");
+		Item fan = Item.getInstance("fan");
+		fan.setRelatedRoom(duct8);
+		duct7.putItem(fan);
+
+		Room aliens = new Room(aliensHallD, aliensHallSD);
+		duct8.setOneWayAdjacentRoom(Action.ActionGoDown, aliens);
+		duct8.setAdjacentRoomTransitionMessage("You fall for a few seconds, and land on a pillow. You come to your senses, and stand up.", Action.ActionGoDown);
+		
+		
+		Room aliensA = new Room(aliensAD, aliensASD);
+		aliensA.setAdjacentRoom(Action.ActionGoWest, aliens);
+
+		Room aliensB = new Room(aliensBD, aliensBSD);
+		aliensB.setAdjacentRoom(Action.ActionGoWest, aliensA);
+
+		Room aliensC = new Room(aliensCD, aliensCSD);
+		aliensC.setAdjacentRoom(Action.ActionGoWest, aliensB);
+
+		Room aliensD = new Room(aliensDD, aliensDSD);
+		aliensD.setAdjacentRoom(Action.ActionGoWest, aliensC);
+
+
+		Room aliens2 = new Room(aliens2D, aliens2SD);
+		aliens2.setAdjacentRoom(Action.ActionGoWest, aliensD);
+
+		Room teleE = new Room(teleED, teleESD);
+		teleE.setAdjacentRoom(Action.ActionGoSouth, aliens2);
+		Item list = Item.getInstance("list");	
+		list.setInspectMessage("GUEST LIST:\n\nJoe Biden\nSkyler Lutz\nMichael J. Fox\n\n\n");
+		teleE.putItem(list);
+
+		Room tele = new Room(teleD, teleSD);
+		tele.setAdjacentRoom(Action.ActionGoSouth, teleE);
+
 
 		Room archives= new Room(archivesD, archivesSD);
 		archives.setAdjacentRoom(Action.ActionGoSouth, nhall);
@@ -592,10 +685,7 @@ public class Map {
 
 		
 		
-		//return complexE;
 		//return plane;
-		//return service;
-		nhall.putItem(Item.getInstance("watch"));
-		return nhall;
+		return aliens;
 	}
 }

@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Item implements Inspectable, Visible {
+public class Item implements Comparable, Inspectable, Visible {
 
 	public Item(String d, String sd, String[] a) {
 		this.description = d;
@@ -41,6 +41,9 @@ public class Item implements Inspectable, Visible {
 		sharedInstances.add(new ItemFolder("folder", "manilla folder", new String[]{"folder"}));
 		sharedInstances.add(new ItemDocument("dossier", "top secret dossier on Amrid Al-Asad", new String[]{"document", "dossier"}));
 		sharedInstances.add(new ItemGrate("grate", "metal grate", new String[]{"grate", "vent"}));
+		sharedInstances.add(new ItemLock("fan", "ventilation fan", new String[]{"fan"}));
+		sharedInstances.add(new ItemMetalPole("pole", "metal pole", new String[]{"pole", "rod"}));
+		sharedInstances.add(new ItemGuestList("list", "guest list", new String[]{"list", "guestlist"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -107,6 +110,15 @@ public class Item implements Inspectable, Visible {
 	}
 	public void setDetailDescription(String s) {
 		this.detailDescription = s;
+	}
+// Comparable
+	public int compareTo(Object i) {
+		if(((Item)i).detailDescription.equals(this.detailDescription())){
+			return 0;
+		}
+		else {
+			return 1;
+		}
 	}
 // Visible
 	public boolean isVisible() {
@@ -211,6 +223,33 @@ class ItemDocument extends Item implements Holdable, Installable {
 		super(s, sd, a);
 	}
 }
+class ItemFan extends Item implements Hostable {
+
+	public ItemFan(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.installedItem = null;
+	}
+	public void install(Item i) {
+		this.installedItem = i;
+	}
+	public boolean uninstall(Item i) {
+		if(this.installedItem == null) {
+			return false;
+		}
+		else if(this.installedItem == i) {
+			this.installedItem = null;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Item installedItem() {
+		return this.installedItem;
+	}
+	protected Item installedItem;
+	protected boolean disappears;
+}
 class ItemFlashlight extends Item implements Holdable, Installable {
 
 	public ItemFlashlight(String s, String sd, String[] a) {
@@ -274,15 +313,15 @@ class ItemGrate extends Item implements Destroyable {
 	protected boolean disappears;
 	protected String destroyMessage;
 }
-class ItemKey extends Item implements Holdable, Installable {
-
-	public ItemKey(String s, String sd, String[] a) {
-		super(s, sd, a);
-	}
-}
 class ItemGhillieSuit extends Item implements Wearable {
 
 	public ItemGhillieSuit(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemGuestList extends Item {
+
+	public ItemGuestList(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
 }
@@ -488,6 +527,11 @@ class ItemMagicBox extends Item implements Hostable {
 		return null;
 	}
 }
+class ItemMetalPole extends Item implements Holdable, Installable {
+	public ItemMetalPole(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
 class ItemMicrowave extends Item implements Hostable, Startable {
 
 	public ItemMicrowave(String s, String sd, String[] a) {
@@ -605,7 +649,6 @@ class ItemSafe extends Item implements Hostable, Openable {
 	protected String pin;
 }
 class ItemShovel extends Item implements Holdable {
-	
 	public ItemShovel(String d, String sd, String[] a) {
 		super(d, sd, a);
 	}

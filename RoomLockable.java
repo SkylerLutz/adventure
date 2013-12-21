@@ -6,6 +6,7 @@ public class RoomLockable extends Room {
 		this.key = key;
 		this.causesDeath = false;
 		this.deathMessage = "";
+		this.unlockMessage = "Room unlocked.";
 	}
 	public RoomLockable(String description, String shortDescription) {
 		// unlocked by default
@@ -24,10 +25,13 @@ public class RoomLockable extends Room {
 	public String deathMessage() {
 		return this.deathMessage;
 	}
+	public void setUnlockMessage(String s){
+		this.unlockMessage = s;
+	}
 	public boolean unlock(Item key) {
-		if(this.key == key) {
+		if(this.key.compareTo(key) == 0) {
 			this.locked = false;
-			Game.print("Room unlocked");
+			Game.print(this.unlockMessage);
 			return true;
 		}
 		else { 
@@ -41,4 +45,5 @@ public class RoomLockable extends Room {
 	protected Item key;
 	protected boolean causesDeath;
 	protected String deathMessage;
+	protected String unlockMessage;
 }

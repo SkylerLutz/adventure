@@ -328,6 +328,7 @@ public class Game {
 							Item itemToPut = a.directObject();
 							Item itemToBePutInto = a.indirectObject();
 							if(!this.player.hasItem(itemToPut)) {
+								System.out.println(itemToPut);
 								Game.print("You don't have that object in your inventory.");
 								break;
 							}
@@ -345,21 +346,6 @@ public class Game {
 								Game.print("Done.");
 								this.player.drop(itemToPut);
 								this.player.putItemInItem(itemToPut, itemToBePutInto);
-							/*
-								if(itemToBePutInto == Item.ItemLock) {
-									// this restricts me to one locked adjacent room at a time
-									
-									for(Action action : Action.values()) {
-										
-										Room adjacentRoom = this.player.currentRoom.getRoomForDirection(action);
-										if(adjacentRoom instanceof RoomLockable) {
-											((RoomLockable)adjacentRoom).unlock(itemToPut);
-											break;
-										}
-									}
-								}	
-								Game.print("Done.");
-							*/
 							}
 							break;
 						}
@@ -450,6 +436,7 @@ public class Game {
 			}
 		}catch(Exception n) {
 			Game.print("I don't understand that \n\nException: \n" + n);
+			n.printStackTrace();
 			start();
 		}
 

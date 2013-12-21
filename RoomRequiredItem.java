@@ -14,6 +14,7 @@ public class RoomRequiredItem extends Room {
 		this.roomWasVisitedInDanger = false;
 		this.diesOnItemDiscard = false;
 		this.diesOnEntry = false;
+		this.deathMessage = null;
 	}
 	public void playerDidDropRequiredItem() {
 		if(this.diesOnItemDiscard) {
@@ -77,8 +78,4 @@ public class RoomRequiredItem extends Room {
 	String warningDescription;
 	String warningShortDescription;
 	protected boolean roomWasVisitedInDanger;
-/*
-	protected String[] warnings;
-	protected int warning;
-*/
 }
