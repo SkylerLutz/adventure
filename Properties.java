@@ -50,6 +50,10 @@ interface Killable {
 	public void kill();
 }
 
+interface Luminous {
+
+}
+
 interface Meltable {
 	public void setMeltItem(Item item);
 	public Item meltItem();

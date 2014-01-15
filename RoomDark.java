@@ -40,7 +40,7 @@ public class RoomDark extends Room {
 		if(this.isDark) {
 			
 
-			if(this.player.hasItem(Item.getInstance("flashlight"))) {
+			if(this.player.hasItemOfType("Luminous")) {
 
 
 				return super.toString();
@@ -55,7 +55,7 @@ public class RoomDark extends Room {
 	}
 	public String description() {
 		if(this.isDark) {
-			if(this.player.hasItem(Item.getInstance("flashlight"))) {
+			if(this.player.hasItemOfType("Luminous")) {
 				String s = this.roomWasVisited ? this.shortDescription : this.description + "\n" + visibleItems();
 				this.roomWasVisited = true;
 				return s;

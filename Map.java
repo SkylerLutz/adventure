@@ -214,6 +214,7 @@ public class Map {
 		Item fridge = Item.getInstance("fridge");
 		RoomObscured passage = new RoomObscured(passageDescription ,passageShortDescription, fridge);
 		passage.setObscureMessage("You have revealed a secret passage to the east!");
+		passage.putItem(Item.getInstance("torch"));
 		fridge.setRelatedRoom(passage);
 
 		RoomDark corridor = new RoomDark(corridorDescription, corridorShortDescription, corridorDarkDescription, corridorDarkShortDescription, true);
@@ -645,6 +646,17 @@ public class Map {
 		Room tele = new Room(teleD, teleSD);
 		tele.setAdjacentRoom(Action.ActionGoSouth, teleE);
 
+		String pushMessage = "The beeping stops. A red light completely blinds you. You travel through space and time, and land on your stomach. Somewhat disoriented, you stand up.\n";
+		Room school = njit();
+		Room dunnet = level1();
+		Item schoolB = Item.getInstance("njit");
+		schoolB.setRelatedRoom(school);
+		((ItemButton)schoolB).setPushMessage(pushMessage);
+		Item dunnetB = Item.getInstance("dunnet");
+		dunnetB.setRelatedRoom(dunnet);
+		((ItemButton)dunnetB).setPushMessage(pushMessage);
+		tele.putItem(schoolB);
+		tele.putItem(dunnetB);
 
 		Room archives= new Room(archivesD, archivesSD);
 		archives.setAdjacentRoom(Action.ActionGoSouth, nhall);

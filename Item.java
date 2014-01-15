@@ -30,6 +30,7 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}));
 		sharedInstances.add(new ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}));
 		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight", "light"}));
+		sharedInstances.add(new ItemTorch ("torch", "metal torch", new String[]{"torch", "candle"}));
 		sharedInstances.add(new ItemGuard ("guard", "sleeping guard", new String[]{"guard", "henchman"}));
 		sharedInstances.add(new ItemParachute ("parachute", "packed parachute", new String[]{"chute", "parachute"}));
 		sharedInstances.add(new ItemWatch ("watch", "smart watch", new String[]{"watch"}));
@@ -50,6 +51,10 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemButton ("Floor 2 Button", "Elevator Floor 2 Button", new String[]{"2"}));
 		sharedInstances.add(new ItemButton ("Floor 3 Button", "Elevator Floor 3 Button", new String[]{"3"}));
 		sharedInstances.add(new ItemButton ("Floor 4 Button", "Elevator Floor 4 Button", new String[]{"4"}));
+
+
+		sharedInstances.add(new ItemButton ("NJIT", "NJIT Button", new String[]{"njit"}));
+		sharedInstances.add(new ItemButton ("Dunnet", "Dunnet Button", new String[]{"dunnet"}));
 
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
 
@@ -159,10 +164,15 @@ class ItemButton extends Item implements Pushable {
 
 	public ItemButton(String s, String sd, String[] a) {
 		super(s, sd, a);
+		this.pushMessage = "Pushed.";
 	}
 	public void push() {
-
+		Game.print(this.pushMessage);
 	}
+	public void setPushMessage(String s) {
+		this.pushMessage = s;
+	}
+	protected String pushMessage;
 }
 class ItemClayPot extends Item implements Destroyable, Holdable, Hostable {
 
@@ -250,7 +260,7 @@ class ItemFan extends Item implements Hostable {
 	protected Item installedItem;
 	protected boolean disappears;
 }
-class ItemFlashlight extends Item implements Holdable, Installable {
+class ItemFlashlight extends Item implements Holdable, Installable, Luminous {
 
 	public ItemFlashlight(String s, String sd, String[] a) {
 		super(s, sd, a);
@@ -650,6 +660,11 @@ class ItemSafe extends Item implements Hostable, Openable {
 }
 class ItemShovel extends Item implements Holdable {
 	public ItemShovel(String d, String sd, String[] a) {
+		super(d, sd, a);
+	}
+}
+class ItemTorch extends Item implements Holdable, Luminous {
+	public ItemTorch(String d, String sd, String[] a) {
 		super(d, sd, a);
 	}
 }

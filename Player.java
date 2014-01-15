@@ -50,6 +50,19 @@ public class Player {
 		if(this.disguise == item) return true;
 		return this.items.contains(item);
 	}
+	public boolean hasItemOfType(String str) {
+		try {
+		for(Item item : this.items) {
+			if(Class.forName(str).isInstance(item)) {
+				return true;
+			}
+		}
+		}
+		catch(ClassNotFoundException e) {
+
+		}	
+		return false;
+	}
 	public LinkedList<Item> getItems() {
 		return this.items;
 	}
@@ -68,6 +81,47 @@ public class Player {
 	public Item disguise() {
 		return this.disguise;
 	}
+	public void move(Room nextRoom) {
+
+		nextRoom.setPlayer(this);
+		if(this.currentRoom != null && nextRoom.compareTo(this.currentRoom) != 0) { 
+			Action directionOfTravel = this.currentRoom.getDirectionForRoom(nextRoom);
+			HashMap<Action, String> messages = this.currentRoom.transitionMessages();
+			String message = messages.get(directionOfTravel);
+			int delay = this.currentRoom.transitionDelay();
+			if(message != null) {
+				if(delay != 0) {
+					for(int i=0; i < 3; i++) { 
+						Game.print("...");
+						try{
+							Thread.sleep(delay);
+						}
+						catch(Exception e1) {
+							// pass
+						}
+					}
+				}
+				Game.print(message);
+			}
+		}
+		if(nextRoom instanceof RoomRequiredItem) {
+			RoomRequiredItem r = (RoomRequiredItem)nextRoom;
+			if(r.diesOnEntry()) {
+				Game.print(r.deathMessage());
+				this.die();
+			}
+		}
+
+		this.currentRoom = nextRoom;
+		Game.print(this.currentRoom.description());
+		// TODO not sure if I want to leave this line in for the final release
+		//Game.print(this.currentRoom.visibleItems());
+
+		if(nextRoom instanceof RoomSky) {
+			RoomSky sky = (RoomSky)nextRoom;
+			sky.freefall();
+		}
+	}
 	public void move(Action a) {
 	
 		if(this.currentRoom instanceof RoomRequiredItem) {
@@ -80,7 +134,7 @@ public class Player {
 		}
 		else if(this.currentRoom instanceof RoomDark) {
 			RoomDark room = (RoomDark)this.currentRoom;
-			if(room.isDark() && room.willDieInDirection(a) && !this.hasItem(Item.getInstance("flashlight"))) {
+			if(room.isDark() && room.willDieInDirection(a) && !this.hasItemOfType("Luminous")) {
 				Game.print(room.deathMessage());
 				this.die();
 			}
@@ -107,46 +161,7 @@ public class Player {
 					return;
 				}
 			}
-			//this.move(nextRoom);
-
-			nextRoom.setPlayer(this);
-			if(this.currentRoom != null && nextRoom.compareTo(this.currentRoom) != 0) { 
-				Action directionOfTravel = this.currentRoom.getDirectionForRoom(nextRoom);
-				HashMap<Action, String> messages = this.currentRoom.transitionMessages();
-				String message = messages.get(directionOfTravel);
-				int delay = this.currentRoom.transitionDelay();
-				if(message != null) {
-					if(delay != 0) {
-						for(int i=0; i < 3; i++) { 
-							Game.print("...");
-							try{
-								Thread.sleep(delay);
-							}
-							catch(Exception e1) {
-								// pass
-							}
-						}
-					}
-					Game.print(message);
-				}
-			}
-			if(nextRoom instanceof RoomRequiredItem) {
-				RoomRequiredItem r = (RoomRequiredItem)nextRoom;
-				if(r.diesOnEntry()) {
-					Game.print(r.deathMessage());
-					this.die();
-				}
-			}
-
-			this.currentRoom = nextRoom;
-			Game.print(this.currentRoom.description());
-			// TODO not sure if I want to leave this line in for the final release
-			//Game.print(this.currentRoom.visibleItems());
-
-			if(nextRoom instanceof RoomSky) {
-				RoomSky sky = (RoomSky)nextRoom;
-				sky.freefall();
-			}
+			move(nextRoom);
 		}
 		else {
 			Game.print("You can't move that way");

@@ -234,7 +234,6 @@ public class Game {
 							Item item = a.directObject();
 							if(this.player.currentRoom.hasItem(item) || this.player.hasItem(item)) {
 								if(item instanceof Pushable) {
-									Game.print("Pushed.");
 									((Pushable)item).push();
 									if(item.relatedRoom() instanceof RoomElevator) { // player is next to an elevator
 										((RoomElevator)item.relatedRoom()).call(this.player.currentRoom);
@@ -242,7 +241,9 @@ public class Game {
 									else if(this.player.currentRoom instanceof RoomElevator) { // player is in an elevator
 										((RoomElevator)this.player.currentRoom).call(Integer.parseInt(item.getAliases()[0])-1);
 									}
-
+									else {
+										//this.player.move(item.relatedRoom());
+									}
 								}
 								else {
 									Game.print("Nothing happens.");
@@ -464,6 +465,7 @@ public class Game {
 		Game.print("You can inspect an inspectable item by typing \"Inspect <item>\"");
 	}
 	public static void print(String s) {
+		/*
 		for(String line : s.split("\n")) {
 			int c = 0;
 			for(String word : line.split(" ")) {
@@ -475,6 +477,7 @@ public class Game {
 				}
 			}
 			System.out.println();
-		}
+		}*/
+		System.out.println(s);
 	}
 }
