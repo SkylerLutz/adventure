@@ -37,10 +37,12 @@ public class Game {
 		ItemWatchMenu m1 = new ItemWatchMenu("Dunnet");
 		ItemWatchMenu m2 = new ItemWatchMenu("NJIT");
 		ItemWatchMenu m3 = new ItemWatchMenu("Spy Mission");
+		ItemWatchMenu m4 = new ItemWatchMenu("Demo");
 
 		menu.add(m1);
 		menu.add(m2);
 		menu.add(m3);
+		menu.add(m4);
 
 		Game.print(menu.toString());
 
@@ -66,6 +68,8 @@ public class Game {
 					return Map.njit();
 				case 2:
 					return Map.mission();
+				case 3:
+					return Map.demo();
 				default:
 					Game.print("Invalid selection.");
 					continue;

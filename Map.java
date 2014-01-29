@@ -7,6 +7,17 @@ import java.util.Scanner;
 
 public class Map {
 
+	public static Room demo() {
+		Room room1 = new Room("You are in the first room. There seems to be a room to the North.", "First Room.");
+		Room room2 = new Room("You are in the second room. You can go South to return to the beginning.", "Second Room.");
+		// player would type 'go north'
+		room1.setAdjacentRoom(Action.ActionGoNorth, room2);
+
+		// player would type 'drink coffee'
+		room2.putItem(Item.getInstance("coffee"));
+		return room1;
+	}
+
 	public static Room level1() {
 
 		Room mid1 = new Room("There is a fork", "Fork");
@@ -756,9 +767,6 @@ public class Map {
 		office.putItem(Item.getInstance("coffee"));
 		office.putItem(Item.getInstance("light"));
 
-		return office;
-		//return breakRoom;
-		//return plane;
-		//return aliens;
+		return plane;
 	}
 }

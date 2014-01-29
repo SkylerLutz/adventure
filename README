@@ -2,7 +2,7 @@ Adventure is a text-based adventure game inspired by Dunnet, the game that ships
 
 To play the game, compile all files with 'javac *.java' and run with 'java Main.java'.
 
-This project was designed so that creating highly customizable levels was extremely easy. To do so, follow these steps:
+This project was designed so that creating highly customizable levels was extremely easy. To do so, follow the example in Map.java. If you have difficulties, follow these steps:
 
 1. Open Map.java
 2. Create a new public static method, with the return type Room and no arguments.
