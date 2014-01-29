@@ -16,8 +16,6 @@ public class Player {
 		this.currentRoom.player = this;
 
 		Game.print(this.currentRoom.description());
-		// TODO not sure if I want to leave this line in for the final release
-		//Game.print(this.currentRoom.visibleItems());
 	}	
 	public Item drop(Item item) {
 		if(this.items.remove(item)) {

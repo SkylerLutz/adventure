@@ -242,7 +242,8 @@ public class Game {
 										((RoomElevator)this.player.currentRoom).call(Integer.parseInt(item.getAliases()[0])-1);
 									}
 									else {
-										//this.player.move(item.relatedRoom());
+										// for teleportation machine
+										this.player.move(item.relatedRoom());
 									}
 								}
 								else {
@@ -333,6 +334,10 @@ public class Game {
 								Game.print("You don't have that object in your inventory.");
 								break;
 							}
+							else if(itemToBePutInto == null) {
+								Game.print("You must supply an indirect object.");
+								break;
+							}
 							else if(!this.player.currentRoom.hasItem(itemToBePutInto)) {
 								Game.print("That object doesn't exist in this room.");
 								break;
@@ -386,6 +391,9 @@ public class Game {
 								Game.print("You are not allowed to dig here");
 							}
 
+							break;
+						case ActionClimb:
+							move(Action.ActionGoUp);
 							break;
 						case ActionJump:
 							move(Action.ActionGoDown);

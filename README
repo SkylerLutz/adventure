@@ -1,1 +1,1 @@
-TextRPG is a text-based adventure game, inspired by Dunnet, the game that ships with emacs. This is a well written project with object oriented programming in mind. Adding a level is super easy. Simply edit Map.java to return a different Room object.
+This project is a text-based adventure game, inspired by Dunnet, the game that ships with emacs. This is a well written project with object oriented programming in mind. Adding a level is super easy. Simply edit Map.java to return a different Room object.

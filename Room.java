@@ -90,7 +90,7 @@ public class Room implements Comparable {
 		this.player = p;
 	}
 	public String toString() {
-		return this.description + "\n" + visibleItems();
+		return this.description + visibleItems();
 	}
 	public String visibleItems() {
 		String s = "";
@@ -102,9 +102,9 @@ public class Room implements Comparable {
 		return s;
 	}
 	public String description(){ 
-		String d = this.roomWasVisited ? this.shortDescription : this.description + "\n" + visibleItems();
+		String d = this.roomWasVisited ? this.shortDescription : this.description + visibleItems();
 		this.roomWasVisited = true;
-		return "\n" + d + "\n";
+		return d;
 	}
 	public String shortDescription() {
 		return this.shortDescription;

@@ -1,4 +1,0 @@
-interface Installable {
-	
-	// marker
-}

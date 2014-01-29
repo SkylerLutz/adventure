@@ -90,7 +90,7 @@ public class Map {
 		String waterslideDescription = "You have found the source of the running water! It is the waterslide that Ben Slepp promised! You can go down it if you want, but its destination is unknown";
 		String waterslideShortDescription = "Waterslide";
 
-		String acmDescription = "You are in the ACM office. It is filled with students. There is a mysterious hole in the floor, with a sign next to it that says, \"Put valuables in here to score points!\".";
+		String acmDescription = "You are in the ACM office. There is a mysterious hole in the floor, with a sign next to it that says, \"Put valuables in here to score points!\".";
 		String acmShortDescription = "ACM Office";
 		String acmDarkDescription = "It is dark. Perhaps you can find a way to see...";
 		String acmDarkShortDescription = "Darkness";
@@ -257,7 +257,7 @@ public class Map {
 	public static Room mission() {
 
 
-		String planeDescription = "You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You have twenty minutes to complete the mission, otherwise Seal Team 6 will need to leave without you.";
+		String planeDescription = "You are on an airplane. You are on a top secret mission. Your objective is to parachute into a field, nearby a CIA complex, and retrieve the dossier on Amrid Al-Asad. You must hurry, because B-2 Bombers are on their way to annihilate the complex.";
 		String planeShortDescription = "Mercenary Airplane";
 
 		String skyDescription = "You are overcome by the sensation of wind rushing into your face at terminal velocity. You are decending quickly. You will need to slow yourself down if you want to survive the fall.";
@@ -289,24 +289,24 @@ public class Map {
 
 		String f32d = "You are prone in a grass field. You are very close to the complex.";
 	
-		String compWD = "You are at the base of a fence on West end of the complex. You will be spotted if you attempt to climb the fence. You will need to find another way.";
-		String compWSD = "West";
+		String compWD = "You are at the base of a fence on West end of the complex. A steep cliff is to your left.";
+		String compWSD = "West end of complex exterior.";
 		String compD = "You are at the base of a fence in the center of the complex. You will be spotted if you attempt to climb the fence. You will need to find another way.";
-		String compSD = "Center";
+		String compSD = "Center of complex exterior.";
 		String compED = "You are at the base of a fence on East end of the complex. You will be spotted if you attempt to climb the fence. There appears to be an entrance to the complex to the East."; 
-		String compESD = "East";
+		String compESD = "East end of complex exterior.";
 
-		String compEntranceD = "The complex entrance is now in sight. There is a sleeping guard in the entrance booth. He may need to be taken care of...";
-		String compEntranceSD = "Complex Entrance Exterior.";
+		String compEntranceD = "The complex entrance is now in sight. There is an entrance booth to the North.";
+		String compEntranceSD = "Complex exterior..";
 
-		String compFrontD= "You are almost at the entrance booth. There is an electrical junction box and power meter to the west.";
+		String compFrontD= "You are almost at the entrance booth, which is a just a few more steps to the North. There is a sleeping guard inside it. There is also an electrical junction box and power meter to the west.";
 		String compFrontSD= "Complex Entrance front.";
 
 		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it.";
-		String compElectricSD= "Junction Box";
+		String compElectricSD= "Junction Box.";
 
 		String boothD = "You are inside the operator's booth.";
-		String boothSD = "Operator Booth";
+		String boothSD = "Operator Booth.";
 
 		String eBoothD = "You take cover behind the eastern-most concrete wall of the complex. There appears to be a service entrance to the North.";
 		String eBoothSD = "Eastern wall.";
@@ -322,7 +322,7 @@ public class Map {
 		String serviceSD = "Service area.";
 		
 
-		String breakRoomD= "You are in the break room. It smells like day-old coffee in here.";
+		String breakRoomD= "You are in the break room. It smells like day-old coffee in here. There is a doorway to the East.";
 		String breakRoomSD = "Break room.";
 
 		String hallD = "You are at the South end of a long hallway. There are doors to the East and West.";
@@ -405,8 +405,25 @@ public class Map {
 		
 		String archivesEndD = "You are in a reading area with tables and chairs. There are offices to the North, East, and South.";
 		String archivesEndSD = "Reading Area.";
-		
-		String officeD = "You are in an office. It seems that the occupant has only recently left, since his coffee mug is still steaming and their desk light is still on.";
+
+
+		String rooftopD = "You are on the roof of the complex. The chopper is hovering at the edge of the roof several meters to the North.";
+		String rooftopSD = "Complex Rooftop.";
+		String rooftopWD = "You have not completed the mission. The dossier is still somewhere inside the complex. You can crawl into a ventilation duct to the East, and it will lead you back into the complex.";
+		String rooftopWSD = "Go back and retrieve the dossier.";
+	
+		String roofEdgeD = "The chopper is hovering steadily. Jump for the chopper!";
+		String roofEdgeSD = "Jump for the chopper!";
+
+		String chopperTransitionMessage = "You sprint the last few meters toward the edge of the roof, and jump to the chopper. You manage to grab hold of the landing strut with one hand.";
+		String chopperD = "You are hanging from the edge of the helicopter. Climb yourself up to enter the cabin.";
+		String chopperSD = "You are hanging by one arm on the chopper landing strut.";
+
+		String cabinD = "You are pulled into the chopper by a comrade's arm. You are now inside the chopper.";
+		String cabinDeathMessage = "You produce the dossier, and hand it off to a crew member. As they take it from you, you identify them to be Amrid Al-Asad. He stabs you in the stomach with a knife, and throws your lifeless body out the door of the chopper.";
+		String cabinSD = "Chopper Cabin.";
+			
+		String officeD = "You are in an office. It seems that the occupant has only recently left.";
 		String officeSD = "Office.";
 
 		String locked1D= "How the hell did you get in here?";
@@ -509,6 +526,9 @@ public class Map {
 		RoomRequiredItem complexW = new RoomRequiredItem(compWD, compWSD, warning, shortWarning, suit);
 		RoomRequiredItem complex = new RoomRequiredItem(compD, compSD, warning, shortWarning, suit);
 		RoomRequiredItem complexE = new RoomRequiredItem(compED, compESD, warning, shortWarning, suit);
+		RoomRequiredItem fence = new RoomRequiredItem(null, null, Item.getInstance("unknown"));
+		fence.setPlayerDiesOnEntry(true);
+		fence.setDeathMessage("You begin to climb the fence, and a sniper shoots you in the head.");
 		complex.setAdjacentRoom(Action.ActionGoWest, complexW);
 		complex.setAdjacentRoom(Action.ActionGoEast, complexE);
 		complexW.setAdjacentRoom(Action.ActionGoSouth, f11dr);
@@ -519,7 +539,9 @@ public class Map {
 		complex.setDeathMessage(deathMessage);
 		complexE.setDeathMessage(deathMessage);
 		complexW.setDeathMessage(deathMessage);
-		complexE.putItem(suit);
+		complexW.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
+		complex.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
+		complexE.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
 
 		RoomRequiredItem compEntrance = new RoomRequiredItem(compEntranceD, compEntranceSD, warning, shortWarning, suit);
 		compEntrance.setAdjacentRoom(Action.ActionGoWest, complexE);
@@ -610,7 +632,7 @@ public class Map {
 		
 		RoomLockable duct8 = new RoomLockable(duct8D, duct8SD, true, Item.getInstance("pole"));
 		duct8.setAdjacentRoom(Action.ActionGoEast, duct7);
-		duct8.setCausesDeath(true, "You are chopped up into a million bite-size pieces by a ventilation fan.");
+		duct8.setCausesDeath(true, "You are chopped up into a million bite-size pieces.");
 		duct8.setUnlockMessage("You broke the fan. The ventilation shaft appears to continue behind it.");
 		Item fan = Item.getInstance("fan");
 		fan.setRelatedRoom(duct8);
@@ -646,6 +668,25 @@ public class Map {
 		Room tele = new Room(teleD, teleSD);
 		tele.setAdjacentRoom(Action.ActionGoSouth, teleE);
 
+
+		RoomRequiredItem rooftop = new RoomRequiredItem(rooftopD, rooftopSD, rooftopWD, rooftopWSD, Item.getInstance("document"));
+		rooftop.setOneWayAdjacentRoom(Action.ActionGoEast, breakRoom);
+		rooftop.setSafeDirection(Action.ActionGoEast);
+		rooftop.setDeathMessage("The complex exploded before you could escape with the dossier. You have failed your mission.");
+
+		Room roofEdge = new Room(roofEdgeD, roofEdgeSD);
+		roofEdge.setAdjacentRoom(Action.ActionGoSouth, rooftop);
+
+		Room chopper = new Room(chopperD, chopperSD);
+		roofEdge.setOneWayAdjacentRoom(Action.ActionGoDown, chopper);
+		roofEdge.setAdjacentRoomTransitionMessage(chopperTransitionMessage, Action.ActionGoDown);
+
+		RoomRequiredItem cabin = new RoomRequiredItem(cabinD, cabinSD, cabinD, cabinSD, Item.getInstance("document"));
+		chopper.setOneWayAdjacentRoom(Action.ActionGoUp, cabin);
+		cabin.setDeathMessage(cabinDeathMessage);
+		cabin.setPlayerDiesOnEntry(true);
+		
+
 		String pushMessage = "The beeping stops. A red light completely blinds you. You travel through space and time, and land on your stomach. Somewhat disoriented, you stand up.\n";
 		Room school = njit();
 		Room dunnet = level1();
@@ -655,8 +696,22 @@ public class Map {
 		Item dunnetB = Item.getInstance("dunnet");
 		dunnetB.setRelatedRoom(dunnet);
 		((ItemButton)dunnetB).setPushMessage(pushMessage);
-		tele.putItem(schoolB);
-		tele.putItem(dunnetB);
+		Item rooftopB = Item.getInstance("rooftop");
+		rooftopB.setRelatedRoom(rooftop);
+		((ItemButton)rooftopB).setPushMessage(pushMessage);
+		Item obamaB = Item.getInstance("obama");
+		obamaB.setRelatedRoom(aliensC);
+		((ItemButton)obamaB).setPushMessage(pushMessage);
+		Item centerB = Item.getInstance("center");
+		centerB.setRelatedRoom(center);
+		((ItemButton)centerB).setPushMessage(pushMessage);
+		
+		//tele.putItem(schoolB);
+		//tele.putItem(dunnetB);
+		tele.putItem(rooftopB);
+		tele.putItem(obamaB);
+		tele.putItem(centerB);
+		
 
 		Room archives= new Room(archivesD, archivesSD);
 		archives.setAdjacentRoom(Action.ActionGoSouth, nhall);
@@ -687,17 +742,23 @@ public class Map {
 
 		Room office = new Room(officeD, officeSD);
 		office.setAdjacentRoom(Action.ActionGoNorth, archivesEnd);
+		ItemComputer computer = (ItemComputer)Item.getInstance("computer");
+		computer.setInspectMessage("You flip the computer's keyboard over, and unsuprisingly encounter a yellow sticky note. It reads:\n\n9292\n");
 		ItemSafe safe = (ItemSafe)Item.getInstance("safe");
 		safe.setInspectMessage("This safe appears to require a 4 digit PIN number.");
 		safe.setPIN("9292");
 		Item document = Item.getInstance("document");
 		document.setVisible(false);
+		document.setInspectMessage("The document is encrypted with a cipher. The cryptographers at the CIA will need to decrypt it.");
 		safe.install(document);
 		office.putItem(safe);
+		office.putItem(computer);
+		office.putItem(Item.getInstance("coffee"));
+		office.putItem(Item.getInstance("light"));
 
-		
-		
+		return office;
+		//return breakRoom;
 		//return plane;
-		return aliens;
+		//return aliens;
 	}
 }

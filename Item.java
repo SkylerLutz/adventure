@@ -29,7 +29,7 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemRMS("statue", "wax statuette of Richard M Stallman", new String[]{"statue", "statuette", "rms"}));
 		sharedInstances.add(new ItemMicrowave ("microwave", "microwave that stinks of month old popcorn", new String[]{"microwave", "appliance"}));
 		sharedInstances.add(new ItemFridge ("fridge", "white refrigerator", new String[]{"fridge", "refrigerator"}));
-		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight", "light"}));
+		sharedInstances.add(new ItemFlashlight ("flashlight", "battery operated flashlight", new String[]{"flashlight"}));
 		sharedInstances.add(new ItemTorch ("torch", "metal torch", new String[]{"torch", "candle"}));
 		sharedInstances.add(new ItemGuard ("guard", "sleeping guard", new String[]{"guard", "henchman"}));
 		sharedInstances.add(new ItemParachute ("parachute", "packed parachute", new String[]{"chute", "parachute"}));
@@ -45,6 +45,9 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemLock("fan", "ventilation fan", new String[]{"fan"}));
 		sharedInstances.add(new ItemMetalPole("pole", "metal pole", new String[]{"pole", "rod"}));
 		sharedInstances.add(new ItemGuestList("list", "guest list", new String[]{"list", "guestlist"}));
+		sharedInstances.add(new ItemComputer("iMac G3", "translucent blue iMac G3", new String[]{"apple", "computer", "keyboard", "imac"}));
+		sharedInstances.add(new ItemCoffee("coffee", "steaming cup of coffee", new String[]{"coffee", "beverage", "mug"}));
+		sharedInstances.add(new ItemDeskLight("light", "desk light", new String[]{"light"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -55,6 +58,9 @@ public class Item implements Comparable, Inspectable, Visible {
 
 		sharedInstances.add(new ItemButton ("NJIT", "NJIT Button", new String[]{"njit"}));
 		sharedInstances.add(new ItemButton ("Dunnet", "Dunnet Button", new String[]{"dunnet"}));
+		sharedInstances.add(new ItemButton ("Rooftop", "Rooftop Button", new String[]{"rooftop"}));
+		sharedInstances.add(new ItemButton ("Obama", "Barack Obama Test Tube Button", new String[]{"obama"}));
+		sharedInstances.add(new ItemButton ("Command Center", "Command Center", new String[]{"center"}));
 
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
 
@@ -213,6 +219,27 @@ class ItemClayPot extends Item implements Destroyable, Holdable, Hostable {
 	protected String destroyMessage;
 	protected Item installedItem;
 	protected boolean disappears;
+}
+class ItemCoffee extends Item implements Edible{
+	
+	public ItemCoffee(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+	public void eat() {
+		Game.print("You grimace at the taste of black coffee, and put down the mug.");
+	}		
+}
+class ItemComputer extends Item {
+	
+	public ItemComputer(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
+}
+class ItemDeskLight extends Item implements Luminous {
+	
+	public ItemDeskLight(String s, String sd, String[] a) {
+		super(s, sd, a);
+	}
 }
 class ItemDiamond extends Item implements Holdable, Installable, Valuable {
 
