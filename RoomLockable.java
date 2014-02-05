@@ -31,12 +31,12 @@ public class RoomLockable extends Room {
 	public boolean unlock(Item key) {
 		if(this.key.compareTo(key) == 0) {
 			this.locked = false;
-			Game.print(this.unlockMessage);
+			System.out.println(this.unlockMessage);
 			return true;
 		}
 		else { 
 			if(!causesDeath()) {
-				Game.print("This key doesn't seem to fit");
+				System.out.println("This key doesn't seem to fit");
 			}
 			return false;
 		}

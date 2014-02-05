@@ -18,7 +18,7 @@ public class RoomRequiredItem extends Room {
 	}
 	public void playerDidDropRequiredItem() {
 		if(this.diesOnItemDiscard) {
-			Game.print(this.deathMessage);
+			System.out.println(this.deathMessage);
 			this.player.die();
 		}
 		else {
@@ -60,12 +60,12 @@ public class RoomRequiredItem extends Room {
 	}
 	public String description() {
 		if(this.player.hasItem(this.requiredItem) || this.player.disguise == this.requiredItem) {
-			String s = this.roomWasVisited ? this.shortDescription : this.description;
+			String s = this.roomWasVisited ? this.shortDescription : this.description + visibleItems();
 			this.roomWasVisited = true;
 			return s;
 		}
 		else {
-			String s = this.roomWasVisitedInDanger ? this.warningShortDescription : this.warningDescription;
+			String s = this.roomWasVisitedInDanger ? this.warningShortDescription : this.warningDescription + visibleItems();
 			this.roomWasVisitedInDanger = true;
 			return s;
 		}

@@ -19,7 +19,7 @@ public class RoomSky extends Room {
 					System.out.println("\n");
 					try {
 						System.out.println((dur-i)*1000 + " thousand feet.");
-						System.out.print(">>> ");
+						System.out.print("> ");
 						Thread.sleep(2500 + (RoomSky.shouldDie() ? 0 : 1000));
 					}
 					catch(Exception e1) {
@@ -27,13 +27,13 @@ public class RoomSky extends Room {
 					}
 				}
 				if(RoomSky.shouldDie()) {
-					Game.print("Splat.");
+					System.out.println("Splat.");
 					p.die();
 				}
 				else {
 					// move to field
 					if(landMessage != null) {
-						Game.print(landMessage);
+						System.out.println(landMessage);
 					}
 					// transition to field
 					p.move(Action.ActionGoDown);
@@ -41,7 +41,7 @@ public class RoomSky extends Room {
 					//p.dropItem(i);
 					i.setDetailDescription("used parachute");
 					//i.setCanBePickedUp(false);
-					System.out.print(">>> ");
+					System.out.print("> ");
 					
 				}		
 			}
@@ -50,7 +50,7 @@ public class RoomSky extends Room {
 	}
 	public void breakFall() {
 		shouldDie = false;
-		Game.print(this.fallBrokenMessage);
+		System.out.println(this.fallBrokenMessage);
 	}
 	public static boolean shouldDie() {
 		return shouldDie;

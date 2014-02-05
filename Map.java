@@ -310,10 +310,10 @@ public class Map {
 		String compEntranceD = "The complex entrance is now in sight. There is an entrance booth to the North.";
 		String compEntranceSD = "Complex exterior..";
 
-		String compFrontD= "You are almost at the entrance booth, which is a just a few more steps to the North. There is a sleeping guard inside it. There is also an electrical junction box and power meter to the west.";
+		String compFrontD= "You are almost at the entrance booth, which is a just a few more steps to the North. There is a sleeping guard inside it. There is also an electrical junction box and power meter to the West.";
 		String compFrontSD= "Complex Entrance front.";
 
-		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it.";
+		String compElectricD= "You are in front of an electrical junction box. There are very thick cables traveling into it. It requires authentication to open it.";
 		String compElectricSD= "Junction Box.";
 
 		String boothD = "You are inside the operator's booth.";
@@ -426,12 +426,12 @@ public class Map {
 		String roofEdgeD = "The chopper is hovering steadily. Jump for the chopper!";
 		String roofEdgeSD = "Jump for the chopper!";
 
-		String chopperTransitionMessage = "You sprint the last few meters toward the edge of the roof, and jump to the chopper. You manage to grab hold of the landing strut with one hand.";
+		String chopperTransitionMessage = "You sprint the last few meters toward the edge of the roof, and jump to the chopper. You manage to grab hold of the landing strut with one hand, as the B-2 Bombers obliterate the complex.";
 		String chopperD = "You are hanging from the edge of the helicopter. Climb yourself up to enter the cabin.";
 		String chopperSD = "You are hanging by one arm on the chopper landing strut.";
 
-		String cabinD = "You are pulled into the chopper by a comrade's arm. You are now inside the chopper.";
-		String cabinDeathMessage = "You produce the dossier, and hand it off to a crew member. As they take it from you, you identify them to be Amrid Al-Asad. He stabs you in the stomach with a knife, and throws your lifeless body out the door of the chopper.";
+		String cabinD = "";
+		String cabinDeathMessage = "You are pulled into the chopper by a comrade's arm. You are now inside the chopper. You produce the dossier, and hand it off to a crew member. As they take it from you, you identify them to be Amrid Al-Asad. He stabs you in the stomach with a knife, and throws your lifeless body out the door of the chopper.";
 		String cabinSD = "Chopper Cabin.";
 			
 		String officeD = "You are in an office. It seems that the occupant has only recently left.";
@@ -537,7 +537,7 @@ public class Map {
 		RoomRequiredItem complexW = new RoomRequiredItem(compWD, compWSD, warning, shortWarning, suit);
 		RoomRequiredItem complex = new RoomRequiredItem(compD, compSD, warning, shortWarning, suit);
 		RoomRequiredItem complexE = new RoomRequiredItem(compED, compESD, warning, shortWarning, suit);
-		RoomRequiredItem fence = new RoomRequiredItem(null, null, Item.getInstance("unknown"));
+		RoomRequiredItem fence = new RoomRequiredItem("", "", Item.getInstance("unknown"));
 		fence.setPlayerDiesOnEntry(true);
 		fence.setDeathMessage("You begin to climb the fence, and a sniper shoots you in the head.");
 		complex.setAdjacentRoom(Action.ActionGoWest, complexW);
@@ -550,6 +550,7 @@ public class Map {
 		complex.setDeathMessage(deathMessage);
 		complexE.setDeathMessage(deathMessage);
 		complexW.setDeathMessage(deathMessage);
+
 		complexW.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
 		complex.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
 		complexE.setOneWayAdjacentRoom(Action.ActionGoUp, fence);
@@ -729,8 +730,11 @@ public class Map {
 
 		Room archivesAF = new Room(archivesAFD, archivesAFSD);
 		archivesAF.setAdjacentRoom(Action.ActionGoWest, archives);
+
+		String openMessage ="The folder is empty. The contents must have been removed."; 
 		Item folder = Item.getInstance("folder");
-		folder.setInspectMessage("The folder is empty. The contents must have been removed.");
+		folder.setInspectMessage(openMessage);
+		((ItemFolder)folder).setOpenMessage(openMessage);
 		archivesAF.putItem(folder);
 
 		Room archivesGM = new Room(archivesGMD, archivesGMSD);
@@ -766,7 +770,6 @@ public class Map {
 		office.putItem(computer);
 		office.putItem(Item.getInstance("coffee"));
 		office.putItem(Item.getInstance("light"));
-
-		return plane;
+		return office;
 	}
 }

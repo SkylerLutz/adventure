@@ -60,7 +60,7 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemButton ("Dunnet", "Dunnet Button", new String[]{"dunnet"}));
 		sharedInstances.add(new ItemButton ("Rooftop", "Rooftop Button", new String[]{"rooftop"}));
 		sharedInstances.add(new ItemButton ("Obama", "Barack Obama Test Tube Button", new String[]{"obama"}));
-		sharedInstances.add(new ItemButton ("Command Center", "Command Center", new String[]{"center"}));
+		sharedInstances.add(new ItemButton ("Command Center", "Command Center Button", new String[]{"center"}));
 
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
 
@@ -141,10 +141,10 @@ public class Item implements Comparable, Inspectable, Visible {
 // Inspectable
  	public void inspect() {
 		if(this.inspectMessage != null) {
-			Game.print(this.inspectMessage);
+			System.out.println(this.inspectMessage);
 		}
 		else {
-			Game.print("It appears to be a " + this + ".");
+			System.out.println("It appears to be a " + this + ".");
 		}
  	}
 	public void setInspectMessage(String message) {
@@ -173,7 +173,7 @@ class ItemButton extends Item implements Pushable {
 		this.pushMessage = "Pushed.";
 	}
 	public void push() {
-		Game.print(this.pushMessage);
+		System.out.println(this.pushMessage);
 	}
 	public void setPushMessage(String s) {
 		this.pushMessage = s;
@@ -190,7 +190,7 @@ class ItemClayPot extends Item implements Destroyable, Holdable, Hostable {
 		this.destroyMessage = s;
 	}
 	public void destroy() {
-		Game.print(destroyMessage);
+		System.out.println(destroyMessage);
 	}
 	public void setDisappears(boolean b) {
 		this.disappears = b;
@@ -226,7 +226,7 @@ class ItemCoffee extends Item implements Edible{
 		super(s, sd, a);
 	}
 	public void eat() {
-		Game.print("You grimace at the taste of black coffee, and put down the mug.");
+		System.out.println("You grimace at the taste of black coffee, and put down the mug.");
 	}		
 }
 class ItemComputer extends Item {
@@ -293,11 +293,18 @@ class ItemFlashlight extends Item implements Holdable, Installable, Luminous {
 		super(s, sd, a);
 	}
 }
-class ItemFolder extends Item {
+class ItemFolder extends Item implements Openable {
 
 	public ItemFolder(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
+	public void open() {
+		System.out.println(this.openMessage);
+	}
+	public void setOpenMessage(String o) {
+		this.openMessage = o;
+	}
+	protected String openMessage;
 }
 class ItemFood extends Item implements Edible, Holdable {
 
@@ -305,7 +312,7 @@ class ItemFood extends Item implements Edible, Holdable {
 		super(s, sd, a);
 	}
 	public void eat() {
-		Game.print("Yummy");
+		System.out.println("Yummy");
 	}		
 }
 class ItemFridge extends Item implements Pushable{
@@ -319,7 +326,7 @@ class ItemFridge extends Item implements Pushable{
 		if(!this.wasPushed) {
 			if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
 				((RoomObscured)this.relatedRoom).setObscured(false);
-				Game.print(((RoomObscured)this.relatedRoom).obscureMessage());
+				System.out.println(((RoomObscured)this.relatedRoom).obscureMessage());
 			}
 			this.wasPushed = true;
 		}
@@ -385,14 +392,14 @@ class ItemGuard extends Item implements Hostable, Killable {
 	}
 	public void kill() {
 		if(!this.isDead) {
-			Game.print(this.deathMessage);
-			Game.print("It looks like he dropped something");
+			System.out.println(this.deathMessage);
+			System.out.println("It looks like he dropped something.");
 			this.detailDescription = "dead guard";
 			this.relatedRoom.putItem(this.installedItem);
 			this.isDead = true;
 		}
 		else {
-			Game.print("The guard has already perished.");
+			System.out.println("The guard has already perished.");
 		}
 	}
 	public void install(Item i) {
@@ -435,12 +442,12 @@ class ItemJunctionBox extends Item implements Destroyable {
 	}
 	public void destroy() {
 		if(this.canBeDestroyed) {
-			Game.print(this.destroyMessage);
+			System.out.println(this.destroyMessage);
 			this.canBeDestroyed = false;
 			((RoomDark)this.relatedRoom).setDark(false);
 		}
 		else {
-			Game.print("You have already short circuited this junction box.");
+			System.out.println("You have already short circuited this junction box.");
 		}
 	}
 	public boolean disappears() { 
@@ -478,7 +485,7 @@ class ItemKeycardReader extends Item implements Hostable {
 		this.installedItem = item;
 
 		for(int i=0; i < 3; i++) {
-			Game.print("...");
+			System.out.println("...");
 			try {
 				Thread.sleep(1000);
 			} catch(Exception e1) {
@@ -486,7 +493,7 @@ class ItemKeycardReader extends Item implements Hostable {
 			}
 		}
 		if(this.installMessage != null) {
-			Game.print(this.installMessage);
+			System.out.println(this.installMessage);
 		}
 		((Visible)this.relatedItem).setVisible(true);
 	}
@@ -579,17 +586,17 @@ class ItemMicrowave extends Item implements Hostable, Startable {
 	public void start() {
 		
 		for(int i=0; i < 3; i++) {
-			Game.print("...");
+			System.out.println("...");
 			try {
 				Thread.sleep(1000);
 			} catch(Exception e1) {
 				e1.printStackTrace();
 			}
 		}
-		Game.print("Beep beep beep");
+		System.out.println("Beep beep beep");
 		if(this.installedItem instanceof Meltable) {
 			Item item = ((Meltable)this.installedItem).meltItem();
-			Game.print("You melted the " + this.installedItem.detailDescription() + ", and it revealed a " + item.detailDescription() + "!");
+			System.out.println("You melted the " + this.installedItem.detailDescription() + ", and it revealed a " + item.detailDescription() + "!");
 			this.installedItem = item;
 		}
 	}
@@ -669,17 +676,17 @@ class ItemSafe extends Item implements Hostable, Openable {
 	public void open() {
 		Scanner s = new Scanner(System.in);
 		String input = "";
-		Game.print("Enter the four-digit PIN number.");
+		System.out.println("Enter the four-digit PIN number.");
 		input = s.nextLine();
 		if(input.equals(this.pin)) {
 			this.installedItem.setVisible(true);
-			Game.print("The safe door swings open.");
+			System.out.println("The safe door swings open.");
 			if(this.installedItem != null) {
-				Game.print("You have revealed a " + this.installedItem.detailDescription() + ".");
+				System.out.println("You have revealed a " + this.installedItem.detailDescription() + ".");
 			}
 		}
 		else {
-			Game.print("Incorrect PIN.");
+			System.out.println("Incorrect PIN.");
 		}
 	}
 	protected Item installedItem;
@@ -718,13 +725,13 @@ class ItemVendingMachine extends Item implements Shakeable {
 	public void shake() {
 		switch(this.count) {
 			case 0:
-				Game.print("You shake the vending machine, and your favorite treat inches its way off the tray.");
+				System.out.println("You shake the vending machine, and your favorite treat inches its way off the tray.");
 				break;
 			case 1:
-				Game.print("The treat begins to bend toward the will of gravity.");
+				System.out.println("The treat begins to bend toward the will of gravity.");
 				break;
 			case 2:
-				Game.print("Just as the candy falls, the machine also falls over and crushes your body.");
+				System.out.println("Just as the candy falls, the machine also falls over and crushes your body.");
 				break;
 			default:
 				break;
@@ -744,15 +751,15 @@ class ItemWatch extends Item implements Holdable {
 
 		Scanner s = new Scanner(System.in);
 		String input = "";
-		Game.print("\nCIA SmartWatch v3.2.2\n");
+		System.out.println("\nCIA SmartWatch v3.2.2\n");
 		sleep(800);
-		Game.print("Authenticating via retina scan...");
+		System.out.println("Authenticating via retina scan...");
 		for(int i=0; i < 3; i++) { 
 			sleep(800);
-			Game.print("...");
+			System.out.println("...");
 		}
 		sleep(800);
-		Game.print("Retina scan complete. A hologram appears.");
+		System.out.println("Retina scan complete. A hologram appears.");
 		sleep(800);
 		int n = 0;
 		out:
@@ -770,7 +777,7 @@ class ItemWatch extends Item implements Holdable {
 						while(this.stack.size() > 1) stack.pop();
 						break out;
 					}
-					Game.print("Invalid selection.");
+					System.out.println("Invalid selection.");
 					continue;
 				}
 				if(n == menu.count()) {
@@ -782,7 +789,7 @@ class ItemWatch extends Item implements Holdable {
 					}
 				}
 				else if (n > menu.count() || n < 0) {
-					Game.print("Invalid selection.");
+					System.out.println("Invalid selection.");
 					continue;
 				}
 				else {
@@ -791,7 +798,7 @@ class ItemWatch extends Item implements Holdable {
 				break;
 			}
 		}
-		Game.print("You turn off the watch and lower your wrist.");
+		System.out.println("You turn off the watch and lower your wrist.");
 	}
 	public void setMenu(ItemWatchMenu main) {
 		this.stack.push(main);

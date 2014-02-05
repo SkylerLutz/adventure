@@ -19,23 +19,23 @@ public class RoomElevator extends Room {
 	}
 	public void call(int index) { // call to a specific floor. Will set adjacent room
 		if(this.restrictedFloors.contains(index)) {
-			Game.print("You push the button, but nothing happens. Perhaps this floor is off-limits.");
+			System.out.println("You push the button, but nothing happens. Perhaps this floor is off-limits.");
 			return;
 		}
 		else if(index == currentFloor) {
-			Game.print("The elevator is already on this floor -- the doors are open.");
+			System.out.println("The elevator is already on this floor -- the doors are open.");
 			return;
 		}
 		for(int i=0; i < 3; i++) {
-			Game.print("...");
+			System.out.println("...");
 			try {
 				Thread.sleep(1000);
 			} catch(Exception e1) {
 				e1.printStackTrace();
 			}
 		}
-		Game.print("Ding");
-		Game.print("The doors open");
+		System.out.println("Ding");
+		System.out.println("The doors open");
 		setFloor(index);
 	}
 	protected void setFloor(int index) {
