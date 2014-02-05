@@ -266,8 +266,13 @@ public class Game {
 									((Edible)item).eat();
 								}
 								else {
-									System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
-									this.player.die();
+									if(item instanceof Holdable) {
+										System.out.println("As you forcefully shove the " + a.directObject() + " down your throat, you begin to choke.");
+										this.player.die();
+									}
+									else {
+										System.out.println("That cannot be consumed.");
+									}
 								}
 							}
 
