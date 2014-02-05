@@ -9,7 +9,7 @@ public class Map {
 
 	public static Room demo() {
 		Room room1 = new Room("You are in the first room. There seems to be a room to the North.", "First Room.");
-		Room room2 = new Room("You are in the second room. You can go South to return to the beginning.", "Second Room.", null);
+		Room room2 = new Room("You are in the second room. You can go South to return to the beginning.", "Second Room.");
 		// player would type 'go north'
 		room1.setAdjacentRoom(Action.ActionGoNorth, room2);
 
