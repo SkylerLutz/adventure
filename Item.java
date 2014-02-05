@@ -63,6 +63,9 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemButton ("Obama", "Barack Obama Test Tube Button", new String[]{"obama"}));
 		sharedInstances.add(new ItemButton ("Command Center", "Command Center Button", new String[]{"center"}));
 
+// assassin game
+		sharedInstances.add(new ItemGuard("Francesco de Pazzi", "Francesco de Pazzi", new String[]{"francesco"}));
+
 		sharedInstances.add(new ItemUnknown ("unknown", "unknown", new String[]{"unknown"}));
 
 		checkUniqueAliases();
@@ -418,13 +421,15 @@ class ItemGuard extends Item implements Hostable, Killable {
 	public void kill() {
 		if(!this.isDead) {
 			System.out.println(this.deathMessage);
-			System.out.println("It looks like he dropped something.");
-			this.detailDescription = "dead guard";
-			this.relatedRoom.putItem(this.installedItem);
+			this.detailDescription = "late " + this.detailDescription;
+			if(this.installedItem != null) {
+				System.out.println("It looks like he dropped something.");
+				this.relatedRoom.putItem(this.installedItem);
+			}
 			this.isDead = true;
 		}
 		else {
-			System.out.println("The guard has already perished.");
+			System.out.println("This person is already dead.");
 		}
 	}
 	public void install(Item i) {

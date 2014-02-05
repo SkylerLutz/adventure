@@ -38,11 +38,13 @@ public class Game {
 		ItemWatchMenu m2 = new ItemWatchMenu("NJIT");
 		ItemWatchMenu m3 = new ItemWatchMenu("Spy Mission");
 		ItemWatchMenu m4 = new ItemWatchMenu("Demo");
+		ItemWatchMenu m5 = new ItemWatchMenu("Assassin's Creed");
 
 		//menu.add(m1);
 		//menu.add(m2);
 		menu.add(m3);
 		menu.add(m4);
+		menu.add(m5);
 
 		System.out.println(menu.toString());
 
@@ -66,10 +68,13 @@ public class Game {
 					return Map.level1();
 				case 1:
 					return Map.njit();
-				*/case 0:
+				*/
+				case 0:
 					return Map.mission();
 				case 1:
 					return Map.demo();
+				case 2:
+					return Map.assassinsCreed();
 				default:
 					System.out.println("Invalid selection.");
 					continue;

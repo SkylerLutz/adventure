@@ -32,7 +32,7 @@ public enum Action {
 	ActionPush(new String[]{"push","call"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 	ActionEat(new String[]{"eat","chew", "consume", "bite", "swallow", "drink"}, Type.TYPE_HASDIRECTOBJECT), // used with elevator
 	ActionWear(new String[]{"wear"}, Type.TYPE_HASDIRECTOBJECT),
-	ActionKill(new String[]{"kill", "murder", "asphixiate", "slaughter", "strangle"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionKill(new String[]{"kill", "murder", "asphixiate", "slaughter", "strangle", "assassinate"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionOpen(new String[]{"open", "unlock"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionDetonate(new String[]{"detonate", "explode"}, Type.TYPE_HASDIRECTOBJECT),
 

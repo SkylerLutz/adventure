@@ -38,6 +38,27 @@ public class Map {
 		start.putItems(startItems);
 		return start;
 	}
+	public static Room assassinsCreed() {
+		String beginningD = "Francesco de Pazzi steps out onto his balcony, and admires the city of Roma. He must pay for his crimes against humany, and the people of Italy. Has is unaware that his end is near. \nYou are below the Pazzi balcony. You must climb up to assassinate him.";
+		String beginningSD = "Under the Pazzi balcony.";
+		Room beginning = new Room(beginningD, beginningSD);
+
+		String wallD = "You grab hold of a protruding stone. Francesco is unaware of your presence.";
+		String wallSD = "Hanging from a protruding stone.";
+		Room wall = new Room(wallD, wallSD);
+
+		String railD = "Francesco is just above the ledge! Kill him by entering 'Assassinate Francesco'.";
+		String railSD = "Hanging from ledge.";
+		Room rail = new Room(railD, railSD);
+		ItemGuard francesco = (ItemGuard)Item.getInstance("francesco");
+		francesco.setDeathMessage("Francesco spits up blood as your hidden blade punctures his abdomen. You and Francesco are transported to another dimension.\n\n\"I don't understand, assassino. Why are you doing this?\"\n\"For vengeance. I vowed to not let my father's death be for nothing. Requiescat in pace.\""); 
+		rail.putItem(francesco);
+		beginning.setAdjacentRoom(Action.ActionGoUp, wall);
+		wall.setAdjacentRoom(Action.ActionGoUp, rail);
+
+		
+		return beginning;		
+	}
 	public static Room njit() {
 
 		String hallwayDesription = "You are in a hallway. \nThere are conference rooms to the W, bathrooms to the N, \nand a stairwell to the E. with a lock on the door";
