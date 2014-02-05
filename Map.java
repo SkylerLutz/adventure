@@ -56,7 +56,13 @@ public class Map {
 		beginning.setAdjacentRoom(Action.ActionGoUp, wall);
 		wall.setAdjacentRoom(Action.ActionGoUp, rail);
 
-		
+		String logo = "\n\nAssassin's Creed 2.5\n\n(Put on http://www.youtube.com/ for effect)\n\n";
+
+		String leoD = "ROMA 1489:\n\nLeonardo: \"Ezio! So nice to see you! Don't you remember me? It's me, your friend Leonardo. I need your help with something.\"";
+		RoomObscured leo = new RoomObscured(leoD, leoD, null);
+		leo.setObscured(true);
+		leo.setUnobscureMessage(logo);
+		rail.setAdjacentRoom(Action.ActionGoNorth, leo);
 		return beginning;		
 	}
 	public static Room njit() {
@@ -791,6 +797,6 @@ public class Map {
 		office.putItem(computer);
 		office.putItem(Item.getInstance("coffee"));
 		office.putItem(Item.getInstance("light"));
-		return office;
+		return plane;
 	}
 }

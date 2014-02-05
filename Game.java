@@ -19,6 +19,7 @@ public class Game {
 		this.scanner = new Scanner(System.in);
 
 		Room startingRoom = chooseLevel();
+		Item.setSharedDelegate(this);
 
 		this.interpreter = new PlayerInterpreter();
 		
@@ -520,5 +521,17 @@ public class Game {
 			System.out.println();
 		}*/
 		System.out.println(s);
+	}
+
+	public void itemGuardDidDie(ItemGuard guard) {
+		if(guard.description.equals("Francesco de Pazzi")) {
+			//System.out.println("Francesco died.");
+			RoomObscured room = (RoomObscured)this.player.currentRoom.getRoomForDirection(Action.ActionGoNorth);
+			room.setObscured(false);
+			this.player.move(Action.ActionGoNorth);
+		}
+		else {
+	//		System.out.println("Somebody else died.");
+		}
 	}
 }

@@ -70,6 +70,14 @@ public class Item implements Comparable, Inspectable, Visible {
 
 		checkUniqueAliases();
 	}
+	public static void setSharedDelegate(Game g) {
+		if(sharedInstances == null) {
+			initSharedInstances();
+		}
+		for(Item i : sharedInstances) {
+			i.setDelegate(g);
+		}
+	}
 	public static Item getInstance(String s) {
 		if(sharedInstances == null) {
 			initSharedInstances();
@@ -154,6 +162,9 @@ public class Item implements Comparable, Inspectable, Visible {
 	public void setInspectMessage(String message) {
 		this.inspectMessage = message;
 	}
+	public void setDelegate(Game g) {
+		this.delegate = g;
+	}
 	protected boolean visible = true;
 	protected String description;
 	protected String detailDescription;
@@ -162,6 +173,7 @@ public class Item implements Comparable, Inspectable, Visible {
 	protected Room relatedRoom; // items can open rooms, call elevators, etc (e.g., an ItemButton instance)
 	protected Item relatedItem; // items can also affect other items, like setting other items breakable (like a junction box);
 	protected String inspectMessage;
+	protected Game delegate;
 }
 
 class ItemBrick extends Item implements Holdable{
@@ -427,6 +439,9 @@ class ItemGuard extends Item implements Hostable, Killable {
 				this.relatedRoom.putItem(this.installedItem);
 			}
 			this.isDead = true;
+			if(this.delegate != null) {
+				this.delegate.itemGuardDidDie(this);
+			}
 		}
 		else {
 			System.out.println("This person is already dead.");

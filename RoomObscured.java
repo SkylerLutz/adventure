@@ -12,6 +12,9 @@ public class RoomObscured extends Room {
 	}
 	public void setObscured(boolean obscured) {
 		this.isObscured = obscured;
+		if(!obscured) {
+			System.out.println(this.unobscureMessage);
+		}
 	}
 	public void setUnobscureMessage(String s) {
 		this.unobscureMessage = s;
