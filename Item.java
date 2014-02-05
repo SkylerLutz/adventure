@@ -48,6 +48,7 @@ public class Item implements Comparable, Inspectable, Visible {
 		sharedInstances.add(new ItemComputer("iMac G3", "translucent blue iMac G3", new String[]{"apple", "computer", "keyboard", "imac"}));
 		sharedInstances.add(new ItemCoffee("coffee", "steaming cup of coffee", new String[]{"coffee", "beverage", "mug"}));
 		sharedInstances.add(new ItemDeskLight("light", "desk light", new String[]{"light"}));
+		sharedInstances.add(new ItemDynamite("dynamite", "bundle of dynamite", new String[]{"dynamite", "explosive", "explosives"}));
 
 		sharedInstances.add(new ItemButton ("Button", "Elevator Button", new String[]{"button"}));
 		sharedInstances.add(new ItemButton ("Floor 1 Button", "Elevator Floor 1 Button", new String[]{"1"}));
@@ -255,10 +256,34 @@ class ItemDiamond extends Item implements Holdable, Installable, Valuable {
 	protected int value;
 }
 class ItemDocument extends Item implements Holdable, Installable {
-
 	public ItemDocument(String s, String sd, String[] a) {
 		super(s, sd, a);
 	}
+}
+class ItemDynamite extends Item implements Explodable, Holdable {
+	public ItemDynamite(String s, String sd, String[] a) {
+		super(s, sd, a);
+		this.exploded = false;
+	}
+	public void explode() {
+		if(!this.exploded) {
+			if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
+				((RoomObscured)this.relatedRoom).setObscured(false);
+				System.out.println(((RoomObscured)this.relatedRoom).unobscureMessage());
+			}	
+			this.exploded = true;
+			this.detailDescription = "pile of smithereens";
+		}
+		else {
+			System.out.println("The dynamite has already been detonated.");
+		}
+	}
+	public void setExplodeMessage(String s) {
+		if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
+			((RoomObscured)this.relatedRoom).setUnobscureMessage(s);
+		}
+	}
+	protected boolean exploded;
 }
 class ItemFan extends Item implements Hostable {
 
@@ -326,7 +351,7 @@ class ItemFridge extends Item implements Pushable{
 		if(!this.wasPushed) {
 			if(this.relatedRoom != null && this.relatedRoom instanceof RoomObscured) {
 				((RoomObscured)this.relatedRoom).setObscured(false);
-				System.out.println(((RoomObscured)this.relatedRoom).obscureMessage());
+				System.out.println(((RoomObscured)this.relatedRoom).unobscureMessage());
 			}
 			this.wasPushed = true;
 		}

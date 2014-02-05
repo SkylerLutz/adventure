@@ -25,7 +25,9 @@ interface Droppable {
 interface Edible {
 	public void eat();
 }
-
+interface Explodable {
+	public void explode();
+}
 interface Holdable {
 	//marker
 }

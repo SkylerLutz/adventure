@@ -326,6 +326,26 @@ public class Game {
 							}
 							break;
 						}
+						case ActionDetonate: {
+							Item dynamite = a.directObject();
+							if(this.player.hasItem(dynamite) || this.player.currentRoom.hasItem(dynamite)) {
+								if(dynamite instanceof Explodable) {
+									if(this.player.currentRoom.isAdjacentToRoom(dynamite.relatedRoom())) {
+										((Explodable)dynamite).explode();
+									}
+									else {
+										System.out.println("There isn't anything to blow up here.");
+									}
+								}		
+								else {
+									System.out.println("That item is not an explosive.");
+								}	
+							}	
+							else {
+								System.out.println("You do not have that item in your inventory.");
+							}
+							break;
+						}
 
 					}
 				case TYPE_HASINDIRECTOBJECT:

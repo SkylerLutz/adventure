@@ -48,6 +48,14 @@ public class Room implements Comparable {
 		this.setAdjacentRoomTransitionMessage(message, direction);
 		this.transitionDelay = delay;
 	}
+	public boolean isAdjacentToRoom(Room other) {
+		for(Room room : this.adjacentRooms.values()) {
+			if(other.compareTo(room) == 0) {
+				return true;
+			}				
+		}
+		return false;
+	}
 	public HashMap<Action, String> transitionMessages() {
 		return this.transitionMessages;
 	} 

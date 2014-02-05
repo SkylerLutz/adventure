@@ -9,12 +9,18 @@ public class Map {
 
 	public static Room demo() {
 		Room room1 = new Room("You are in the first room. There seems to be a room to the North.", "First Room.");
-		Room room2 = new Room("You are in the second room. You can go South to return to the beginning.", "Second Room.");
+		RoomObscured room2 = new RoomObscured("You are in the second room. You can go South to return to the beginning.", "Second Room.", null);
 		// player would type 'go north'
 		room1.setAdjacentRoom(Action.ActionGoNorth, room2);
+		Room room3 = new Room("Room to the side.", "Third Room.");
+		room3.setAdjacentRoom(Action.ActionGoEast, room1);
 
 		// player would type 'drink coffee'
 		room2.putItem(Item.getInstance("coffee"));
+		ItemDynamite dynamite = (ItemDynamite)Item.getInstance("dynamite");
+		dynamite.setRelatedRoom(room2);
+		dynamite.setExplodeMessage("Rocks fall from the cliffside, and it has revealed a cave.");
+		room1.putItem(dynamite);
 		return room1;
 	}
 

@@ -34,6 +34,7 @@ public enum Action {
 	ActionWear(new String[]{"wear"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionKill(new String[]{"kill", "murder", "asphixiate", "slaughter", "strangle"}, Type.TYPE_HASDIRECTOBJECT),
 	ActionOpen(new String[]{"open", "unlock"}, Type.TYPE_HASDIRECTOBJECT),
+	ActionDetonate(new String[]{"detonate", "explode"}, Type.TYPE_HASDIRECTOBJECT),
 
 // Indirect Object. Has one direct object and one indirect object, e.g. Put cpu in computer
 	ActionPut(new String[]{"put", "install"}, Type.TYPE_HASINDIRECTOBJECT),
